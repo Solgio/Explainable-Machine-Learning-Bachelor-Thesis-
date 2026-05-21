@@ -13,7 +13,7 @@ It rappresents the best case scenario forr explainability but it is often in tra
 
 + #strong[Local Interpretability (Instance-Level Explainability)]
 
-  The model might be opaque and to complex to understand globally. However, for a specific prediction, we can generate an explanation that is locally interpretable. LIME or SHAP could be used in this context to explain a particular instance obtained a certain prediction.
+  The model might be opaque and to complex to understand globally. However, for a specific prediction, we can generate an explanation that is locally interpretable. SHAP could be used in this context to explain a particular instance obtained a certain prediction.
 
 + #strong[Interpretabilità dei Parametri]
 
@@ -56,8 +56,6 @@ predizioni:
 Tecniche applicate #strong[dopo il training] per spiegare previsioni di
 modelli opachi:
 
-- #strong[LIME (Local Interpretable Model-agnostic Explanations):]
-  approssima il modello localmente con un modello lineare semplice
 - #strong[SHAP (SHapley Additive exPlanations):] assegna ogni output tra
   le feature usando valori Shapley dalla teoria dei giochi
 - #strong[Feature Importance:] quale feature ha più influenzato la

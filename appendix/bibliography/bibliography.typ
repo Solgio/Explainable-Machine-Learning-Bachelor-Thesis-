@@ -1,7 +1,8 @@
 #pagebreak(to: "odd")
 
 // Hayagriva format
-#bibliography("bibliography.yml")
+// full: true stampa anche se non citati
+#bibliography("bibliography.yml", full: true)
 
 // Biblatex
 // #bibliography("bibliography.bib")

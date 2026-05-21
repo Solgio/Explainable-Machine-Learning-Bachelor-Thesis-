@@ -30,3 +30,7 @@
 // Bibliography
 
 #include("./appendix/bibliography/bibliography.typ")
+
+// Glossary
+
+#include("./appendix/glossarium/glossarium.typ")

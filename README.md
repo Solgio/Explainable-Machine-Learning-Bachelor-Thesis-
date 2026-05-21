@@ -5,7 +5,7 @@ Il template e stato realizzato con [Typst](https://typst.app/) e ispirandosi al 
 
 ## Problemi e mancanze
 
-- [ ] Aggiungere glossario
+- [x] Aggiungere glossario
 - [ ] Aggiungere appendici
 - [x] Aggiungere bibliografia
 - [x] Gestione "Capitolo x - Titolo capitolo"
@@ -13,9 +13,6 @@ Il template e stato realizzato con [Typst](https://typst.app/) e ispirandosi al 
 - [ ] Supporto alla stampa
 - [x] Supporto PDF/A
 
-### Aggiungere glossario
-
-Molto probabilmente tramite le [reference](https://typst.app/docs/reference/meta/ref/) presenti in Typst.
 
 ### Aggiungere appendici
 
@@ -38,6 +35,8 @@ Questo è legato al precedente.
 È possibile ottenere un PDF/A con il comando
 ```
 typst c thesis.typ --pdf-standard a-3b
+
+oppure  typst w thesis.typ
 ```
 Tutte le versioni di PDF/A disponibili sono consultabili [sulle docs di Typst](https://typst.app/docs/reference/pdf/).
 Per controllare il risultato invece esistono validatori come ad esempio [pdfforge](https://www.pdfforge.org/online/it/convalida-pdfa).
