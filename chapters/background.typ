@@ -10,9 +10,10 @@
 
 #v(1em)
 
+// Structure of the analysis of the algorithms
+#include "algo-analysis-structure.typ"
 
-== Algorithmic analysis
-
+// Explainability principles and techniques
 #include "explainability.typ"
 
 == Prompt Engineering and LLMs

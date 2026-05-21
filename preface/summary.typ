@@ -10,7 +10,7 @@
 
 #v(2em)
 #set par(first-line-indent: 0pt)
-As machine learning models become increasingly prevalent in business applications, ensuring their transparency and reliability through #gls("explainable ai") is critical. This project, conducted in collaboration with Zucchetti S.p.A., investigates the interpretability and comprehensibility of various machine learning algorithms.
+As #gls("ml") models become increasingly prevalent in business applications, ensuring their transparency and reliability through #gls("explainable ai") is critical. This project, conducted in collaboration with Zucchetti S.p.A., investigates the interpretability and comprehensibility of various machine learning algorithms.
 
 The research systematically evaluates a spectrum of predictive models, ranging from fundamental regression and classification models—such as Linear Regression, Logistic Regression, Support Vector Machines, and Decision Trees—to complex ensemble methods, including Random Forest, XGBoost, RuleFit, and Symbolic Regression. The analysis explores both intrinsic model transparency and post-hoc explainability techniques, utilizing metrics like #gls("shap") to interpret predictions and feature importance. Furthermore, the methodology encompasses the examination of mathematical foundations, internal knowledge representations, and the impact of ensemble techniques on both model performance and explainability. Real-world validation is performed using datasets such as Student Salary Prediction.
 
