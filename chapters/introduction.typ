@@ -1,22 +1,23 @@
 // Non su primo capitolo
 //#pagebreak(to:"odd")
+#import "@preview/glossarium:0.5.9": gls
+#import "../appendix/glossarium/terms.typ": terms
 
 = Introduction
 
-Introduzione al contesto applicativo.
+Introduction to the stage idea, goals, company and thesis organization. This chapter is meant to provide the necessary context for the reader to understand the motivation and the structure of the thesis.s
 
 // TODO: aggiungere riferimenti a:
 // Termine nel glossario
 // Citazione in linea
 // Citazione nel pie' di pagina
 
-Al momento glossario e citazioni devo ancora capirli.
 
 == Company
 
 Zucchetti S.p.A. is a leading Italian software company specializing in providing comprehensive IT solutions for businesses. Founded in 1978, Zucchetti has grown to become one of the largest software providers in Italy, offering a wide range of products and services that cater to various industries, including manufacturing, retail, healthcare, and public administration. 
 
-With a strong focus on innovation and customer satisfaction, Zucchetti is committed to helping organizations optimize their operations and achieve their business goals through cutting-edge technology. Exactly from this commit, the company has been actively involved in the development and implementation of machine learning and artificial intelligence solutions, aiming to enhance the capabilities of their software offerings and provide more value to their clients.
+With a strong focus on innovation and customer satisfaction, Zucchetti is committed to helping organizations optimize their operations and achieve their business goals through cutting-edge technology. Exactly from this commit, the company has been actively involved in the development and implementation of #gls("ml") and #gls("ai") solutions, aiming to enhance the capabilities of their software offerings and provide more value to their clients.
 
 #figure(
     image("../images/zucchetti-logo.webp", alt: "Zucchetti logo"),
@@ -25,8 +26,8 @@ With a strong focus on innovation and customer satisfaction, Zucchetti is commit
 
 == Stage idea
 
-The internship project is centered around the exploration of Explainable Artificial Intelligence (XAI) techniques, with a specific focus on the interpretability and comprehensibility of machine learning algorithms. The primary objective is to analyze a variety of predictive models, ranging from basic regression and classification algorithms to more complex ensemble methods, in order to evaluate their transparency and explainability. 
-The idea is to increase the undestanding of the results of the models, and to make them more accessible to non-expert stakeholders, by leveraging advanced Prompt Engineering principles to develop tailored prompts for Large Language Models (LLMs) that can automatically generate human-readable explanations of algorithmic behaviors and predictions.
+The internship project is centered around the exploration of #gls("explainable ai") techniques, with a specific focus on the interpretability and comprehensibility of machine learning algorithms. The primary objective is to analyze a variety of predictive models, ranging from basic #gls("regression") and #gls("classification") algorithms to more complex ensemble methods, in order to evaluate their transparency and explainability. 
+The idea is to increase the undestanding of the results of the models, and to make them more accessible to non-expert stakeholders, by leveraging advanced #gls("prompt engineering") principles to develop tailored prompts for #gls("large language model",plural:true) that can automatically generate human-readable explanations of algorithmic behaviors and predictions.
 \ \
 The timeline of the project is structured as follows:
 #figure(

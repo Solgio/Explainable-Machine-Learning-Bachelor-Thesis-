@@ -11,9 +11,10 @@
 #v(1em)
 
 // Structure of the analysis of the algorithms
-#include "algo-analysis-structure.typ"
+#include "b-algo-analysis-structure.typ"
 
 // Explainability principles and techniques
-#include "explainability.typ"
+#include "b-explainability.typ"
 
-== Prompt Engineering and LLMs
+// Prompt Engineering principles and techniques
+#include "b-prompt-engineering.typ"

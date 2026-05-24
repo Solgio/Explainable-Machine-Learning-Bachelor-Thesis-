@@ -73,3 +73,21 @@ data_mining_with_decision_trees:
     publisher: World Scientific Publishing
     year: 2008
     isbn: 978-981-277-171-1
+
+shap:
+    type: Web
+    title: SHAP Documentation
+    url: https://shap.readthedocs.io/en/latest/
+
+expert_personas_zizhaohu:
+    type: Article
+    title: Expert Personas Improve LLM Alignment but Damage Accuracy
+    subtitle: Bootstrapping Intent-Based Persona Routing with PRISM
+    author:
+            - "Zizhao Hu"
+            - "Mohammad Rostami"
+            - "Jesse Thomason"
+    year: 2026
+    doi: 10.48550/arXiv.2603.18507
+
+
