@@ -30,7 +30,7 @@
     key: "large language model",
     short: "LLM",
     long: "Large Language Model",
-    plural: "Large Language Models",
+    longplural: "Large Language Models",
     description: "A type of artificial intelligence model that is trained on vast amounts of text data to understand and generate human-like language.",
   ),
   (
