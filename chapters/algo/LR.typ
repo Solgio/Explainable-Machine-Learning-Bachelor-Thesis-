@@ -4,13 +4,13 @@
 == Linear regression
 <cap:linear-regression>
 
-== Mathematical model
+=== Mathematical model
 <sub:model-lr>
+
+The linear regression model is the simplest form of regression. It assumes a linear relationship between the input features and target variable. The mathematical representation of the linear regression model is:
 $ y = sum_(i = 0) beta_i x_i forall i in F $
-
-Dove F è l\'insieme degli input per le feature. L\'obiettivo è vincolato
-ai pesi $beta$:
-
+Where $F$ is the set of features, $beta$ are the calculated weights for each of the features, and $y$ is the target variable.\
+The goal of the linear regression is to find the optimal weights $beta$ that minimize the error between the predicted values and the actual target variable. This is typically done by minimizing the MSE between the predicted values and the actual target variable. The optimization problem can be formulated as:
 $ hat(beta) = "argmin"_(beta_0 . . . beta_p) sum_(i = 1)^n \( y^(\( i \)) - \( beta_0 + sum_(j = 1)^p beta_j x_j \) \)^2 $
 
 Viene minimizzato l\'errore quadratico tra la previsione e la $y$ reale
@@ -23,10 +23,10 @@ l\'intercetta.
 
 
 
-== Complessità Computazionale
-<complessità-computazionale>
-=== Training
-<training>
+=== Computational complexity
+<sub:computational-complexity-lr>
+For the resolution of the linear regression model, two approces are commonly used: the analytical solution and the iterative optimization methods (e.g. Gradient Descent). \
+The analytical solution involves the construction of the matrix  calculation of the inverse of the matrix
 - #strong[Complessità principale:] $O \( p^2 n + p^3 \)$
 
   - $O \( p^2 n \)$ per il calcolo della matrice $X^T X$
@@ -35,13 +35,13 @@ l\'intercetta.
 - #strong[Memoria:] $O \( p^2 \)$ per memorizzare la matrice quadrata
   X^T X
 
-=== Inference
+==== Inference
 <inference>
 - #strong[Complessità:] $O \( p \)$ per istanza (moltiplicazione
   vettore-vettore)
 - #strong[Memoria:] $O \( p \)$ per il vettore dei coefficienti
 
-=== Considerazioni sulla Scalabilità
+==== Considerazioni sulla Scalabilità
 <considerazioni-sulla-scalabilità>
 La dipendenza $O \( p^3 \)$ dall\'inversione matrice rende il modello
 computazionalmente #strong[critico quando il numero di feature è
@@ -58,7 +58,7 @@ La soluzione analitica è comunque vantaggiosa per dataset di
 
 
 
-== Rappresentazione Interna
+=== Rappresentazione Interna
 <rappresentazione-interna>
 La regressione lineare rappresenta internamente il modello come un
 #strong[vettore di pesi]
@@ -83,7 +83,7 @@ regressione logistica introduce una trasformazione non lineare
 
 
 
-== Vincoli sui Dati
+=== Vincoli sui Dati
 <vincoli-sui-dati>
 La regressione lineare richiede il rispetto di #strong[6 assunzioni
 fondamentali]:
@@ -119,7 +119,7 @@ fondamentali]:
   numerica durante l\'inversione di $X^T X$ e pesi inflazionati in
   valore assoluto ma con segni incerti
 
-=== Preprocessing per i vincoli
+===== Preprocessing per i vincoli
 <preprocessing-per-i-vincoli>
 + #strong[Identificazione multicollinearità:] calcolo della matrice di correlazione tra feature o VIF (Variance Inflation Factor) per identificare feature altamente correlate.
  $ "VIF"_j = frac(1, 1 - R_j^2)$
@@ -128,7 +128,7 @@ Dove $R_j^2$ è il coefficiente di determinazione del modello di regressione del
 + #strong[Matrice di correlazione:] calcolo della matrice di correlazione per identificare coppie di feature altamente correlate con il coefficiente di Pearson  (correlazione > 0.8 o < -0.8).
 
 
-== Capacità Predittive
+=== Capacità Predittive
 <capacità-predittive>
 #strong[Punti di forza:]
 
@@ -153,11 +153,11 @@ esempio, è raramente verificata in problemi reali.
 
 
 
-== Metriche per la Confidenza
+=== Metriche per la Confidenza
 <metriche-per-la-confidenza>
-=== Metriche Pure
+===== Metriche Pure
 <metriche-pure>
-==== $R^2$ (Coefficiente di determinazione)
+======= $R^2$ (Coefficiente di determinazione)
 <r2-coefficiente-di-determinazione>
 Quantifica quanto il modello spiega la varianza totale dei dati (range:
 0 → 1)
@@ -174,7 +174,7 @@ Dove:
 Interpretazione: $R^2 = 0.85$ significa che il modello spiega l\'85%
 della variabilità totale.
 
-==== $macron(R)^2$ (R² aggiustato)
+======= $macron(R)^2$ (R² aggiustato)
 #label("barr2-r²-aggiustato")
 Variazione di $R^2$ che penalizza l\'aggiunta di feature non utili. A
 differenza di $R^2$ che cresce sempre al crescere del numero di feature,
@@ -186,7 +186,7 @@ $ macron(R)^2 = 1 - \( 1 - R^2 \) frac(n - 1, n - p - 1) $
 Dove $p$ è il numero di feature (#emph[predittori]) e $n$ il numero di
 istanze.
 
-==== Feature Importance (t-statistic)
+======= Feature Importance (t-statistic)
 <feature-importance-t-statistic>
 Misura la significatività statistica di ogni coefficiente, calcolata
 come il peso scalato per il suo errore standard:
@@ -201,13 +201,13 @@ $ t_(hat(beta)_j) = frac(hat(beta)_j, S E \( hat(beta)_j \)) $
 - Associato a un #strong[p-value] che quantifica la probabilità che il
   coefficiente sia dovuto al caso
 
-==== p-value
+======= p-value
 <p-value>
 Per ogni coefficiente, il p-value risponde: \"Se il vero coefficiente
 fosse 0, quale è la probabilità di osservare un valore così estremo per
 $t_(hat(beta)_j)$?\". Convention: p \< 0.05 indica significatività.
 
-==== Mallows\' Cp
+======= Mallows\' Cp
 <mallows-cp>
 Criterio per la #strong[selezione del modello] che bilancia errore di
 training con complessità:
@@ -217,22 +217,22 @@ $ C p = frac(S S E, hat(sigma)^2) - n + 2 p $
 Dove $hat(sigma)^2$ è la stima della varianza dei residui del modello
 completo. Un modello ideale ha $C p approx p + 1$.
 
-==== RMSE (Root Mean Squared Error)
+======= RMSE (Root Mean Squared Error)
 <rmse-root-mean-squared-error>
 Misura la magnitudine media degli errori, nella stessa scala della
 variabile target:
 
 $ R M S E = sqrt(frac(S S E, n)) $
 
-==== MAE (Mean Absolute Error)
+======= MAE (Mean Absolute Error)
 <mae-mean-absolute-error>
 Alternativa a RMSE, meno sensibile agli outlier:
 
 $ "MAE" = 1 / n sum_(i = 1)^n \| y_i - hat(y)_i \| $
 
-=== Analisi dei Plot
+===== Analisi dei Plot
 <analisi-dei-plot>
-==== Actual vs Predicted
+======= Actual vs Predicted
 <actual-vs-predicted>
 Grafico di dispersione (scatter plot) tra valori reali $y_i$ e predetti
 $hat(y)_i$.
@@ -242,7 +242,7 @@ $hat(y)_i$.
 - #strong[Anomalie:] dispersione crescente con il valore predetto
   (eteroschedasticità), o pattern sistematico (non linearità)
 
-==== Istogramma dei Residui
+======= Istogramma dei Residui
 <istogramma-dei-residui>
 Distribuzione dei residui $epsilon.alt_i = y_i - hat(y)_i$.
 
@@ -251,7 +251,7 @@ Distribuzione dei residui $epsilon.alt_i = y_i - hat(y)_i$.
 - #strong[Anomalie:] asimmetria o code pesanti indicano violazione della
   normalità
 
-==== Q-Q Plot (Quantile-Quantile)
+======= Q-Q Plot (Quantile-Quantile)
 <q-q-plot-quantile-quantile>
 Rappresenta i quantili empirici dei residui vs i quantili di una
 distribuzione normale.
@@ -260,7 +260,7 @@ distribuzione normale.
 - #strong[Anomalie:] deviazioni sistematiche (specialmente alle code)
   indicano non normalità
 
-==== Residuals vs Fitted Values
+======= Residuals vs Fitted Values
 <residuals-vs-fitted-values>
 Grafico di dispersione con asse x = valori predetti $hat(y)_i$, asse y =
 residui $epsilon.alt_i$.
@@ -274,9 +274,9 @@ residui $epsilon.alt_i$.
 
 
 
-== Metriche per la Comprensione e Spiegabilità
+=== Metriche per la Comprensione e Spiegabilità
 <metriche-per-la-comprensione-e-spiegabilità>
-=== Feature Effect
+===== Feature Effect
 <feature-effect>
 Rappresentazione dell\'impatto di ogni feature sulla previsione,
 calcolato come:
@@ -290,7 +290,7 @@ feature
 - Una feature con box ampio ha un impatto medio elevato sulla previsione
 - Utile per identificare quali feature contano di più
 
-=== Weight Plot
+===== Weight Plot
 <weight-plot>
 Rappresentazione grafica dei coefficienti $beta_j$ ordinati per valore
 assoluto.
@@ -298,7 +298,7 @@ assoluto.
 - Feature con barre lunghe hanno maggiore influenza sulla previsione
 - Utile per comunicare rapidamente l\'importanza relativa delle feature
 
-=== Interpretazione Diretta dei Coefficienti
+===== Interpretazione Diretta dei Coefficienti
 <interpretazione-diretta-dei-coefficienti>
 Ogni coefficiente $beta_j$ ha un\'interpretazione immediata:
 \"aumentando la feature $x_j$ di 1 unità, la previsione cambia di
@@ -309,34 +309,34 @@ lineare per la spiegabilità rispetto a modelli più complessi.
 
 
 
-== Limiti di Predizione
+=== Limiti di Predizione
 <limiti-di-predizione>
-=== Sensibilità agli Outlier
+===== Sensibilità agli Outlier
 <sensibilità-agli-outlier>
 L\'errore quadratico nella loss function amplifica gli outlier: un
 errore di 10 unità contribuisce 100 alla loss, quindi il modello tende a
 distorcersi per minimizzare outlier singolari.
 
-=== Problemi di Extrapolazione
+===== Problemi di Extrapolazione
 <problemi-di-extrapolazione>
 La regressione lineare assume che la relazione lineare continui al di
 fuori dell\'intervallo osservato dei dati. Predizioni su valori di
 feature molto diversi dal training set sono estremamente inaffidabili.
 
-=== Instabilità Numerica in Caso di Multicollinearità
+===== Instabilità Numerica in Caso di Multicollinearità
 <instabilità-numerica-in-caso-di-multicollinearità>
 Se le feature sono altamente correlate, la matrice $X^T X$ diventa
 mal-condizionata (quasi singolare), rendendo l\'inversione numericamente
 instabile e i coefficienti instabili.
 
-=== Insufficienza su Pattern Non Lineari
+===== Insufficienza su Pattern Non Lineari
 <insufficienza-su-pattern-non-lineari>
 Non esiste modifica parametrica che possa far adattare un modello
 lineare a relazioni veramente non lineari senza inserire manualmente
 termini non lineari (e questo richiede conoscenza a priori della forma
 della relazione).
 
-=== Collasso su Dati ad Alta Dimensionalità
+===== Collasso su Dati ad Alta Dimensionalità
 <collasso-su-dati-ad-alta-dimensionalità>
 Quando il numero di feature è prossimo o superiore al numero di
 osservazioni ($p approx n$ o $p > n$), il modello tende a sovradattarsi,
@@ -344,9 +344,9 @@ con $R^2$ perfetto sul training e pessimo sul test.
 
 
 
-== Limiti di Spiegabilità
+=== Limiti di Spiegabilità
 <limiti-di-spiegabilità>
-=== Non Linearità Nascosta nei Dati
+===== Non Linearità Nascosta nei Dati
 <non-linearità-nascosta-nei-dati>
 Se la vera relazione è non lineare ma viene forzata in un modello
 lineare, i coefficienti rappresentano una \"media\" della relazione, non
@@ -354,26 +354,26 @@ la relazione vera. Un coefficiente positivo in media potrebbe mascherare
 un effetto che è positivo per alcuni valori della feature e negativo per
 altri.
 
-=== Interazioni Non Modellate
+===== Interazioni Non Modellate
 <interazioni-non-modellate>
 La regressione lineare base assume indipendenza degli effetti delle
 feature: l\'effetto di $x_1$ non dipende da $x_2$. Se esistono
 interazioni significative, il modello le ignora (a meno che non siano
 aggiunte manualmente).
 
-=== Sensibilità al Livello di Dettaglio
+===== Sensibilità al Livello di Dettaglio
 <sensibilità-al-livello-di-dettaglio>
 La scelta di quante feature includere è delicata: troppe causano
 overfitting e spiegabilità confusa, troppo poche rendono le spiegazioni
 superficiali e imprecise.
 
-=== Difficoltà con Feature Categoriche
+===== Difficoltà con Feature Categoriche
 <difficoltà-con-feature-categoriche>
 Le feature categoriche devono essere codificate (es. one-hot encoding),
 il che aumenta $p$ e complessità interpretativa (un concetto logico
 diventa p variabili binarie).
 
-=== Selettività
+===== Selettività
 <selettività>
 La capacità di identificare solo le feature veramente rilevanti può
 essere raggiunta in due modi:
@@ -385,9 +385,9 @@ essere raggiunta in due modi:
 
 
 
-== Confronto con altri Algoritmi
+=== Confronto con altri Algoritmi
 <confronto-con-altri-algoritmi>
-=== Vs. Regressione Logistica
+===== Vs. Regressione Logistica
 <vs-regressione-logistica>
 - #strong[LR:] per relazioni lineari #strong[continue]
 - #strong[Logistica:] per classificazione binaria, produce probabilità
@@ -395,7 +395,7 @@ essere raggiunta in due modi:
 - La logistica non è un\'estensione di LR, ma un modello distinto per un
   problema diverso
 
-=== Vs. Decision Tree
+===== Vs. Decision Tree
 <vs-decision-tree>
 - #strong[LR:] trasparente, coefficienti interpreti, ma rigida (niente
   non linearità)
@@ -403,7 +403,7 @@ essere raggiunta in due modi:
   rappresentazione complessa e instabile
 - #strong[Scelta:] dati lineari → LR; pattern complessi non lineari → DT
 
-=== Vs. Lasso / Ridge
+===== Vs. Lasso / Ridge
 <vs-lasso--ridge>
 - #strong[LR standard:] minimizza SSE senza penalità
 - #strong[Ridge:] aggiunge penalità L2 $lambda \| \| beta \| \|_2^2$,
@@ -413,7 +413,7 @@ essere raggiunta in due modi:
 - #strong[Quando usare:] multicollinearità o alta dimensionalità →
   Ridge/Lasso
 
-=== Vs. Selezione Manuale di Feature
+===== Vs. Selezione Manuale di Feature
 <vs-selezione-manuale-di-feature>
 - #strong[Selezione Lasso/Ridge:] automatica, basata sui dati
 - #strong[Selezione manuale:] richiede expertise di dominio, ma può
@@ -421,18 +421,18 @@ essere raggiunta in due modi:
 - #strong[Metodi stepwise (Forward/Backward):] compromesso automatico ma
   interpretabile
 
-==== Forward Selection
+======= Forward Selection
 <forward-selection>
 Aggiunta passo-passo di feature: at ogni passo, aggiungere la feature
 che massimizza una metrica di controllo (es. $R^2$). Stop quando non
 c\'è miglioramento significativo.
 
-==== Backward Selection
+======= Backward Selection
 <backward-selection>
 Opposto: partire da tutte le feature, rimuovere iterativamente quella
 con contributo minore.
 
-=== Vs. Generalized Additive Models (GAM)
+===== Vs. Generalized Additive Models (GAM)
 <vs-generalized-additive-models-gam>
 - #strong[LR:] effetti lineari e additivi
 - #strong[GAM:] combina LR con funzioni non lineari flessibili (splines)

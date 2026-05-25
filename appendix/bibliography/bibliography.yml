@@ -1,41 +1,44 @@
 interpretability_book:
     type: Book
-    title: Interpretable Machine Learning 
-    subtitle: A Guide for Making Black Box Models Explainable
+    title: "Interpretable Machine Learning: A Guide for Making Black Box Models Explainable"
     author: Christoph Molnar
-    year: 2025
+    date: 2025
     isbn: 978-3-911578-03-5
-    url: https://christophm.github.io/interpretable-ml-book/
+    note: "DOI: https://christophm.github.io/interpretable-ml-book/"
 
 ai_for_engineer:
     type: Book
-    title: Artificial Intelligence for Engineers
-    subtitle: Basics and Implementations
+    title: "Artificial Intelligence for Engineers: Basics and Implementations"
     author: "Zhen \"Leo\" Liu"
     publisher: Springer
-    year: 2024
+    date: 2024
     isbn: 978-3-031-75953-6 
-    doi: 10.1007/978-3-031-75953-6
+    note: "DOI: https://doi.org/10.1007/978-3-031-75953-6"
 
 comparative_analysis_XGBoost:
     type: Article
     title: A Comparative Analysis of XGBoost
     author: "Candice Bentéjac, Anna Csörgő, and Gonzalo Martínez-Muñoz"
-    year: 2019
-    doi: 10.48550/arXiv.1911.01914
+    date: 2019
+    note: "DOI: https://doi.org/10.48550/arXiv.1911.01914"
+    publisher: Springer
+    parent:
+        title: "Artificial Intelligence Review"
+        volume: 54
+        issue: 
+
 
 pattern_recognition_and_machine_learning:
     type: Book
     title: Pattern Recognition and Machine Learning
     author: Christopher M. Bishop
     publisher: Springer
-    year: 2006
+    date: 2006
     isbn: 978-0-387-31073-2
 
 intro_statistical_learning:
     type: Book
-    title: An Introduction to Statistical Learning
-    subtitle: with Applications in Python
+    title: "An Introduction to Statistical Learning: with Applications in Python"
     author:
             - "G. James"
             - "D. Witten"
@@ -43,35 +46,36 @@ intro_statistical_learning:
             - "R. Tibshirani"
             - "J. Taylor"
     publisher: Springer
-    year: 2023
+    date: 2023
 
 top_10_data_mining_algorithms:
     type: Book
     title: Top 10 Algorithms in Data Mining
     author: "Xidong Wu, Vipin Kumar"
     publisher: CRC Press
-    year: 2009
+    date: 2009
     isbn: 978-1-4200-8964-6
 
 xgboost:
     type: Article
-    title: XGBoost
-    subtitle: A Scalable Tree Boosting System
+    title: "XGBoost: A Scalable Tree Boosting System"
     author:
             - "Tianqi Chen"
             - "Carlos Guestrin"
-    year: 2016
-    doi: 10.1145/2939672.2939785
+    date: 2016
+    publisher: "Association for Computing Machinery"
+    parent:
+        title: "KDD '16"
+    note: "DOI: https://doi.org/10.1145/2939672.2939785"
 
 data_mining_with_decision_trees:
     type: Book
-    title: Data Mining with Decision Trees
-    subtitle: Theory and Applications
+    title: "Data Mining with Decision Trees: Theory and Applications"
     author:
             - "Lior Rokach"
             - "Oded Maimon"
     publisher: World Scientific Publishing
-    year: 2008
+    date: 2008
     isbn: 978-981-277-171-1
 
 shap:
@@ -81,14 +85,14 @@ shap:
 
 expert_personas_zizhaohu:
     type: Article
-    title: Expert Personas Improve LLM Alignment but Damage Accuracy
-    subtitle: Bootstrapping Intent-Based Persona Routing with PRISM
+    title: "Expert Personas Improve LLM Alignment but Damage Accuracy: Bootstrapping Intent-Based Persona Routing with PRISM"
     author:
             - "Zizhao Hu"
             - "Mohammad Rostami"
             - "Jesse Thomason"
-    year: 2026
-    doi: 10.48550/arXiv.2603.18507
+    date: 2026
+    publisher: 
+    note: "DOI: https://doi.org/10.48550/arXiv.2603.18507"
 
 llms-zero-shot:
     type: Article
@@ -99,8 +103,8 @@ llms-zero-shot:
         - "Machel Reid"
         - "Yutaka Matsuo"
         - "Yusuke Iwasawa"
-    year: 2023
-    doi: 10.48550/arXiv.2205.11916
+    date: 2023
+    note: "DOI: https://doi.org/10.48550/arXiv.2205.11916"
 
 chain-of-thought:
     type: Article
@@ -115,26 +119,25 @@ chain-of-thought:
         - "Ed Chi"
         - "Quoc Le"
         - "Denny Zhou"
-    year: 2023
-    doi: 10.48550/arXiv.2201.11903
+    date: 2023
+    note: "DOI: https://doi.org/10.48550/arXiv.2201.11903"
 
 formats-llms:
     type: Web
     title: Which Table Format Do LLMs Understand Best?
-    url: https://www.improvingagents.com/blog/best-input-data-format-for-llms/
+    date: 2025
+    url: "https://www.improvingagents.com/blog/best-input-data-format-for-llms/"
 
 prompt-design:
     type: Article
-    title: Prompt Design and Engineering
-    subtitle: Introduction and Advanced Methods
+    title: "Prompt Design and Engineering: Introduction and Advanced Methods"
     author: "Xavier Amatriain"
-    year: 2024
-    doi: 10.48550/arXiv.2401.14423
+    date: 2024
+    note: "DOI: https://doi.org/10.48550/arXiv.2401.14423"
 
 multimodal-prompt:
     type: Article
-    title: M^2PT
-    subtitle: Multimodal Prompt Tuning for Zero-Shot Instruction Learning
+    title: "M^2PT: Multimodal Prompt Tuning for Zero-Shot Instruction Learning"
     author:
     - "Taowen Wang"
     - "Yiyang Liu"
@@ -150,5 +153,5 @@ multimodal-prompt:
     - "Lifu Huang1"
     - "Qifan Wang"
     - "Dongfang Liu"
-    year: 2024
-    doi: 10.48550/arXiv.2409.15657
+    date: 2024
+    note: "DOI: https://doi.org/10.48550/arXiv.2409.15657"
