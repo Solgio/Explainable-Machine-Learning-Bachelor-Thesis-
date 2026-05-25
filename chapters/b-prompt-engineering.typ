@@ -24,7 +24,7 @@ The principal features that this formats present, and that makes them particular
 
 #figure(
     image("../images/formats_llms.png", alt: "SHAP logo"),
-    caption: "Formats for prompting. Source: @formats-llms"
+    caption: "Formats for prompting. Source: @formats-llms."
 )
    
 

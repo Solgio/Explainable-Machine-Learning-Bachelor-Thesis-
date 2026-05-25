@@ -60,5 +60,5 @@ SHAP (SHapley Additive exPlanations) is a method for explaining the output of ma
 
 #figure(
     image("../images/shap-logo.webp", alt: "SHAP logo"),
-    caption: "SHAP library logo"
+    caption: "SHAP library logo."
 )

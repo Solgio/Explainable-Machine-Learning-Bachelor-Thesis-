@@ -6,10 +6,10 @@
 
 #grid(
     columns: (auto),
-    rows: (1fr, auto, 20pt),
+    rows: (130pt, 1fr , 10pt),
     // Intestazione
     [
-        #align(center, text(18pt, weight: "semibold", myUni))
+        //#align(center, text(18pt, weight: "semibold", myUni))
         #v(1em)
         #align(center, text(14pt, weight: "light", smallcaps(myDepartment)))
         #v(1em)
@@ -19,7 +19,7 @@
     [
         // Logo
         #align(center, image(logo, width: 90%))
-        #v(30pt)
+        #v(80pt)
 
         // Titolo
         #align(center, text(18pt, hyphenate: false, weight: "semibold", myTitle))

@@ -7,11 +7,11 @@
 #v(1em)
 The analysis of the algorithms is structured in a systematic way to ensure a comprehensive evaluation of their interpretability and comprehensibility as well as thir functioning. The structure includes the following components:
 
-+ #strong[Mathematical foundations]:  detailed examination of the mathematical principles underlying each algorithm, including their assumptions, optimization techniques, and theoretical properties. The focus is on the understanding of the specific #gls("objective function",) that the algorithms optimize, the regularization techniques they use, and the mathematical properties that govern their behavior.
++ #strong[Mathematical foundations]:  detailed examination of the mathematical principles underlying each algorithm, including their assumptions and theoretical properties. The focus is on the understanding of the specific #gls("objective function", long: true) that the algorithms optimize, the regularization techniques they use, and the mathematical properties that govern their behavior.
 
-+ #strong[#gls("computational complexity")]: analysis of the computational requirements of each algorithm, including time complexitys and scalability reguarding both training and inference.
++ #strong[#gls("computational complexity", long: true)]: analysis of the computational requirements of each algorithm, including time complexitys and scalability reguarding both training and inference.
 
-+ #strong[Internal representation]: exploration of how each algorithm internally represents data and makes decisions, especially regarding #gls("categorical features").
++ #strong[Internal representation]: exploration of how each algorithm internally represents data and makes decisions, especially regarding #gls("categorical features", long: true).
 
 + #strong[Data assumptions]: investigation into the assumptions each algorithm makes about the data, such as linearity, independence of features, and distributional assumptions.
 
