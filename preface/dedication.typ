@@ -3,9 +3,9 @@
 #v(3cm)
 
 #align(center, [
-    Dice l'uomo ragno...
+   TO DO
     #v(6pt)
-    #sym.dash#sym.dash#sym.dash Tullio Vardanega
+    #sym.dash#sym.dash#sym.dash TO DO
 ])
 
 #v(2cm)
