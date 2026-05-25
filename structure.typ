@@ -14,7 +14,7 @@
 #include "./chapters/introduction.typ"
 #include "chapters/background.typ"
 #include "chapters/ml-algorithms.typ"
-#include "chapters/stage.typ"
+//#include "chapters/stage.typ"
 #include "chapters/code-implementation.typ"
 #include "chapters/prompt.typ"
 #include "./chapters/conclusion.typ"

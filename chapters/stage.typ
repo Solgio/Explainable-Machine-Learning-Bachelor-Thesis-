@@ -5,7 +5,7 @@
 
 #v(1em)
 #text(style: "italic", [
-    In this chapter, we will describe the stage of the internship, starting from the company where the internship took place, the project idea, the requirements and the design of the product, to the testing phase.
+    Breve introduzione al capitolo
 ])
 
 #v(1em)

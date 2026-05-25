@@ -21,8 +21,6 @@ Descrizione Tecnologia 1.
 === Tecnologia 2
 Descrizione Tecnologia 2
 
-== Ciclo di vita del software
-<sec:ciclo-vita-software>
 
 == Progettazione
 <sec:progettazione>

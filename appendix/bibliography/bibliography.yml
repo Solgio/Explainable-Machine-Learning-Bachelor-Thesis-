@@ -90,4 +90,65 @@ expert_personas_zizhaohu:
     year: 2026
     doi: 10.48550/arXiv.2603.18507
 
+llms-zero-shot:
+    type: Article
+    title: Large Language Models are Zero-Shot Reasoners
+    author:
+        - "Takeshi Kojima"
+        - "Shixiang Shane Gu"
+        - "Machel Reid"
+        - "Yutaka Matsuo"
+        - "Yusuke Iwasawa"
+    year: 2023
+    doi: 10.48550/arXiv.2205.11916
 
+chain-of-thought:
+    type: Article
+    title: Chain of Thought Prompting Elicits Reasoning in Large Language Models
+    author:
+        - "Jasonn Wei"
+        - "Xuezhi Wang"
+        - "Dale Schuurmans"
+        - "Maarten Bosma"
+        - "Brian Ichter"
+        - "Fei Xia"
+        - "Ed Chi"
+        - "Quoc Le"
+        - "Denny Zhou"
+    year: 2023
+    doi: 10.48550/arXiv.2201.11903
+
+formats-llms:
+    type: Web
+    title: Which Table Format Do LLMs Understand Best?
+    url: https://www.improvingagents.com/blog/best-input-data-format-for-llms/
+
+prompt-design:
+    type: Article
+    title: Prompt Design and Engineering
+    subtitle: Introduction and Advanced Methods
+    author: "Xavier Amatriain"
+    year: 2024
+    doi: 10.48550/arXiv.2401.14423
+
+multimodal-prompt:
+    type: Article
+    title: M^2PT
+    subtitle: Multimodal Prompt Tuning for Zero-Shot Instruction Learning
+    author:
+    - "Taowen Wang"
+    - "Yiyang Liu"
+    - "James Chenhao Liang"
+    - "Junhan Zhao"
+    - "Yiming Cui"
+    - "Yuning Mao"
+    - "Shaoliang Nie"
+    - "Jiahao Liu 5"
+    - "Fuli Feng"
+    - "Zenglin Xu"
+    - "Cheng Han"
+    - "Lifu Huang1"
+    - "Qifan Wang"
+    - "Dongfang Liu"
+    year: 2024
+    doi: 10.48550/arXiv.2409.15657

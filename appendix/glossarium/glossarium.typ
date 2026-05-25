@@ -3,6 +3,6 @@
 
 #pagebreak(to: "odd")
 
-= Glossario
+= Glossary
 
 #print-glossary(terms)
