@@ -34,9 +34,7 @@ For *inference*, the #gls("computational_complexity") is $O \( p \)$ per instanc
 === Internal representation
 <sub:internal-representation-lr>
 Linear regression represents the resulting weight of the features as a vector of weights, $beta = \[ beta_0 \, beta_1 \, . . . \, beta_p \]$. \
-Specific encoding is needed for #gls("categorical_features"), which are typically handled through one-hot encoding, where each category is represented as a binary feature. This can lead to an increase in the number of features and potential multicollinearity issues if not handled properly.
-
-\
+Specific encoding is needed for #gls("categorical_features"), which are typically handled through one-hot encoding, where each category is represented as a binary feature. This can lead to an increase in the number of features and potential multicollinearity issues if not handled properly.\
 In regard of #strong[explainability], the internal representation of linear regression is straightforward and transparent, which makes it one of the most interpretable machine learning models. The weights directly indicate the strength and direction of the relationship between each feature and the target variable. This allows for a clear understanding of how each feature contributes to the prediction, making it easier to communicate insights to stakeholders and identify important predictors in the data.
 
 === Data assumptions
@@ -75,8 +73,7 @@ Where $R_j^2$ is the coefficient of determination for the regression of feature 
 === Predictive performance and limitations
 <sub:predictive-performance-and-limitations-lr>
 As discussed, the linear regression imposes several constraints on the data and model performance. Very good performances are achieved whenever linear relationships exist between features and target both in accuracy and efficiency. \
-However, in real-world scenarios, these conditions are often violated, leading to poor predictive performance. The model is particularly sensitive to #gls("outlier", plural:true), which can disproportionately influence the weights and lead to skewed predictions. Additionally, linear regression is not suitable for capturing complex, non-linear relationships in the data, which limits its applicability in many real-world problems where such relationships are common. Finally, the model's performance can degrade significantly when the number of features is large relative to the number of observations, leading to overfitting and poor generalization to new data. This limitation is intensified by the presence of @categorical_features.
-
+However, in real-world scenarios, these conditions are often violated, leading to poor predictive performance. The model is particularly sensitive to #gls("outlier", plural:true), which can disproportionately influence the weights and lead to skewed predictions. Additionally, linear regression is *not suitable for capturing complex, non-linear relationships* in the data, which limits its applicability in many real-world problems where such relationships are common. Finally, the model's performance can degrade significantly when the number of features is large relative to the number of observations, leading to overfitting and poor generalization to new data. This limitation is intensified by the presence of @categorical_features.
 
 === Pure metrics for prediction quality
 <sub:pure-metrics-lr>
@@ -132,16 +129,16 @@ $"MAE"$ measures the average magnitude of the errors, without considering their 
 
 $ "MAE" = 1 / n sum_(i = 1)^n \| y_i - hat(y)_i \| $
 
-==== Diagnostic plots
+=== Diagnostic plots
 <sub:diagnostic-plots-lr>
 The use of diagnostic plots is crucial to visually assess the assumptions of linear regression and to identify potential issues with the model fit.
-===== Actual vs Predicted
+==== Actual vs Predicted
 <sub:actual-vs-predicted-lr>
 Scatter plot with actual values $y_i$ on the y-axis and predicted values $hat(y)_i$ on the x-axis.
 $hat(y)_i$.
 If the model fits well, the points should be concentrated around the diagonal line $y = hat(y)$. Deviations from this pattern can indicate various issues with the model fit. 
 
-===== Histogram of residuals distribution
+==== Histogram of residuals distribution
 <sub:histogram-of-residuals-lr>
 #side_by_side([
       Distribution of the residuals $epsilon.alt_i = y_i - hat(y)_i$.
@@ -154,7 +151,7 @@ If the model fits well, the points should be concentrated around the diagonal li
     ]
 )
 
-===== Q-Q Plot (Quantile-Quantile)
+==== Q-Q Plot (Quantile-Quantile)
 <sub:q-q-plot-quantile-quantile-lr>
 #side_by_side([
       #figure(
@@ -165,7 +162,7 @@ If the model fits well, the points should be concentrated around the diagonal li
   Another way to check the normality of residuals is through a Q-Q plot, which compares the quantiles of the residuals to the quantiles of a normal distribution. If the residuals are normally distributed, the points in the Q-Q plot should approximately follow a straight line. Deviations from this line, especially at the tails, can indicate non-normality of the residuals, which may affect the validity of statistical inference based on the model.
 ])
 
-===== Residuals vs Fitted Values
+==== Residuals vs Fitted Values
 <residuals-vs-fitted-values>
 Scatter plot with fitted values $hat(y)_i$ on the y-axis and residuals $epsilon.alt_i = y_i - hat(y)_i$ on the x-axis.
 $hat(y)_i$. \

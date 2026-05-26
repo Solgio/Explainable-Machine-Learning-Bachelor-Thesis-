@@ -1,175 +1,86 @@
-= Regressione Logistica (LogR)
-<regressione-logistica-logr>
-== Modello
-<modello>
-La regressione logistica è un modello utilizzato per problemi di
-#strong[classificazione binaria], dove la variabile di risposta è
-dicotomica (es. \"Sì/No\", \"Malato/Sano\", \"Default/Non-default\").
-
-Il modello combina una #strong[combinazione lineare di feature] con una
-#strong[funzione logistica (sigmoide)] per mantenere l\'output tra 0 e 1
-(probabilità):
+#import "../../appendix/glossarium/terms.typ": terms
+#import "@preview/glossarium:0.5.9": gls
+#import "../../config/thesis-config.typ": side_by_side
+== Logistic regression
+<cap:logistic-regression>
+=== Mathematical model
+<sub:model-logr>
+The logistic regression is a model mainly used for binary classification problems where the response variable is dichotomous. Similar to linear regression(@cap:linear-regression) it uses a linear combination of the input features, but instead of directly outputting a continuous value, it applies a logistic function to map the output to a probability between 0 and 1.
 
 $ sigma \( z \) = frac(1, 1 + exp \( - z \)) $
 
-Nel caso specifico, la probabilità che l\'istanza appartenga alla classe
-positiva ($y = 1$) è:
+The output can consequently be interpreted as the probability that the input instance belongs to the positive class (y = 1). In particular, the probability that an instance belongs to the positive class is given by:
 
 $ P \( y^(\( i \)) = 1 \| x^(\( i \)) \) = frac(1, 1 + exp \( - \( beta_0 + sum_(j = 1)^p beta_j x_j^(\( i \)) \) \)) $
 
-La probabilità della classe negativa è il complemento:
-$P \( y^(\( i \)) = 0 \) = 1 - P \( y^(\( i \)) = 1 \)$.
+And the probability that it belongs to the negative class (y = 0) is 
+$P \( y^(\( i \)) = 0 \) = 1 - P \( y^(\( i \)) = 1 \)$, following the Bernoulli distribution.
 
-In generale, la probabilità congiunta è descritta da una distribuzione
-di Bernoulli:
-
-$ P \( y^(\( i \)) \, x^(\( i \)) \) = cases(delim: "{", P \( y^(\( i \)) = 1 \)^(y^(\( i \))) dot.op \( 1 - P \( y^(\( i \)) = 1 \) \)^(1 - y^(\( i \))) & upright("Distribuzione Bernoulli")) $
-
-=== Stima dei Coefficienti
-<stima-dei-coefficienti>
-A differenza della regressione lineare che minimizza l\'errore
-quadratico, la regressione logistica #strong[massimizza la likelihood]
-(probabilità osservare i dati dati i parametri):
+The goal of the logistic regression is to find the parameters $beta$ that best fit the data, which is done by maximizing the *likelihood* of observing the data given the parameters.
 
 $ L \( beta ; y \, X \) = product_(i = 1)^n P \( y^(\( i \)) = 1 \)^(y^(\( i \))) dot.op \( 1 - P \( y^(\( i \)) = 1 \) \)^(1 - y^(\( i \))) $
 
-In pratica si massimizza il #strong[log-likelihood] per stabilità
-numerica:
+For numerical stability #strong[log-likelihood] is usually calculated:
 
 $ ell \( beta \) = sum_(i = 1)^n [y^(\( i \)) log \( P \( y^(\( i \)) = 1 \) \) + \( 1 - y^(\( i \)) \) log \( 1 - P \( y^(\( i \)) = 1 \) \)] $
+Differently from linear regression, the logistic regression does not have a closed-form solution for the parameters that maximize the likelihood so only iterative optimization algorithms like #gls("gradient descent") are available
 
-La massimizzazione avviene tramite #strong[ottimizzazione iterativa]
-(Gradient Descent, Newton-Raphson, IRLS) poiché non esiste una soluzione
-analitica chiusa come nella regressione lineare.
+=== Time complexity
+<sub:time-complexity-logr>
+As described in @sub:time-complexity-lr, the time complexity of #gls("gradient descent") is $O \( p n \)$ per iteration, and the number of iterations required for convergence can vary depending on the learning rate and the specific dataset. For *inference* the time complexity is again, $O(p)$ per instance. \
+Since the optimization is iterative, the overall time complexity can be less predictable than linear regression, especially if the data has features that lead to slow convergence (e.g., highly correlated features or features that cause the decision boundary to be close to the data points). However, in practice, logistic regression is often computationally efficient for moderate-sized datasets and can be scaled to larger datasets using #gls("stochastic gradient descent") or mini-batch gradient descent.
 
+=== Spacial complexity
+<sub:spacial-complexity-logr>
+The model stores a vector of coefficients $beta$ of size $p$, which requires $O \( p \)$ memory. During training, additional memory is needed to store the intermediate values for the optimization algorithm, which can be $O \( n \)$ for batch gradient descent due to the need to compute the predictions for all instances in each iteration. \
+For inference, the memory complexity is $O \( p \)$ for storing the coefficients and $O \( 1 \)$ for the input instance, leading to an overall spacial complexity of $O \( p \)$.
 
+=== Internal representation
+<sub:internal-representation-logr>
+The model internally rappresents the values as a vector of weights, $beta = \[ beta_0 \, beta_1 \, . . . \, beta_p \]$. The presence of #gls("categorical_features") is solved as standard through one-hot encoding just like in linear regression. \
+For *explainability*, the model remains transparent since the coefficients still indicate the strength and direction of the relationship between each feature and the target variable, but the interpretation is less intuitive than in linear regression due to the non-linear transformation applied to the output by the logistic function. An increase in one feature in logistic regression leads to a multiplicative change in the odds of the positive class, rather than an additive change in the predicted value.
 
-== Complessità Computazionale
-<complessità-computazionale>
-=== Training
-<training>
-- #strong[Complessità principale:] $O \( p dot.op k dot.op n \)$
-
-  - $k$ = numero di iterazioni dell\'algoritmo di ottimizzazione
-    (solitamente 20-100)
-  - $p$ = numero di feature
-  - $n$ = numero di osservazioni
-  - Dipende fortemente dal metodo di ottimizzazione scelto
-
-- #strong[Memoria:] $O \( p \)$ per il vettore dei coefficienti +
-  $O \( n \)$ per il batch
-
-=== Inference
-<inference>
-- #strong[Complessità:] $O \( p \)$ per istanza (una moltiplicazione
-  vettore + funzione sigmoid)
-- #strong[Memoria:] $O \( p \)$ per il vettore dei coefficienti
-
-=== Considerazioni sulla Scalabilità
-<considerazioni-sulla-scalabilità>
-La #strong[dipendenza iterativa] dalla convergenza rende la regressione
-logistica #strong[meno prevedibile] della regressione lineare:
-
-- Su dataset con feature altamente correlate, la convergenza può essere
-  lenta (molte iterazioni)
-- La separazione completa dei dati causa #strong[divergenza numerica]
-  (coefficienti → ±∞)
-- Per dataset #strong[very large] (n \>\> 1M), il training rimane
-  trattabile grazie alla linearità della loss
-
-Vantaggio rispetto a modelli come SVM o Neural Networks: rimane
-computazionalmente efficiente anche su dataset di media grandezza senza
-accelleratori GPU.
-
-
-
-== Rappresentazione Interna
-<rappresentazione-interna>
-Come la regressione lineare, il modello rappresenta internamente il
-modello come un #strong[vettore di pesi]
-$beta = \[ beta_0 \, beta_1 \, . . . \, beta_p \]$.
-
-#strong[Differenze rispetto a LR:]
-
-+ I coefficienti #strong[non hanno interpretazione additiva diretta]
-  (non è \"aumenta di $beta_j$\"), ma #strong[moltiplicativa] (vedi
-  sezione Vincoli)
-+ La #strong[trasformazione sigmoide] non è invertibile facilmente,
-  quindi l\'effetto di una feature sulla probabilità #strong[dipende dal
-  valore attuale] di tutte le altre feature (non è localmente lineare
-  come in LR)
-
-#strong[Implicazioni per la spiegabilità:]
-
-- Rappresentazione #strong[ancora compatta e relativamente trasparente]
-- L\'interpretazione è però #strong[meno intuitiva] di LR: i pesi non
-  corrispondono direttamente a variazioni di probabilità
-- La previsione è ancora completamente tracciabile (non è una scatola
-  nera), ma il ragionamento richiede comprensione della trasformazione
-  logistica
-- Per istanze vicino a probabilità 0.5, piccole variazioni nei pesi
-  causano grandi variazioni nella previsione (derivata della sigmoid è
-  massima a 0.5)
-
-
-
-== Vincoli sui Dati
-<vincoli-sui-dati>
-=== Interpretazione Moltiplicativa dei Pesi
-<interpretazione-moltiplicativa-dei-pesi>
-Dalla trasformazione della funzione logistica, gli #strong[odds]
-(rapporto di probabilità) seguono una relazione #strong[lineare sui
-log-odds]:
-
+=== Data assumptions
+<sub:data-assumptions-logr>
+Before discussing the data assumptions we need to clarify the role of the $"odds"$. The $"odds"$ of an event is defined as the ratio of the probability of the event occurring to the probability of it not occurring:
 $ upright("odds") = frac(P \( y = 1 \), P \( y = 0 \)) = exp (beta_0 + sum_(j = 1)^p beta_j x_j) $
-
-Aumentando di 1 unità una feature $j$, l\'effetto moltiplicativo sugli
-odds è:
-
+This formulation more easily shows how the coefficients $beta_j$ affect the predictions.
 $ upright("odds")_(x_j + 1) / upright("odds") = exp \( beta_j \) $
+Just like in linear regression, the idea of maintaing the interpretability of the model through a linear combination of the features leads to several assumptions on the data and the model performance:
 
-#strong[Interpretazione pratica:] Se $beta_j = 0.5$, aumentare $x_j$ di
-1 unità #strong[moltiplica gli odds per $e^0.5 approx 1.65$], cioè
-aumenta del 65%. (Non aggiunge 0.5 come in LR!)
++ #strong[Linearity of the log-odds:]
+  $log \( upright("odds") \) = beta_0 + sum_j beta_j x_j$. The relationship
+  is linear in the #strong[log-odds space], not in the probability space.
+  Nonlinear relationships remain uncaptured and must be added manually.
 
-=== Assunzioni Fondamentali
-<assunzioni-fondamentali>
-+ #strong[Linearità del log-odds:]
-  $log \( upright("odds") \) = beta_0 + sum_j beta_j x_j$. La relazione
-  è lineare nello #strong[log-spazio degli odds], non nello spazio della
-  probabilità. Relazioni non lineari rimangono non catturate
++ #strong[Complete separation:] if a feature perfectly separates the
+  two classes , the model cannot identify a finite weight since the algorithm will tend to push the weight to $+ oo$ or $- oo$, diverging. Usually the solution is to eraze this separating feature, since it is probably just a proxy for the target variable.
 
-+ #strong[Linearità nei vincoli:] come LR, le feature si combinano
-  linearmente nel log-odds. Interazioni devono essere aggiunte
-  manualmente
++ #strong[Binomial distribution:] the response variable must
+  follow a #strong[Bernoulli distribution]. 
 
-+ #strong[Separazione completa:] se una feature separa perfettamente le
-  due classi (tutti i valori di una classe da un lato, tutti dell\'altra
-  dall\'altro), il modello non può identificare un peso finito.
-  L\'algoritmo #strong[diverge] (coefficiente → $+ oo$ o $- oo$)
++ #strong[Independence of measurements:] observations should not be
+  correlated. This means that the model is not suitable for temporal data without proper control, as well as for data with strong dependencies between observations.
 
-+ #strong[Distribuzione binomiale:] la variabile di risposta deve
-  seguire una #strong[distribuzione di Bernoulli] (ogni osservazione è
-  indipendente e ha probabilità fissa)
++ #strong[Fixed features:] features must be considered constants,
+  without measurement error.
 
-+ #strong[Indipendenza delle misure:] le osservazioni non devono essere
-  correlate (no dati temporali consecutivi senza controllo)
++ #strong[Absence of multicollinearity:] highly correlated features
+  cause coefficient instability. This is particularly relevant due to the fact that the iterative methods begin to oscillate and need very small learning rates ($alpha$).
 
-+ #strong[Feature fisse:] le feature devono essere considerate costanti,
-  senza errore di misurazione
+Homoscedasticity is no more a requirment because the response can only be 0 or 1.
 
-+ #strong[Assenza di multicollinearità:] feature fortemente correlate
-  causano instabilità dei coefficienti (come in LR, ma peggio perché
-  l\'ottimizzazione iterativa può oscillare)
-
-#strong[Nota importante:] L\'omoschedasticità #strong[non è un vincolo]
-come in LR, poiché i valori della risposta possono assumere solo 0 o 1
-(non una distribuzione continua)
+==== Preprocessing
+<sub:preprocessing-logr>
+To verify the suitability of logistic regression in the classification task for a given dataset, some methods can be used.
+The @corr_matrix can be used to identify highly correlated features, which can lead to multicollinearity issues. If such features are found, they can be removed or combined to reduce redundancy and improve model stability. \
+For identifying anomalys in the other assumptions, plot visualitation can be used. See @sub:diagnostic-plots-logr for more details.
 
 
-
-== Capacità Predittive
-<capacità-predittive>
+=== Predictive performance and limitations
+<sub:predictive-performance-and-limitations-logr>
+The imposed assumptions of logistic regression can lead to good performance whenever this assumptions are met. The probabilistic interpretation gives insight on the confidence of the prediction, which is a significant advantage in many applications. \
+When the relationships are more complex than basic linear combinations, the predictions become less accurate. In context of unbalanced classes the training process can be dominated by the majority class, leading to poor performance on the minority class. Additionally, logistic regression as the linear regression is highly influenced by outliers, leading to very unstable predictions. 
 === Punti di Forza
 <punti-di-forza>
 - #strong[Output probabilistico:] diversamente da un classificatore
@@ -293,6 +204,8 @@ Dove $S E \( beta_j \)$ è l\'errore standard del coefficiente.
   sotto l\'ipotesi nulla ($beta_j = 0$)
 - #strong[Convention:] p \< 0.05 indica significatività
 
+==== Diagnostic plots
+<sub:diagnostic-plots-logr>
 
 
 == Metriche per la Comprensione e Spiegabilità
@@ -405,77 +318,6 @@ reale della feature.
 Se due feature hanno un effetto congiunto non additivo, il modello base
 non lo cattura. Le interazioni devono essere introdotte manualmente, il
 che aggiunge complessità nel comunicare i risultati.
-
-
-
-== Confronto con altri Algoritmi
-<confronto-con-altri-algoritmi>
-=== Vs. Regressione Lineare su Risposta 0/1
-<vs-regressione-lineare-su-risposta-01>
-- #strong[LR su dati binari:] produce previsioni fuori da \[0,1\], ha
-  issue di interpretazione, non è concepita per classificazione
-- #strong[Logistica:] mantiene output in \[0,1\], fornisce probabilità
-  direttamente interpretabili
-- #strong[Conclusione:] Logistica è sempre preferibile per problemi di
-  classificazione binaria
-
-=== Vs. Linear Discriminant Analysis (LDA)
-<vs-linear-discriminant-analysis-lda>
-Entrambi creano confini decisionali #strong[lineari]. Tuttavia:
-
-- #strong[Logistica:] modella direttamente $P \( y = 1 \| x \)$
-  (approccio discriminativo)
-- #strong[LDA:] modella la distribuzione congiunta di $x$ e $y$
-  (approccio generativo), assumendo normalità multivariata di $x$ per
-  ogni classe
-
-#strong[Comparazione empirica:] spesso producono risultati simili, ma
-logistica è #strong[preferibile se]:
-
-- Le assunzioni gaussiane sono violate (dati non normali)
-- Le classi hanno covariance molto diverse
-
-=== Vs. Logistic Regression Multinomiale
-<vs-logistic-regression-multinomiale>
-- #strong[Binaria:] classifica in due classi
-- #strong[Multinomiale:] estende a K \> 2 classi
-- Usa l\'approccio #strong[softmax]: per ogni classe $k$, stima
-  $P \( y = k \)$ come funzione softmax dei pesi specifici di quella
-  classe
-
-=== Vs. Lasso/Ridge per Logistica
-<vs-lassoridge-per-logistica>
-Come per LR:
-
-- #strong[Logistica pura:] minimizza log-likelihood senza penalità
-- #strong[Ridge logistica:] aggiunge penalità L2, riduce coefficienti,
-  mantiene tutte le feature
-- #strong[Lasso logistica:] aggiunge penalità L1, azzeramento selettivo
-  di coefficienti (feature selection)
-- #strong[Quando usare:] multicollinearità o separazione completa →
-  Ridge/Lasso
-
-=== Vs. Generalized Additive Models (GAM) Logistici
-<vs-generalized-additive-models-gam-logistici>
-- #strong[Logistica base:] log-odds lineari
-  $log \( upright("odds") \) = beta_0 + sum beta_j x_j$
-- #strong[GAM logistica:] log-odds additivi ma non lineari
-  $log \( upright("odds") \) = beta_0 + sum f_j \( x_j \)$ dove $f_j$
-  sono funzioni non lineari (es. splines)
-- #strong[Vantaggio:] preserva linearità nel log-odds (additività) ma
-  cattura non linearità
-- #strong[Svantaggio:] la rappresentazione interna è più complessa
-  (curve invece di rette)
-
-=== Vs. Support Vector Machines (SVM)
-<vs-support-vector-machines-svm>
-- #strong[Logistica:] output probabilistico, interpretazione diretta
-- #strong[SVM:] output hard (classe) o soft (margine), è un
-  classificatore geometrico
-- #strong[Trade-off:] SVM ha spesso migliore capacità predittiva su dati
-  complessi; Logistica è più interpretabile
-
-
 
 == Prompt
 <prompt>
