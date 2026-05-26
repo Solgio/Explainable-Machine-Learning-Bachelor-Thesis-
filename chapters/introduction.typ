@@ -21,7 +21,7 @@ With a strong focus on innovation and customer satisfaction, Zucchetti is commit
 
 #figure(
     image("../images/zucchetti-logo.webp", alt: "Zucchetti logo"),
-    caption: "Zucchetti S.p.A. logo"
+    caption: "Zucchetti S.p.A. logo."
 )
 
 == Stage idea
@@ -44,7 +44,7 @@ The timeline of the project is structured as follows:
         [7th], [ Code implementation and Prompt Engineering for the analyzed algorithms.],
         [8th], [ Evaluation and documentation of the results, final report writing.]
     ),
-    caption: "Table of the project timeline",
+    caption: "Table of the project timeline.",
 )
 
 == Project goals
@@ -65,7 +65,7 @@ In the planning phase the goals were defined as follows:
         [F-01], [ Application in real-world scenarios of the interpretability and explainability of Machine Learning models.],
         [F-02], [ Explainability study of semi-supervised and unsupervised algorithms.]
     ),
-    caption: "Table of project goals",
+    caption: "Table of project goals.",
 )
 
 == Thesis structure

@@ -38,7 +38,7 @@ Nelle tabelle @tab:requisiti-funzionali, @tab:requisiti-qualitativi e @tab:requi
         [*Requisito*], [*Descrizione*], [*Use Case*],
         [RFN-1], [L'interfaccia permette di configurare il tipo di sonde del test], [UC1],
     ),
-    caption: "Tabella del tracciamento dei requisti funzionali",
+    caption: "Tabella del tracciamento dei requisti funzionali.",
 )
 <tab:requisiti-funzionali>
 
@@ -49,7 +49,7 @@ Nelle tabelle @tab:requisiti-funzionali, @tab:requisiti-qualitativi e @tab:requi
         [*Requisito*], [*Descrizione*], [*Use Case*],
         [RQD-1], [Le prestazioni del simulatore hardware deve garantire la giusta esecuzione dei test e non la generazione di falsi negativi], [#sym.dash],
     ),
-    caption: "Tabella del tracciamento dei requisti funzionali",
+    caption: "Tabella del tracciamento dei requisti funzionali.",
 )
 <tab:requisiti-qualitativi>
 
@@ -60,6 +60,6 @@ Nelle tabelle @tab:requisiti-funzionali, @tab:requisiti-qualitativi e @tab:requi
         [*Requisito*], [*Descrizione*], [*Use Case*],
         [RVQ-1], [La libreria per l'esecuzione dei test automatici deve essere riutilizzabil], [#sym.dash],
     ),
-    caption: "Tabella del tracciamento dei requisti funzionali",
+    caption: "Tabella del tracciamento dei requisti funzionali.",
 )
 <tab:requisiti-vincolo>
