@@ -255,3 +255,11 @@
 
 #let cmd(content) = text(fill: rgb("#00a01b"), [> ] + content)
 #let out(content) = text(fill: rgb(20, 40, 80), content)
+#let side_by_side(left, right) = grid(
+  columns: (1fr, 1fr),
+  gutter: 20pt,
+  left,right
+)
+
+
+)

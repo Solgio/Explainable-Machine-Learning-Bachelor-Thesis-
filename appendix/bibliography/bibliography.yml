@@ -27,7 +27,6 @@ comparative_analysis_XGBoost:
         volume: 54
         issue: 
 
-
 pattern_recognition_and_machine_learning:
     type: Book
     title: Pattern Recognition and Machine Learning
@@ -155,3 +154,9 @@ multimodal-prompt:
     - "Dongfang Liu"
     date: 2024
     note: "DOI: https://doi.org/10.48550/arXiv.2409.15657"
+
+p-value:
+    type: Web
+    title: "P-Value: What It Is, How to Calculate It, and Examples"
+    url: https://www.investopedia.com/terms/p/p-value.asp
+    date: 2025

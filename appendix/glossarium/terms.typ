@@ -6,7 +6,8 @@
     description: "Field of computer science that focuses on creating systems capable of performing tasks that typically require human intelligence, such as learning, reasoning, problem-solving, and understanding natural language.",
   ),
   (
-    key: "categorical features",
+    key: "categorical_features",
+    short: "categorical features",
     long: "Categorical Features",
     description: "Features in a dataset that represent discrete categories or groups, rather than continuous numerical values, and often require special handling in machine learning algorithms.",
   ),
@@ -16,15 +17,28 @@
     description: "A type of machine learning problem in which the goal is to predict discrete class labels based on input features.",
   ),
   (
-    key: "computational complexity",
-    long: "Computational Complexity",
+    key: "computational_complexity",
+    short: "computational complexity",
+    long: "Computational complexity",
     description: "A measure of the amount of computational resources (time and space) that an algorithm requires to run, often expressed in terms of the size of the input data.",
+  ),
+  (
+    key: "corr_matrix",
+    short: "correlation matrix",
+    long: "Correlation Matrix",
+    description: "A table showing the correlation coefficients between pairs of features in a dataset, used to identify relationships and potential multicollinearity.",
   ),
   (
     key: "explainable ai",
     short: "XAI",
     long: "Explainable Artificial Intelligence",
     description: "A field of artificial intelligence that focuses on creating models and systems that can provide clear and understandable explanations for their decisions and actions.",
+  ),
+  (
+    key: "gradient descent",
+    short: "GD",
+    long: "Gradient Descent",
+    description: "An optimization algorithm used to minimize the objective function in machine learning models by iteratively adjusting the model's parameters in the direction of the steepest descent.",
   ),
   (
     key: "large language model",
@@ -34,15 +48,31 @@
     description: "A type of artificial intelligence model that is trained on vast amounts of text data to understand and generate human-like language.",
   ),
   (
+    key: "mae",
+    short: "MAE",
+    long: "Mean Absolute Error",
+    description: "A common metric for evaluating the performance of regression models, calculated as the average of the absolute differences between predicted and actual values.",
+  ),
+  (
     key: "ml",
     short: "ML",
     long: "Machine Learning",
     description: "A subset of artificial intelligence that involves training algorithms to learn patterns from data and make predictions or decisions without being explicitly programmed.",
   ),
   (
-    key: "objective function",
+    key: "objective_function",
     long: "Objective Function",
     description: "A mathematical function that an algorithm optimizes during training, which defines the goal of the learning process and guides the model's adjustments to minimize error or maximize performance.",
+  ),
+  (
+    key: "outlier",
+    short: "outlier",
+    description: "A data point that deviates significantly from the majority of the data, which can have a disproportionate influence on machine learning models and may require special handling.",
+  ),
+  (
+    key: "normal_distribution",
+    short: "Normal Distribution",
+    description: "A continuous probability distribution that is symmetric around its mean, with a bell-shaped curve, and is commonly used in statistics and machine learning to model real-valued random variables.",
   ),
   (
     key: "prompt engineering",
@@ -56,9 +86,21 @@
     description: "A type of machine learning problem in which the goal is to predict continuous numerical values based on input features.",
   ),
   (
+    key: "rmse",
+    short: "RMSE",
+    long: "Root Mean Squared Error",
+    description: "A common metric for evaluating the performance of regression models, calculated as the square root of the average of the squared differences between predicted and actual values.",
+  ),
+  (
     key: "shap",
     short: "SHAP",
     long: "SHapley Additive exPlanations",
     description: "A method for explaining the output of machine learning models by attributing the prediction to each feature.",
+  ),
+  (
+    key: "stochastic gradient descent",
+    short: "SGD",
+    long: "Stochastic Gradient Descent",
+    description: "An optimization algorithm that updates the model's parameters using a randomly selected subset of the training data, which can lead to faster convergence and better generalization.",
   ),
 )
