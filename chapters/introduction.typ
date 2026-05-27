@@ -39,7 +39,7 @@ The timeline of the project is structured as follows:
         [2nd], [ Analysis of Decision Trees, Random Forests, XGBoost.],
         [3rd], [ Code implementation and Prompt Engineering for the analyzed algorithms.],
         [4th], [ Evaluation and documentation of the results.],
-        [5th], [ Analysis of RuleFit and deep dive in Random Forests.],
+        [5th], [ Deep dive in Random Forests and research of real-world dataset.],
         [6th], [ Analysis of Symbolic Regression.],
         [7th], [ Code implementation and Prompt Engineering for the analyzed algorithms.],
         [8th], [ Evaluation and documentation of the results, final report writing.]

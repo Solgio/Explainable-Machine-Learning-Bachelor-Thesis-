@@ -3,6 +3,7 @@ interpretability_book:
     title: "Interpretable Machine Learning: A Guide for Making Black Box Models Explainable"
     author: Christoph Molnar
     date: 2025
+    publisher: Leanpub
     isbn: 978-3-911578-03-5
     note: "DOI: https://christophm.github.io/interpretable-ml-book/"
 
@@ -18,14 +19,18 @@ ai_for_engineer:
 comparative_analysis_XGBoost:
     type: Article
     title: A Comparative Analysis of XGBoost
-    author: "Candice Bentéjac, Anna Csörgő, and Gonzalo Martínez-Muñoz"
+    author:
+        - "Candice Bentéjac"
+        - " Anna Csörgő"
+        - "Gonzalo Martínez-Muñoz"
     date: 2019
+    doi: 10.48550/arXiv.1911.01914
     note: "DOI: https://doi.org/10.48550/arXiv.1911.01914"
-    publisher: Springer
     parent:
         title: "Artificial Intelligence Review"
         volume: 54
-        issue: 
+        issue: 3
+        publisher: Springer
 
 pattern_recognition_and_machine_learning:
     type: Book
