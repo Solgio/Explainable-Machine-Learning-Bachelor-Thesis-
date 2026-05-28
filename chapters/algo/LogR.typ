@@ -1,6 +1,7 @@
 #import "../../appendix/glossarium/terms.typ": terms
 #import "@preview/glossarium:0.5.9": gls
 #import "../../config/thesis-config.typ": side_by_side
+
 == Logistic regression
 <cap:logistic-regression>
 === Mathematical model
@@ -76,248 +77,111 @@ To verify the suitability of logistic regression in the classification task for 
 The @corr_matrix can be used to identify highly correlated features, which can lead to multicollinearity issues. If such features are found, they can be removed or combined to reduce redundancy and improve model stability. \
 For identifying anomalys in the other assumptions, plot visualitation can be used. See @sub:diagnostic-plots-logr for more details.
 
-
 === Predictive performance and limitations
 <sub:predictive-performance-and-limitations-logr>
-The imposed assumptions of logistic regression can lead to good performance whenever this assumptions are met. The probabilistic interpretation gives insight on the confidence of the prediction, which is a significant advantage in many applications. \
-When the relationships are more complex than basic linear combinations, the predictions become less accurate. In context of unbalanced classes the training process can be dominated by the majority class, leading to poor performance on the minority class. Additionally, logistic regression as the linear regression is highly influenced by outliers, leading to very unstable predictions. 
-=== Punti di Forza
-<punti-di-forza>
-- #strong[Output probabilistico:] diversamente da un classificatore
-  duro, fornisce una stima di confidenza della previsione
-- #strong[Efficienza computazionale:] training veloce anche su dataset
-  moderatamente grandi
-- #strong[Interpretabilità:] i pesi, sebbene moltiplicativi, rimangono
-  interpretabili
-- #strong[Linearità decisionale:] il confine decisionale è una retta (in
-  2D) o iperpiano (in p-D)
+The imposed assumptions of logistic regression can lead to good performance whenever this assumptions are met. The probabilistic interpretation gives insight on the confidence of the prediction, which is a significant advantage in many applications. Computationally wise, achieves fast training thanks to the iterative methods to solve the loss function. \
+However when the relationships are more complex than basic linear combinations, the predictions become less accurate. In context of unbalanced classes the training process can be dominated by the majority class, leading to poor performance on the minority class. Additionally, logistic regression as the linear regression is highly influenced by outliers, leading to very unstable predictions. There's then the limitation of the complete separation, which prevents the model to converge to a solution.
 
-=== Punti di Debolezza
-<punti-di-debolezza>
-- #strong[Non cattura non linearità:] come LR, pattern non lineari
-  complessi rimangono invisibili al modello
-- #strong[Sensibile a separazione completa:] diverge numericamente se
-  esiste una feature \"perfetta\"
-- #strong[Interazioni nascoste:] effetti di feature che dipendono l\'uno
-  dall\'altro rimangono invisibili
-
-
-
-== Metriche per la Confidenza
-<metriche-per-la-confidenza>
-=== Metriche Pure
-<metriche-pure>
-==== Confusion Matrix (Matrice di Confusione)
-<confusion-matrix-matrice-di-confusione>
-Confronta le classi reali con quelle predette, generando 4 categorie:
-
-- #strong[TP (True Positives):] previsione positiva corretta
-- #strong[TN (True Negatives):] previsione negativa corretta
-- #strong[FP (False Positives):] errore di tipo I, previsione positiva
-  errata
-- #strong[FN (False Negatives):] errore di tipo II, previsione negativa
-  errata
+=== Metrics for prediction quality
+<sub:metrics-logr>
+The following is a list of metrics for evluating the predictive performances of the logistic regression in the context of the classification task. \
+Before presenting this metrics, it is important to define some terms, used later:
+- #strong[#gls("true positives")]: instances correctly predicted as positive
+- #strong[#gls("true negatives")]: instances correctly predicted as negative
+- #strong[#gls("false positives")]: instances incorrectly predicted as positive
+- #strong[#gls("false negatives")]: instances incorrectly predicted as negative
+==== Confusion Matrix
+<sub:confusion-matrix-logr>
+#side_by_side([
+  The confusion matrix is a table that summarizes the results of a classification task by comparing the true class labels with the predicted class labels.\ 
+  The 4 different categories are #gls("true positives"), #gls("true negatives"), #gls("false positives") and #gls("false negatives") as described before.
+],[
+    #figure(
+      image("../../images/plots/confusion-matrix.png", alt: "Confusion Matrix rappresentation with the 4 categories TP, TN, FP, FN"),
+      caption: "Confusion matrix of a logistic regression model."
+    )
+])
 
 ==== Accuracy
-<accuracy>
-Frazione di previsioni corrette:
-
-$ A C C = frac(T P + T N, T P + T N + F P + F N) $
-
-#strong[Limite:] metrica misleading se le classi sono sbilanciate. Un
-classificatore che sempre predice la classe maggioritaria avrà accuracy
-alta
+<sub:accuracy-logr>
+Accuracy measures the ratio of correct predictions to the total predictions:
+$ "ACC" = frac("TP" + "TN", "TP" + "TN" + "FP" + "FN") $
+It is important ot notice that in the context of unbalanced classes, accuracy can be misleading, as a model that always predicts the majority class can achieve high accuracy while performing poorly on the minority class.
 
 ==== Sensitivity (Recall / True Positive Rate)
-<sensitivity-recall--true-positive-rate>
-Frazione di positivi correttamente identificati:
-
-$ S e n s = frac(T P, T P + F N) $
-
-Risponde: \"Su tutti i veri positivi, quanti abbiamo identificato?\"
-
+<sub:sensitivity-recall--true-positive-rate-logr>
+The sensitivity, also known as recall or true positive rate, measures the ratio of correctly predicted positive instances to all actual positive instances:
+$ "SENS" = frac("TP", "TP" + "FN") $
 ==== Specificity (True Negative Rate)
-<specificity-true-negative-rate>
-Frazione di negativi correttamente identificati:
-
-$ S p e c = frac(T N, T N + F P) $
-
-Risponde: \"Su tutti i veri negativi, quanti abbiamo identificato?\"
+<sub:specificity-true-negative-rate-logr>
+The specificity, also known as true negative rate, measures the ratio of correctly predicted negative instances to all actual negative instances:
+$ "SPEC" = frac("TN", "TN" + "FP") $
+Sensitivity and specificity are particularly important in contexts where the cost of false positives and false negatives is different, such as in medical diagnosis.
 
 ==== Precision
-<precision>
-Frazione di previsioni positive corrette:
-
-$ P R E C = frac(T P, T P + F P) $
-
-Risponde: \"Tra tutte le istanze che abbiamo predetto come positive,
-quante sono veramente positive?\"
-
-==== Recall
-<recall>
-Alias per Sensitivity:
-
-$ R E C = frac(T P, T P + F N) $
+<sub:precision-logr>
+Precision measures the ratio of correctly predicted positive instances to all predicted positive instances:
+$ "PREC" = frac("TP", "TP" + "FP") $
+Precision is crucial in scenarios where the cost of false positives is high, such as in spam detection or fraud detection.
 
 ==== F1-Score
-<f1-score>
-Media armonica tra Precision e Recall, utile quando si vuole bilanciare
-i due:
+<sub:f1-score-logr>
+Out of the box, the precision and recall can be in tension, as improving one often leads to a decrease in the other. The F1-score is the harmonic mean of precision and recall, providing a single metric that balances both:
+$ "F1" = 2 frac("PREC" dot.op "REC", "PREC" + "REC") $
+It results particularly useful in unbalanced classification problems or in situations in which both false positive and false negative are costly.
 
-$ F 1 = 2 frac(P R E C dot.op R E C, P R E C + R E C) $
+==== ROC Curve and AUC
+<sub:roc-curve-auc-logr>
+#side_by_side([
+   #figure(
+        image("../../images/plots/roc-curve.png", alt: "ROC Curve rappresentation"),
+        caption: "ROC curve of a logistic regression model."
+      )
+  ],[
+    #strong[ROC Curve] is visual rappresentation of the True Positive Rate (@sub:sensitivity-recall--true-positive-rate-logr)  - False Positive Rate trade-off
+    Positive Rate as the threshold of classification varies. The Sensitivity sits on the y-axis and False Positive Rate on the x-axis.\
+    A model with good performance will have a curve that bows towards the top-left corner of the plot, indicating high sensitivity and low false positive rate across different thresholds. A model that predicts randomly will have a curve that follows the diagonal line.
+])
 
-#strong[Quando usarlo:] quando le classi sono sbilanciate e sia falsi
-positivi che falsi negativi hanno costo significativo
-
-==== ROC Curve e AUC
-<roc-curve-e-auc>
-#strong[ROC Curve:] rappresentazione grafica del trade-off tra True
-Positive Rate (Sensitivity) sull\'asse y e False Positive Rate (1 -
-Specificity) sull\'asse x, al variare del threshold di classificazione.
-
-- #strong[Modello ideale:] curva passa per il punto (0,1) in alto a
-  sinistra
-- #strong[Modello casuale:] curva segue la diagonale (AUC = 0.5)
-
-#strong[AUC (Area Under the Curve):] area sotto la ROC curve, quantifica
-la capacità globale del modello di discriminare tra le classi
-
-- #strong[AUC = 1.0:] discriminazione perfetta
-- #strong[AUC = 0.5:] modello casuale
-- #strong[AUC \< 0.5:] peggio del caso
-
-AUC è #strong[invariante al threshold], quindi è preferibile ad Accuracy
-per valutazioni comparative.
+#strong[AUC (Area Under the Curve)] is exactly the area under the ROC curve, numerically quantifying the overall ability of the model to discriminate between the positive and negative classes. The AUC ranges from 0 to 1, with higher values indicating better performance and 0.5 representing random guessing. \
+Can  be interpreted as the probability that the model will rank a randomly chosen positive instance higher than a randomly chosen negative instance.
 
 ==== Z-Statistic e p-value
-<z-statistic-e-p-value>
-Analogo della t-statistic in LR, misura la significatività statistica di
-ogni coefficiente:
+<sub:z-statistic-p-value-logr>
+The specular t-statistic for logistic regression is the Z-statistic, which measures the statistical significance of each coefficient in the model. It is calculated as:
+$ Z = frac(beta_j, "SE" \( beta_j \)) $
 
-$ Z = frac(beta_j, S E \( beta_j \)) $
-
-Dove $S E \( beta_j \)$ è l\'errore standard del coefficiente.
-
-- #strong[Valori assoluti grandi di Z] → forte evidenza che il
-  coefficiente è significativamente diverso da 0
-- #strong[p-value associato] → probabilità di osservare Z così estremo
-  sotto l\'ipotesi nulla ($beta_j = 0$)
-- #strong[Convention:] p \< 0.05 indica significatività
+Where $"SE" \( beta_j \)$ is the standard error of the coefficient $beta_j$.
+A coefficient with a large absolute value of Z indicates that the coefficient is significantly different from zero, suggesting that the corresponding feature has a significant impact on the predicted probabilities. \ 
+The $"p-value"$ associated with the Z-statistic represents the probability of observing such an extreme Z value under the null hypothesis that $beta_j = 0$. For more details on the $"p-value"$, see @sub:p-value-lr.
 
 ==== Diagnostic plots
 <sub:diagnostic-plots-logr>
+Using plots to visualize the data and the model's predictions can help identify potential issues with the assumptions of logistic regression and provide insights into the model's performance.
+=== Feature Effect
+<sub:feature-effect-logr>
+Similarly to Linear Regression, @sub:feature-effect-lr, the feature effect plot rappresent the impact of a feature on the prediction. In the logistic regression case, the effect is not on the predicted value but on the predicted probability, which is more intuitive to understand for most users. \
 
-
-== Metriche per la Comprensione e Spiegabilità
-<metriche-per-la-comprensione-e-spiegabilità>
-=== Effect Plot
-<effect-plot>
-Simile a LR, rappresenta l\'effetto di una feature sulla
-#strong[probabilità predetta] (non sugli odds, che è più difficile da
-interpretare).
-
-Per ogni valore della feature, calcolare:
+For every feature value, calculate:
 
 $ P \( y = 1 \| x_j = v \, x_(upright("other")) = upright("media") \) $
-
-Il grafico mostra come la probabilità predetta varia col valore della
-feature, mantenendo le altre feature ai loro valori medi.
 
 #strong[Vantaggio rispetto a LR:] la trasformazione sigmoide rende
 visibile se l\'effetto è principalmente presso certi valori della
 feature (grafico non è una retta, è una curva).
 
-=== Weight Plot (Coefficienti)
-<weight-plot-coefficienti>
-Analogo a LR, rappresenta graficamente i coefficienti $beta_j$ ordinati
-per valore assoluto.
-
-#strong[Caveat:] il valore di $beta_j$ non corrisponde direttamente a
-una variazione di probabilità (è moltiplicativo sugli odds, non additivo
-sulla probabilità). Quindi il grafico ha #strong[minore valore
-interpretativo] che in LR.
+=== Weight Plot
+<sub:weight-plot-logr>
+Likewise to linear regression, the weight plot shows the coefficients of the features. However, in logistic regression, the coefficients do not directly correspond to changes in the predicted probability, but rather to changes in the log-odds of the positive class. \
 
 === Odds Ratio
-<odds-ratio>
-Espressione diretta dell\'impatto di una feature sugli odds:
-
+<sub:odds-ratio-logr>
+Direct expression of the feature impact on the odds:
 $ upright("OR")_j = exp \( beta_j \) $
-
-#strong[Interpretazione:] \"Aumentare feature $j$ di 1 unità moltiplica
-gli odds per $upright("OR")_j$\"
-
-Esempio: se $beta_j = 0.5$ e $upright("OR")_j = 1.65$, aumentare la
-feature del 65% gli odds di appartenenza alla classe positiva.
+It represents the multiplicative change in the odds of the positive class for a one-unit increase in the feature $x_j$, holding all other features constant. \
 
 
-
-== Limiti di Predizione
-<limiti-di-predizione>
-=== Non Linearità
-<non-linearità>
-Come LR, il modello non cattura pattern non lineari. La sigmoide è una
-trasformazione \"accessoria\" che non supera questo limite.
-
-=== Separazione Completa
-<separazione-completa>
-Se una feature separa perfettamente le classi, l\'algoritmo di
-ottimizzazione #strong[diverge numericamente]: il coefficiente tende a
-$+ oo$ o $- oo$. Soluzioni:
-
-- Penalizzare i pesi (Ridge o Lasso logistica)
-- Rimuovere la feature (ma significa perdere informazione)
-- Usare Firth\'s bias-reduced logistic regression (metodo specializzato)
-
-=== Overfitting
-<overfitting>
-Con un numero elevato di feature rispetto al numero di osservazioni
-($p > > n$), il modello può facilmente sovradattarsi al training set.
-Ridge o Lasso logistica riducono il rischio.
-
-=== Sensibilità al Classe Sbilanciate
-<sensibilità-al-classe-sbilanciate>
-Il modello di default è addestrato minimizzando il likelihood globale.
-Se una classe è molto rara (es. 1% positivi, 99% negativi), il modello
-tenderà a predire sempre la classe maggioritaria. Soluzioni:
-
-- Usare pesi di classe inversi alla frequenza (class weights)
-- Ricampionare (oversampling della classe rara o undersampling della
-  classe maggioritaria)
-- Regolare il threshold di classificazione (non usare 0.5 di default)
-
-
-
-== Limiti di Spiegabilità
-<limiti-di-spiegabilità>
-=== Interpretazione Moltiplicativa Complessa
-<interpretazione-moltiplicativa-complessa>
-A differenza di LR dove un coefficiente corrisponde a una variazione
-additiva, qui $exp \( beta_j \)$ è moltiplicativo e non intuitivo per la
-maggior parte degli utenti. Una feature che aumenta gli odds del 65% non
-è semplice da comunicare rispetto a \"la previsione aumenta di 10
-unità\".
-
-=== Dipendenza dal Contesto
-<dipendenza-dal-contesto>
-L\'effetto di una feature sulla probabilità predetta #strong[dipende dai
-valori di tutte le altre feature]. Per una feature, l\'aumento della
-probabilità è maggiore quando le altre feature sono tali che la
-probabilità predetta è intorno a 0.5 (dove la sigmoid è più ripida).
-Questo rende difficile fornire una spiegazione \"universale\"
-dell\'effetto di una feature.
-
-=== Piccoli Coefficienti Difficili da Valutare
-<piccoli-coefficienti-difficili-da-valutare>
-Se $beta_j$ è piccolo (es. 0.01), l\'effetto
-$exp \( 0.01 \) approx 1.01$ (aumento del 1%) è difficile da discernere
-dalla variabilità naturale. Questo crea incertezza sull\'importanza
-reale della feature.
-
-=== Interazioni Nascoste
-<interazioni-nascoste>
-Se due feature hanno un effetto congiunto non additivo, il modello base
-non lo cattura. Le interazioni devono essere introdotte manualmente, il
-che aggiunge complessità nel comunicare i risultati.
-
-== Prompt
-<prompt>
+=== Explainability limitations
+<sub:explainability-limitations-logr>
+The logistic regression, while being more interpretable than many other machine learning models, has some limitations in terms of explainability. Firstly, the interpretation of the coefficients is less intuitive than in linear regression due to the non-linear transformation applied to the output by the logistic function. An increase in one feature in logistic regression leads to a multiplicative change in the odds of the positive class, rather than an additive change in the predicted value. \
+This multiplicative effect is even less straightforward if we consider that the effect of a feature on the predicted probability depends on the values of all the other features, making it difficult to provide a simple explanation of the effect of a single feature without considering the context of the other features. \

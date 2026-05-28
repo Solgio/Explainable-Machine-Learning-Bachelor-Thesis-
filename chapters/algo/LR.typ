@@ -44,8 +44,7 @@ Linear regression relies on several key assumptions about the data to ensure the
 + #strong[Linear constraints:] relationships between features and target must be linear. Other kind of relationships must be manually introduced and cannot be revealed automatically
 
 + #strong[Residuals normality:] the residuals
-  $epsilon.alt_i = y_i - hat(y)_i$ must follow a normal distrubution. Violazioni gravi compromettono l\'inferenza statistica
-  (p-value, intervalli di confidenza)
+  $epsilon.alt_i = y_i - hat(y)_i$ must follow a normal distrubution. Heavy violations compromise the inference.
 
 + #strong[Homoscedasticity:] residuals must have constant variance across
   all levels of the features. In practice, this assumption is
@@ -75,8 +74,8 @@ Where $R_j^2$ is the coefficient of determination for the regression of feature 
 As discussed, the linear regression imposes several constraints on the data and model performance. Very good performances are achieved whenever linear relationships exist between features and target both in accuracy and efficiency. \
 However, in real-world scenarios, these conditions are often violated, leading to poor predictive performance. The model is particularly sensitive to #gls("outlier", plural:true), which can disproportionately influence the weights and lead to skewed predictions. Additionally, linear regression is *not suitable for capturing complex, non-linear relationships* in the data, which limits its applicability in many real-world problems where such relationships are common. Finally, the model's performance can degrade significantly when the number of features is large relative to the number of observations, leading to overfitting and poor generalization to new data. This limitation is intensified by the presence of @categorical_features.
 
-=== Pure metrics for prediction quality
-<sub:pure-metrics-lr>
+=== Metrics for prediction quality
+<sub:metrics-lr>
 What follows is a list of most relevant metrics for evaluating the predictive performance of linear regression models, based on the task and the data assumptions.
 ==== $R^2$ (Determination Coefficient)
 <sub:r-square-coefficient-lr>
@@ -106,11 +105,11 @@ As intuitively, the hgher the variance of the coefficient is, the less the featu
 
 ==== p-value
 <sub:p-value-lr>
-p-value is a measure of the probability of "obtaining the observed data under the null hypothesis of a statistical test"@p-value. In the context of linear regression, the null hypothesis is that the true coefficient $beta_j$ is equal to zero, meaning that the feature does not have a significant impact on the target variable. The p-value for each coefficient is calculated based on the t-statistic and indicates the probability of observing such an extreme value for $t_(hat(beta)_j)$ if the null hypothesis were true. A common convention is to consider a p-value less than 0.05 as statistically significant, suggesting that there is strong evidence against the null hypothesis and that the feature likely has a meaningful relationship with the target variable.
+$"p-value"$ is a measure of the probability of "obtaining the observed data under the null hypothesis of a statistical test"@p-value. In the context of linear regression, the null hypothesis is that the true coefficient $beta_j$ is equal to zero, meaning that the feature does not have a significant impact on the target variable. The p-value for each coefficient is calculated based on the t-statistic and indicates the probability of observing such an extreme value for $t_(hat(beta)_j)$ if the null hypothesis were true. A common convention is to consider a p-value less than 0.05 as statistically significant, suggesting that there is strong evidence against the null hypothesis and that the feature likely has a meaningful relationship with the target variable.
 
 ==== Mallows\' Cp
 <sub:mallows-cp-lr>
-Mallows\' Cp is a model selection metric that balances model fit and complexity, calculated as:
+Mallows\'Cp is a model selection metric that balances model fit and complexity, calculated as:
 
 $ C p = frac(S S E, hat(sigma)^2) - n + 2 p $
 
@@ -171,7 +170,7 @@ If the model fits well, the points should be concentrated around the diagonal li
 === Explainability and interpretability metrics
 <sub:metrics-for-interpretability-lr>
 ==== Feature Effect
-<feature-effect>
+<sub:feature-effect-lr>
 Linear regression naturally provides a direct measure of the feature effect on the target variable through the coefficients $beta_j$. The effect of a feature $x_j$ on the prediction for an instance $i$ can be calculated as:
 
 $ "effect"_j^(\( i \)) = beta_j x_j^(\( i \)) $
@@ -180,7 +179,7 @@ The standard visualization shows a box plot of the calculated effect in the quan
 This plot results not useful if the datas are normalized, as the effect is calculated as the product of the coefficient and the feature value, and normalization can obscure the true impact of the features on the predictions.
 
 ==== Weight Plot
-<weight-plot>
+<sub:weight-plot-lr>
 
   For a direct visualization of the importance of each feature, a weight plot can be used, which shows the coefficients $beta_j$ for each feature. The coefficients indicate the strength and direction of the relationship between each feature and the target variable.
 
