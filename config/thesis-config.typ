@@ -24,18 +24,18 @@
 
   show raw: set text(font: "New Computer Modern", size: 9pt)
   show raw.where(block: true): it => {
-    let badge = if it.lang == "cpl" {
+    let badge = if it.lang == "python" {
       box(
-        fill: rgb("#6b9bd2"),
+        fill: rgb("#00a048"),
         radius: 2pt,
         inset: (x: 6pt, y: 2pt),
-        text(size: 7pt, fill: white, weight: "bold", "cpl"),
+        text(size: 7pt, fill: white, weight: "bold", "python"),
       )
     }
     block(
       width: 100%,
       fill: rgb(248, 248, 248),
-      stroke: (left: 3pt + rgb("#6b9bd2")),
+      stroke: (left: 3pt + rgb("#00a048")),
       radius: 3pt,
       inset: (x: 1em, y: 0.5em),
       {
@@ -52,11 +52,11 @@
     )
   }
   show raw.where(block: false): it => box(
-    fill: rgb("#eef5fc"),
+    fill: rgb("#eefcf4"),
     inset: (x: 3pt, y: 0pt), 
     outset: (y: 3pt), 
     radius: 2pt, 
-    text(fill: rgb("#021122"), weight: 300 , it) 
+    text(fill: rgb("#00a048"), size: 12pt , it, style: "italic"), 
   )
 
   set page(
@@ -128,7 +128,7 @@
   )
   show figure: it => {
     v(1em)
-    block(breakable: false, it)
+    block(breakable: true, it)
     v(1em)
   }
 
@@ -218,7 +218,7 @@
     text(
       font: "DejaVu Sans Mono",
       size: 8.5pt,
-      fill: rgb(20, 40, 80),
+      fill: rgb("#14502b"),
       content
     )
   )
@@ -235,7 +235,7 @@
       text(
         font: "DejaVu Sans Mono",
         size: 8.5pt,
-        fill: rgb("00a01b"),
+        fill: rgb("#00a01b"),
         [> ] + cmd
       ),
       if output != "" {
@@ -245,7 +245,7 @@
         text(
           font: "DejaVu Sans Mono",
           size: 8.5pt,
-          fill: rgb(20, 40, 80),
+          fill: rgb("#14502b"),
           output
         )
       }
@@ -254,7 +254,7 @@
 }
 
 #let cmd(content) = text(fill: rgb("#00a01b"), [> ] + content)
-#let out(content) = text(fill: rgb(20, 40, 80), content)
+#let out(content) = text(fill: rgb("#14502b"), content)
 #let side_by_side(left, right) = grid(
   columns: (1fr, 1fr),
   gutter: 20pt,

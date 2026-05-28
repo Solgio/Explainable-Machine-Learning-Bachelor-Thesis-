@@ -35,10 +35,28 @@
     description: "A field of artificial intelligence that focuses on creating models and systems that can provide clear and understandable explanations for their decisions and actions.",
   ),
   (
+    key: "false positives",
+    short: "FP",
+    long: "False Positives",
+    description: "Instances incorrectly predicted as positive.",
+  ),
+  (
+    key: "false negatives",
+    short: "FN",
+    long: "False Negatives",
+    description: "Instances incorrectly predicted as negative.",
+  ),
+  (
     key: "gradient descent",
     short: "GD",
     long: "Gradient Descent",
     description: "An optimization algorithm used to minimize the objective function in machine learning models by iteratively adjusting the model's parameters in the direction of the steepest descent.",
+  ),
+  (
+    key: "gui",
+    short: "GUI",
+    long: "Graphical User Interface",
+    description: "A user interface that allows users to interact with a computer system through graphical elements such as windows, icons, and buttons, rather than text-based commands.",
   ),
   (
     key: "large language model",
@@ -102,5 +120,17 @@
     short: "SGD",
     long: "Stochastic Gradient Descent",
     description: "An optimization algorithm that updates the model's parameters using a randomly selected subset of the training data, which can lead to faster convergence and better generalization.",
+  ),
+  (
+    key: "true positives",
+    short: "TP",
+    long: "True Positives",
+    description: "Instances correctly predicted as positive.",
+  ),
+  (
+    key: "true negatives",
+    short: "TN",
+    long: "True Negatives",
+    description: "Instances correctly predicted as negative.",
   ),
 )

@@ -165,3 +165,19 @@ p-value:
     title: "P-Value: What It Is, How to Calculate It, and Examples"
     url: https://www.investopedia.com/terms/p/p-value.asp
     date: 2025
+
+design-patterns-martin:
+    type: Article
+    title: "Design principles and design patterns"
+    url: https://objectmentor.com/resources/articles/Principles_and_Patterns.pdf
+    date: 2002
+    author: "Robert C. Martin"
+
+clean-code:
+    type: Book
+    title: "Clean Code: A Handbook of Agile Software Craftsmanship"
+    author: "Robert C. Martin"
+    publisher: Pearson
+    date: 2008
+    isbn: 978-0132350884
+
