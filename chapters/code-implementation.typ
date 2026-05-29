@@ -104,6 +104,8 @@ IMMAGINE O SNIPPET DI CONFRONTO TRA BASEMLALGO E UNA IMPLEMENTAZIONE CONCRETA
 ==== Facade
 The facade pattern was applied to the `orchestrator`, providing a single entrance `run_pipeline()` for managing the entire process of generating prompts, sending requests to the #gls("large language model") and collecting responses, hiding the complexity of the underlying implementation from the rest of the system.\
 
+==== Registry
+The registry pattern was applied to the management of the algorithms, allowing to easily register new algorithms and access them through a central registry. This allows to easily expand the system with new algorithms without modifying the existing code.\
 
 == Code implementation
 <sec:code-implementation>
