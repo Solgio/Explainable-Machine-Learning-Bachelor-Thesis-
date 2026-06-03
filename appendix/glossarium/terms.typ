@@ -72,6 +72,12 @@
     description: "A common metric for evaluating the performance of regression models, calculated as the average of the absolute differences between predicted and actual values.",
   ),
   (
+    key: "margin",
+    short: "margin",
+    long: "Margin",
+    description: "The distance between the decision boundary (hyperplane) and the closest data points in a Support Vector Machine, which the algorithm seeks to maximize for better generalization.",
+  ),
+  (
     key: "ml",
     short: "ML",
     long: "Machine Learning",

@@ -1,92 +1,54 @@
-= Support Vector Machine (SVM)
+#import "../../appendix/glossarium/terms.typ": terms
+#import "@preview/glossarium:0.5.9": gls
+#import "../../config/thesis-config.typ": side_by_side
+
+== Support Vector Machine (SVM)
 <support-vector-machine-svm>
-== Modello
-<modello>
-=== Logica dell\'Algoritmo
-<logica-dellalgoritmo>
-Un Support Vector Machine è un classificatore che cerca
-l\'#strong[iperpiano ottimale] che separa due classi massimizzando il
-#strong[margine] (distanza tra l\'iperpiano e i punti più vicini di
+=== Mathematical model
+<sub:model-svm>
+A Support Vector Machine is a classifier that finds the optimal hyperplane that separates two classes by maximizing the distance (@margin:short) between the hyperplane and the closest points of each class.
 ciascuna classe).
-
-Per dati bidimensionali è una retta, per dati tridimensionali è un
-piano, per dati p-dimensionali è un #strong[iperpiano] definito da:
-
+In the case of bidimensional data, the hyperplane is a line; for three-dimensional data, it is a plane; for p-dimensional data, it is a hyperplane defined by:
 $ beta_0 + beta_1 x_1 + beta_2 x_2 + dots.h + beta_p x_p = 0 $
+Where $beta = \[ beta_1 \, . . . \, beta_p \]$ is the normal vector to the hyperplane, and $beta_0$ is the intercept.
 
-Dove $beta = \[ beta_1 \, . . . \, beta_p \]$ è il #strong[vettore
-normale all\'iperpiano] (perpendicolare ad esso).
-
-=== Hard-Margin SVM (Dati Linearmente Separabili)
-<hard-margin-svm-dati-linearmente-separabili>
-Nel caso ideale dove i dati sono #strong[perfettamente separabili],
-l\'obiettivo è trovare i coefficienti
-$beta_0 \, beta_1 \, . . . \, beta_p$ che massimizzano il
-#strong[margine].
-
-La condizione di separazione è:
+=== Hard-Margin SVM (Linearly Separable Data)
+<sub:hard-margin-svm>
+In the ideal case in which the data are perfectly and #strong[completely separable], the goal is to find the coefficients $beta_0 \, beta_1 \, . . . \, beta_p$ that maximize the #gls("margin"). The intuition, bias, is that a hyperplane with a large margin is more #strong[robust] to variations in the data and generalizes better to unseen data.
+The separation condition is then the following: 
 
 $ y_i \( beta_0 + beta_1 x_(i 1) + beta_2 x_(i 2) + dots.h + beta_p x_(i p) \) gt.eq 1 quad forall i $
 
-Dove $y_i in { - 1 \, + 1 }$ è l\'etichetta della classe.
+Where $y_i in { - 1 \, + 1 }$ is the class label.
 
-La distanza tra un punto e l\'iperpiano è data da:
+The distance between a point in the training set and the hyperplane is given by:
+$ r_i = frac(y_i \( beta_0 + sum_(j = 1)^p beta_j x_(i j) \), \|| beta \||) $
 
-$ r_i = frac(y_i \( beta_0 + sum_(j = 1)^p beta_j x_(i j) \), \| \| beta \| \|) $
+Where $\| \| beta \| \| = sqrt(sum_(j = 1)^p beta_j^2)$ is the
+#strong[euclidean norm] of the coefficient vector.
 
-Dove $\| \| beta \| \| = sqrt(sum_(j = 1)^p beta_j^2)$ è la
-#strong[norma euclidea] del vettore dei coefficienti.
+To maximize the @margin, defined as the distance between the hyperplane and the closest points, we can express it as:
+$ M = frac(1, \|| beta \||) $
+is equivalent to minimizing
+$\| \| beta \| \|$. This formulation leads to the following optimization problem:
+$ min_(beta \, beta_0) 1 / 2 \|| beta \||^2 $
 
-Il #strong[margine] è la distanza minima tra l\'iperpiano e il punto di
-training più vicino:
-
-$ M = frac(1, \| \| beta \| \|) $
-
-Per massimizzare il margine, è equivalente #strong[minimizzare]
-$\| \| beta \| \|$, il che si formula come un problema di ottimizzazione
-quadratica:
-
-$ min_(beta \, beta_0) 1 / 2 \| \| beta \| \|^2 $
-
-Soggetto al vincolo:
+Under the constraint that:
 
 $ y_i (beta_0 + sum_(j = 1)^p beta_j x_(i j)) gt.eq 1 quad forall i = 1 \, . . . \, n $
 
-#strong[Motivazione:] perché massimizzare il margine? L\'intuizione è
-che un iperpiano con margine grande è più #strong[robusto] a variazioni
-nei dati e generalizza meglio su dati non visti.
 
-=== Soft-Margin SVM (Dati Non Separabili)
-<soft-margin-svm-dati-non-separabili>
-Nel caso realistico dove i dati #strong[non sono linearmente
-separabili], permettere che alcuni punti violino il margine:
 
-Si introducono #strong[variabili di slack] $xi_i gt.eq 0$ che misurano
-quanto un punto viola il margine:
-
+=== Soft-Margin SVM (Non Linearly Separable Data)
+<soft-margin-svm>
+In the realistic case where the data are #strong[not linearly separable], for the presence of noise, outliers, or overlapping classes, we allow some points to violate the margin. This can be achieved by intruducing #strong[slack variables] $xi_i gt.eq 0$ that measure how much a point violates the margin:
 $ y_i (beta_0 + sum_(j = 1)^p beta_j x_(i j)) gt.eq 1 - xi_i quad forall i $
 
-Il problema di ottimizzazione diventa:
+Once we allow violations, we need to penalize them in the objective function to prevent the model from simply classifying all points as the majority class. This leads to the following optimization problem:
 
-$ min_(beta \, beta_0 \, xi) [1 / 2 \| \| beta \| \|^2 + C sum_(i = 1)^n xi_i] $
+$ min_(beta \, beta_0 \, xi) [1 / 2 \|| beta \||^2 + C sum_(i = 1)^n xi_i] $
 
-Dove:
-
-- #strong[Primo termine:] penalità per complessità (piccoli coefficienti
-  \= iperpiano semplice)
-- #strong[Secondo termine:] penalità per violazioni del margine (ogni
-  violazione costa $C dot.op xi_i$)
-- #strong[Parametro C:] #strong[iperparametro di regolarizzazione] che
-  controlla il trade-off tra:
-  - Margine grande (coefficienti piccoli)
-  - Permettere violazioni (perdita di training bassa)
-
-#strong[Interpretazione di C:]
-
-- #strong[C grande:] il modello penalizza fortemente le violazioni →
-  addattamento ai dati di training (rischio overfitting)
-- #strong[C piccolo:] il modello tollera violazioni → priorità al
-  margine grande (rischio underfitting)
+The objective function shows the importance of two components of the model. Firstly the distance of the hyperplane (first term) and secondly the violations of the margin (second term). The parameter $C$ is a #strong[hyperparameter of regularization] that controls the trade-off between maximizing the margin and minimizing the violations. A high value of the parameter $C$ will prioritize minimizing the violations, rapproching the hard-margin SVM and potentially leading to a higher overfitting. A low value of $C$ will prioritize maximizing the margin, allowing more violations.
 
 === Kernel SVM (Trasformazione Non Lineare)
 <kernel-svm-trasformazione-non-lineare>
