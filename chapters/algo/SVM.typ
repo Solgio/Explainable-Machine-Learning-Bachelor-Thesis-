@@ -12,7 +12,7 @@ In the case of bidimensional data, the hyperplane is a line; for three-dimension
 $ beta_0 + beta_1 x_1 + beta_2 x_2 + dots.h + beta_p x_p = 0 $
 Where $beta = \[ beta_1 \, . . . \, beta_p \]$ is the normal vector to the hyperplane, and $beta_0$ is the intercept.
 
-=== Hard-Margin SVM (Linearly Separable Data)
+==== Hard-Margin SVM (Linearly Separable Data)
 <sub:hard-margin-svm>
 In the ideal case in which the data are perfectly and #strong[completely separable], the goal is to find the coefficients $beta_0 \, beta_1 \, . . . \, beta_p$ that maximize the #gls("margin"). The intuition, bias, is that a hyperplane with a large margin is more #strong[robust] to variations in the data and generalizes better to unseen data.
 The separation condition is then the following: 
@@ -39,7 +39,7 @@ $ y_i (beta_0 + sum_(j = 1)^p beta_j x_(i j)) gt.eq 1 quad forall i = 1 \, . . .
 
 
 
-=== Soft-Margin SVM (Non Linearly Separable Data)
+==== Soft-Margin SVM (Non Linearly Separable Data)
 <soft-margin-svm>
 In the realistic case where the data are #strong[not linearly separable], for the presence of noise, outliers, or overlapping classes, we allow some points to violate the margin. This can be achieved by intruducing #strong[slack variables] $xi_i gt.eq 0$ that measure how much a point violates the margin:
 $ y_i (beta_0 + sum_(j = 1)^p beta_j x_(i j)) gt.eq 1 - xi_i quad forall i $
@@ -50,7 +50,7 @@ $ min_(beta \, beta_0 \, xi) [1 / 2 \|| beta \||^2 + C sum_(i = 1)^n xi_i] $
 
 The objective function shows the importance of two components of the model. Firstly the distance of the hyperplane (first term) and secondly the violations of the margin (second term). The parameter $C$ is a #strong[hyperparameter of regularization] that controls the trade-off between maximizing the margin and minimizing the violations. A high value of the parameter $C$ will prioritize minimizing the violations, rapproching the hard-margin SVM and potentially leading to a higher overfitting. A low value of $C$ will prioritize maximizing the margin, allowing more violations.
 
-=== Kernel SVM
+==== Kernel SVM
 <kernel-svm>
 The main limitation of linear SVM is that it only works if the data are approximately linearly separable. 
 For data with non-linear patterns, SVM uses the #strong[kernel trick].
@@ -194,4 +194,4 @@ For higher dimensional datasets, techniques like #gls("pca") can be used to redu
 
 === Explainability limitations
 <sub:explainability-limitations-logr>
-SVM as a model has several limitations in terms of explainability, which can make it challenging to understand and interpret the decisions made by the model. These limitations are particularly pronounced when using non-linear kernels, which transform the data into a higher-dimensional space where the decision boundary is not easily visualizable. The interpretation of the weights $alpha_i$ of the support vectors is not straightforward, as they do not directly correspond to feature importance but rather to the influence of the support vectors on the decision boundary. Additionally, there is no natural way to assess feature importance directly nor to trace the reasoning process of the model, as the decision boundary is determined by a complex combination of support vectors and their corresponding weights, which can be difficult to communicate and understand, especially for non-experts. Therefore, while SVM can be powerful for prediction, its explainability limitations should be carefully considered when choosing it for a particular application, especially when interpretability is a key requirement.
+SVM as a model has several limitations in terms of explainability, which can make it challenging to understand and interpret the decisions made by the model. These limitations are particularly pronounced when using non-linear kernels, which transform the data into a higher-dimensional space where the decision boundary is not easily visualizable. The interpretation of the weights $alpha_i$ of the support vectors is not straightforward, as they do not directly correspond to feature importance but rather to the influence of the support vectors on the decision boundary.\ Additionally, there is no natural way to assess feature importance directly nor to trace the reasoning process of the model, as the decision boundary is determined by a complex combination of support vectors and their corresponding weights, which can be difficult to communicate and understand, especially for non-experts. \ Therefore, while SVM can be powerful for prediction, its explainability limitations should be carefully considered when choosing it for a particular application, especially when interpretability is a key requirement.

@@ -158,7 +158,7 @@ The $"p-value"$ associated with the Z-statistic represents the probability of ob
 === Explainability and interpretability metrics
 <sub:metrics-for-interpretability-logr>
 Using plots to visualize the data and the model's predictions can help identify potential issues with the assumptions of logistic regression and provide insights into the model's performance.
-=== Feature Effect
+==== Feature Effect
 <sub:feature-effect-logr>
 Similarly to Linear Regression, @sub:feature-effect-lr, the feature effect plot rappresent the impact of a feature on the prediction. In the logistic regression case, the effect is not on the predicted value but on the predicted probability, which is more intuitive to understand for most users. \
 
@@ -170,11 +170,11 @@ $ P \( y = 1 \| x_j = v \, x_(upright("other")) = upright("media") \) $
 visibile se l\'effetto è principalmente presso certi valori della
 feature (grafico non è una retta, è una curva).
 
-=== Weight Plot
+==== Weight Plot
 <sub:weight-plot-logr>
 Likewise to linear regression, the weight plot shows the coefficients of the features. However, in logistic regression, the coefficients do not directly correspond to changes in the predicted probability, but rather to changes in the log-odds of the positive class. \
 
-=== Odds Ratio
+==== Odds Ratio
 <sub:odds-ratio-logr>
 Direct expression of the feature impact on the odds:
 $ upright("OR")_j = exp \( beta_j \) $
