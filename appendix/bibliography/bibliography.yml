@@ -181,3 +181,17 @@ clean-code:
     date: 2008
     isbn: 978-0132350884
 
+sigmoid-kernel-medium:
+    type: Web
+    title: "What Is the Sigmoid Kernel? (And Why It Feels a Bit Like Deep Learning)"
+    author: "Michal Mikulasi"
+    date: 2025
+    url: "https://medium.com/@michalmikuli/what-is-the-sigmoid-kernel-and-why-it-feels-a-bit-like-deep-learning-aa0210055c4e"
+
+svm-kernels:
+    type: Web
+    title: "Major Kernel Functions in Support Vector Machine (SVM)"
+    date: 2025
+    url: "https://www.geeksforgeeks.org/machine-learning/major-kernel-functions-in-support-vector-machine-svm/"
+
+

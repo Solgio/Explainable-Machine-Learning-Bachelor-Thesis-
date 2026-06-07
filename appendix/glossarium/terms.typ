@@ -66,6 +66,12 @@
     description: "A type of artificial intelligence model that is trained on vast amounts of text data to understand and generate human-like language.",
   ),
   (
+    key: "linear programming",
+    short: "LP",
+    long: "Linear Programming",
+    description: "A mathematical optimization technique used to find the best outcome in a model whose requirements are represented by linear relationships, often used in machine learning for training linear SVMs and other models.",
+  ),
+  (
     key: "mae",
     short: "MAE",
     long: "Mean Absolute Error",
@@ -84,6 +90,11 @@
     description: "A subset of artificial intelligence that involves training algorithms to learn patterns from data and make predictions or decisions without being explicitly programmed.",
   ),
   (
+    key: "nystrom method",
+    short: "Nyström method",
+    description: "A technique used to approximate large kernel matrices in machine learning, which allows for efficient training of models like Support Vector Machines on large datasets by sampling a subset of the data and using it to construct a low-rank approximation of the kernel matrix.",
+  ),
+  (
     key: "objective_function",
     long: "Objective Function",
     description: "A mathematical function that an algorithm optimizes during training, which defines the goal of the learning process and guides the model's adjustments to minimize error or maximize performance.",
@@ -99,10 +110,22 @@
     description: "A continuous probability distribution that is symmetric around its mean, with a bell-shaped curve, and is commonly used in statistics and machine learning to model real-valued random variables.",
   ),
   (
+    key: "pca",
+    short: "PCA",
+    long: "Principal Component Analysis",
+    description: "A dimensionality reduction technique that transforms a dataset into a new coordinate system, where the greatest variance by any projection of the data comes to lie on the first coordinate (called the first principal component), the second greatest variance on the second coordinate, and so on, allowing for efficient visualization and analysis of high-dimensional data.",
+  ),
+  (
     key: "prompt engineering",
     short: "PE",
     long: "Prompt Engineering",
     description: "The process of designing and optimizing prompts to effectively communicate with language models and elicit desired responses.",
+  ),
+  (
+    key: "random fourier features",
+    short: "RFF",
+    long: "Random Fourier Features",
+    description: "A technique used to approximate kernel functions in machine learning, allowing for efficient training of models like Support Vector Machines on large datasets by mapping input data into a higher-dimensional space using random Fourier transformations.",
   ),
   (
     key: "regression",
@@ -120,6 +143,12 @@
     short: "SHAP",
     long: "SHapley Additive exPlanations",
     description: "A method for explaining the output of machine learning models by attributing the prediction to each feature.",
+  ),
+  (
+    key: "sequential minimal optimization",
+    short: "SMO",
+    long: "Sequential Minimal Optimization",
+    description: "An algorithm used to solve the optimization problem in Support Vector Machines by breaking it down into smaller subproblems that can be solved analytically, which allows for efficient training of SVMs on large datasets without the need for complex numerical optimization techniques.",
   ),
   (
     key: "stochastic gradient descent",

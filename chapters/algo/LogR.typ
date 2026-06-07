@@ -75,7 +75,7 @@ Homoscedasticity is no more a requirment because the response can only be 0 or 1
 <sub:preprocessing-logr>
 To verify the suitability of logistic regression in the classification task for a given dataset, some methods can be used.
 The @corr_matrix can be used to identify highly correlated features, which can lead to multicollinearity issues. If such features are found, they can be removed or combined to reduce redundancy and improve model stability. \
-For identifying anomalys in the other assumptions, plot visualitation can be used. See @sub:diagnostic-plots-logr for more details.
+For identifying anomalys in the other assumptions, plot visualitation can be used. See @sub:metrics-for-interpretability-logr for more details.
 
 === Predictive performance and limitations
 <sub:predictive-performance-and-limitations-logr>
@@ -109,11 +109,11 @@ $ "ACC" = frac("TP" + "TN", "TP" + "TN" + "FP" + "FN") $
 It is important ot notice that in the context of unbalanced classes, accuracy can be misleading, as a model that always predicts the majority class can achieve high accuracy while performing poorly on the minority class.
 
 ==== Sensitivity (Recall / True Positive Rate)
-<sub:sensitivity-recall--true-positive-rate-logr>
+<sub:sensitivity-recall-logr>
 The sensitivity, also known as recall or true positive rate, measures the ratio of correctly predicted positive instances to all actual positive instances:
 $ "SENS" = frac("TP", "TP" + "FN") $
 ==== Specificity (True Negative Rate)
-<sub:specificity-true-negative-rate-logr>
+<sub:specificity-logr>
 The specificity, also known as true negative rate, measures the ratio of correctly predicted negative instances to all actual negative instances:
 $ "SPEC" = frac("TN", "TN" + "FP") $
 Sensitivity and specificity are particularly important in contexts where the cost of false positives and false negatives is different, such as in medical diagnosis.
@@ -138,7 +138,7 @@ It results particularly useful in unbalanced classification problems or in situa
         caption: "ROC curve of a logistic regression model."
       )
   ],[
-    #strong[ROC Curve] is visual rappresentation of the True Positive Rate (@sub:sensitivity-recall--true-positive-rate-logr)  - False Positive Rate trade-off
+    #strong[ROC Curve] is visual rappresentation of the True Positive Rate (@sub:sensitivity-recall-logr)  - False Positive Rate trade-off
     Positive Rate as the threshold of classification varies. The Sensitivity sits on the y-axis and False Positive Rate on the x-axis.\
     A model with good performance will have a curve that bows towards the top-left corner of the plot, indicating high sensitivity and low false positive rate across different thresholds. A model that predicts randomly will have a curve that follows the diagonal line.
 ])
@@ -155,8 +155,8 @@ Where $"SE" \( beta_j \)$ is the standard error of the coefficient $beta_j$.
 A coefficient with a large absolute value of Z indicates that the coefficient is significantly different from zero, suggesting that the corresponding feature has a significant impact on the predicted probabilities. \ 
 The $"p-value"$ associated with the Z-statistic represents the probability of observing such an extreme Z value under the null hypothesis that $beta_j = 0$. For more details on the $"p-value"$, see @sub:p-value-lr.
 
-==== Diagnostic plots
-<sub:diagnostic-plots-logr>
+=== Explainability and interpretability metrics
+<sub:metrics-for-interpretability-logr>
 Using plots to visualize the data and the model's predictions can help identify potential issues with the assumptions of logistic regression and provide insights into the model's performance.
 === Feature Effect
 <sub:feature-effect-logr>

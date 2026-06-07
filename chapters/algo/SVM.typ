@@ -50,159 +50,66 @@ $ min_(beta \, beta_0 \, xi) [1 / 2 \|| beta \||^2 + C sum_(i = 1)^n xi_i] $
 
 The objective function shows the importance of two components of the model. Firstly the distance of the hyperplane (first term) and secondly the violations of the margin (second term). The parameter $C$ is a #strong[hyperparameter of regularization] that controls the trade-off between maximizing the margin and minimizing the violations. A high value of the parameter $C$ will prioritize minimizing the violations, rapproching the hard-margin SVM and potentially leading to a higher overfitting. A low value of $C$ will prioritize maximizing the margin, allowing more violations.
 
-=== Kernel SVM (Trasformazione Non Lineare)
-<kernel-svm-trasformazione-non-lineare>
-Il limite principale di SVM lineare è che funziona solo se i dati sono
-(approssimativamente) #strong[linearmente separabili]. Per dati con
-pattern non lineari, SVM usa il #strong[kernel trick].
+=== Kernel SVM
+<kernel-svm>
+The main limitation of linear SVM is that it only works if the data are approximately linearly separable. 
+For data with non-linear patterns, SVM uses the #strong[kernel trick].
+The idea is to transform the data into a higher-dimensional space where the initially non linearly-separable data become linearly separable. \
+Computing the transformation explicitly is computationally expensive. The #strong[kernel trick] allows us to do this implicitly.
 
-#strong[Idea:] trasformare i dati in uno spazio di dimensionalità
-superiore (possibilmente infinita) dove diventano linearmente
-separabili. Tuttavia, computare esplicitamente la trasformazione è
-costoso. Il #strong[kernel trick] consente di fare questo
-implicitamente.
-
-==== Kernel Trick
-<kernel-trick>
-Anziché trasformare i dati esplicitamente
+Instead of calculating the transformation 
 $phi.alt \( x_i \) = \[ f_1 \( x_i \) \, f_2 \( x_i \) \, . . . \, f_m \( x_i \) \]$
-e poi calcolare prodotti scalari
-$phi.alt \( x_i \)^T phi.alt \( x_j \)$, usiamo una #strong[funzione
-kernel] che calcola direttamente il prodotto scalare nello spazio
-trasformato:
+and then calculating the product scalar
+$phi.alt \( x_i \)^T phi.alt \( x_j \)$, using a kernel function returns the same result directly from the original data:
 
-$ K \( x_i \, x_j \) = phi.alt \( x_i \)^T phi.alt \( x_j \) $
+$ K \( x_i \, x_j \) = phi.alt \( x_i \)^T phi.alt \( x_j \) $ without the need to explicitly calculate $phi.alt$.\
 
-Senza dover esplicitamente calcolare $phi.alt$.
+The most common kernerls are @svm-kernels: 
 
-==== Kernel Comuni
-<kernel-comuni>
-#strong[\1. Kernel Lineare]
+#strong[\1. Linear Kernel]
 
 $ K \( x_i \, x_j \) = x_i^T x_j $
+This is the default kernel and corresponds to the original linear SVM. It does not perform any transformation and is suitable for linearly separable data.
 
-Nessuna trasformazione; ritorna alla SVM lineare.
-
-#strong[\2. Kernel Polinomiale]
+#strong[\2. Polinomial Kernel]
 
 $ K \( x_i \, x_j \) = \( x_i^T x_j + 1 \)^d $
+Transforms the data into a space of polynomials of degree $d$. Useful for polynomial patterns and especially precise in describing curved boundaries.
 
-Trasforma i dati in uno spazio di polinomi di grado $d$. Utile per
-pattern polinomiali.
-
-#strong[\3. Kernel RBF (Radial Basis Function - Gaussian)]
+#strong[\3. RBF Kernel (Radial Basis Function - Gaussian)]
 
 $ K \( x_i \, x_j \) = exp (- gamma \| \| x_i - x_j \| \|^2) $
+Transforms the data into a space of infinite dimensionality. It is the #strong[most commonly used kernel] thanks to its flexibility which makes it suitable for describing complex patterns. Also has only a single hyperparameter $gamma$ (gamma) to tune, making it easy to use.\
+This hyperparameter controls the influence of a single training example. The #strong[larger] the value of $gamma$, the #strong[closer] other examples must be to be affected, leading to a higher risk of overfitting. Conversely, a #strong[smaller] value of $gamma$ means that even points #strong[far] from the decision boundary can influence it. In this case, a too small value of $gamma$ can lead to underfitting, as the model may not capture the complexity of the data.
 
-Trasforma in uno spazio di dimensionalità infinita. È il kernel
-#strong[più comunemente usato] perché:
-
-- Molto flessibile, adatto a pattern complessi
-- Un solo iperparametro $gamma$ (gamma) da tuning
-- Buon compromesso tra complessità e performance
-
-#strong[Interpretazione di $gamma$:]
-
-- #strong[$gamma$ grande:] il kernel focalizza su punti molto vicini
-  (può causare overfitting)
-- #strong[$gamma$ piccolo:] il kernel considera punti lontani (più
-  generale, rischio underfitting)
-
-#strong[\4. Kernel Sigmoid]
+#strong[\4. Sigmoid Kernel]
 
 $ K \( x_i \, x_j \) = tanh \( alpha x_i^T x_j + c \) $
+The sigmoid kernel resembles the activation function of a neural network and can be used in datasets where the relationship between features is expected to be _"threshold-like"_ @sigmoid-kernel-medium, splitted in to hard decision regions. However, it is less commonly used than the RBF kernel and can be more difficult to tune but sometimes can be useful instead of using a full neural network.
 
-Simile al kernel di una rete neurale. Meno comune.
 
-==== Rappresentazione della Soluzione
-<rappresentazione-della-soluzione>
-La soluzione di SVM è rappresentata come una #strong[combinazione
-lineare di prodotti kernel]:
 
+=== Time complexity
+<sub:time-complexity-svm>
+The time complexity for SVM training is heavily dependent on the different variants of the algorithm and the size of the dataset. In general, the training time complexity is between $O \( n^2 k \)$ and $O \( n^3 k \)$, where $n$ is the number of training samples and $k$ is the number of iterations to convergence. This is because SVM training involves solving a quadratic optimization problem, which can be computationally expensive, especially for large datasets. To make up to the cost bottleneck of kernel use in SVM, various optimizations can be employed. Approximate kernel methods, such as the #gls("nystrom method") method or #gls("random fourier features"), can reduce the computational cost of kernel SVMs by approximating the kernel matrix by sampling a subset of the data or using random Fourier transformations. Additionally, #gls("sequential minimal optimization") breaks down the optimization problem into smaller subproblems that can be solved analytically. 
+Even with this efficient optimization algorithms, using sophisticated kernels leads to higher computational costs, balancing the better predictive performances.\
+On the other hand, linear SVMs with proper optimization, like #gls("linear programming") or #gls("stochastic gradient descent"), lower the time complexity to $O \( n p \)$, where $p$ is the number of features. This makes linear SVMs more scalable for large datasets, but they are limited to linear patterns.\
+For *inference*, the time complexity is again releted to the kernel function and the number of support vectors, which usually grows with the size of the training set and can be generally between $O \( m p \)$ and $O \( m n \)$, where $m$ is the number of support vectors, while for linear SVMs the inference time complexity is $O \( p \)$, as the prediction is a simple dot product between the input features and the coefficients of the hyperplane.
+
+=== Spacial complexity
+<sub:spacial-complexity-svm>
+For the memory complexity, the main bottleneck is the storage of the kernel matrix, which has a size of $O \( n^2 \)$, making it impractical for large datasets. For linear SVMs, the memory complexity is much lower, at $O \( p \)$, as it only needs to store the coefficients of the hyperplane. The number of support vectors also affects the memory complexity, as each support vector requires storing its corresponding coefficient and features. In general, the memory complexity can be between $O \( n^2 + m p \)$ and $O \( m p \)$, where $m$ is the number of support vectors.\ To mitigate the memory issues that for large datasets mean impracticality, the same approximations used for time complexity can be applied, reducing the complexity of the problem in more limited and manageable subproblems.
+
+=== Internal representation
+<sub:internal-representation-svm>
+The model rappresents the solution as a #strong[linear combination of kernel products] of the form
 $ f \( x \) = beta_0 + sum_(i = 1)^n alpha_i y_i K \( x \, x_i \) $
+Where:
+- $alpha_i$ are the dual coefficients (not directly the $beta_j$)
+- Only a fraction of the training points have $alpha_i > 0$, these are the support vectors
 
-Dove:
+For *explainability*, this representation leads to a series of disadvantages. Firstly, it is not immediately clear why a particular point is a support vector, as it depends on the complex interactions of the data and the kernel. Secondly, for non-linear kernels, the transformation $phi.alt$ is implicit and not visualizable, making it difficult to understand how the model is making decisions. Lastly, the interpretation of $alpha_i$ is not intuitive, as it does not directly correspond to feature importance but rather to the influence of support vectors in the decision boundary. So, while SVM can be powerful for prediction, its internal representation poses significant challenges for explainability, especially for non-linear kernels, giving less insight into the decision-making process compared to more interpretable models like linear regression or decision trees.
 
-- $alpha_i$ sono i #strong[coefficienti duali] (non direttamente i
-  $beta_j$)
-- Solo una #strong[frazione dei punti di training ha $alpha_i > 0$] ---
-  questi sono i #strong[Support Vectors]
-
-I support vectors sono i punti più informativi per la classificazione; i
-punti \"facili\" (ben separati) hanno $alpha_i = 0$ e vengono ignorati.
-
-
-
-== Complessità Computazionale
-<complessità-computazionale>
-=== Training
-<training>
-La complessità di training di SVM dipende dal metodo di ottimizzazione
-usato:
-
-==== Hard-Margin SVM (Lineare)
-<hard-margin-svm-lineare>
-$ O \( n^2 p \) upright(" a ") O \( n^3 p \) $
-
-- Metodo #strong[Quadratic Programming (QP):] tipicamente
-  $O \( n^2 p \)$ o $O \( n^3 \)$ per il solver
-- Con $n$ = numero di campioni, $p$ = numero di feature
-- La matrice del kernel è $n times n$, quindi operazioni quadratiche su
-  essa
-
-==== Soft-Margin SVM (con variabili di slack)
-<soft-margin-svm-con-variabili-di-slack>
-$ O \( n^2 p \) upright(" a ") O \( n^3 p \) $
-
-Stessa complessità; la penalità $C$ non cambia la complessità
-asintotica.
-
-==== Kernel SVM
-<kernel-svm>
-$ O \( n^2 p \) upright(" a ") O \( n^3 \) $
-
-Per kernel RBF, non è necessario calcolare esplicitamente $phi.alt$
-(dimensioni potenzialmente infinite):
-
-- Calcolo della matrice kernel: $O \( n^2 p \)$ (comparare ogni coppia
-  di punti)
-- Solver QP: $O \( n^3 \)$
-- #strong[Total:] $O \( n^3 \)$ (dominato dal solver)
-
-==== Ottimizzazioni Pratiche
-<ottimizzazioni-pratiche>
-Per dataset #strong[grandi] (n \>\> 10.000), i solver standard diventano
-intractabili. Soluzioni:
-
-+ #strong[Stochastic Gradient Descent (SGD) SVM:] O(n p) ma con più
-  iterazioni
-+ #strong[Online SVM:] aggiorna in streaming
-+ #strong[Approximate solutions:] vincolamenti per ridurre n
-+ #strong[Distributed training:] parallelizzazione su cluster
-
-=== Inference (Previsione)
-<inference-previsione>
-$ O \( m dot.op p \) $
-
-Dove $m$ è il #strong[numero di support vectors] ($m lt.eq n$).
-
-La previsione richiede:
-
-$ f \( x_(upright("new")) \) = beta_0 + sum_(i in S V) alpha_i y_i K \( x_(upright("new")) \, x_i \) $
-
-Se il modello ha molti support vectors ($m approx n$), inference diventa
-lenta. Se $m lt.double n$ (case ideale), inference è veloce.
-
-=== Memoria
-<memoria>
-$ O \( n^2 + m dot.op p \) $
-
-- Matrice kernel: $O \( n^2 \)$
-- Coefficienti: $O \( m \)$ (support vectors) + $O \( p \)$ (per ogni
-  kernel non lineare)
-
-Per dataset molto grandi, la memoria della matrice kernel può essere
-#strong[proibitiva].
 
 === Scalabilità: Conclusioni
 <scalabilità-conclusioni>
@@ -219,597 +126,72 @@ Per dataset molto grandi, la memoria della matrice kernel può essere
 - #strong[Memoria:] proibitiva per dataset enormi (n \> 1M)
 
 
+=== Data assumptions
+<sub:data-assumptions-svm>
+As discussed, the different variants of SVM have different characteristics, which extends to data assumptions too. \
+For the linear SVM, as the name suggests, the main assumption is that the data are approximately linearly separable by an hyperplane. If the assumption is not met, predictive performance decay significantly, and the model may not be able to capture the underlying patterns in the data.\
+Some general assumptions do exists for both linear and kernel SVMs. These include:
 
-== Rappresentazione Interna
-<rappresentazione-interna>
-=== Struttura del Modello
-<struttura-del-modello>
-La rappresentazione interna di SVM è:
++ #strong[Class balance:] SVM can be sensitive to imbalanced classes, as it focuses on maximizing the margin between classes. If one class is significantly more frequent than the other, the decision boundary may be biased towards the majority class.
 
-```
-Support Vectors: [x₁, x₂, ..., xₘ] (sottinsieme di n punti di training)
-Coefficienti: [α₁, α₂, ..., αₘ] e β₀
-Kernel: K(·, ·) (funzione)
++ #strong[Feature scaling:] SVM is sensitive to the scale of the features, as it relies on the distance between data points. If features are on different scales, the model may give more weight to those with larger ranges. Therefore, it is important to standardize or normalize the features before training an SVM.
+No other structural assumption emerges from the mathematical formulation giving the SVM a certain flexibility in modeling different types of data, as long as the kernel is chosen appropriately to capture the underlying patterns. 
 
-Previsione: f(x) = β₀ + Σᵢ αᵢ yᵢ K(x, xᵢ)
-```
-
-=== Implicazioni per la Spiegabilità
-<implicazioni-per-la-spiegabilità>
-#strong[Contro:]
-
-- La previsione dipende da un #strong[subset arbitrario] di punti di
-  training (support vectors)
-- Non è immediatamente chiaro #strong[perché] un particolare punto è un
-  support vector
-- Per kernel non lineari (es. RBF), la trasformazione $phi.alt$ è
-  implícita e non visualizzabile (dimensioni infinite)
-- L\'interpretazione di $alpha_i$ non è intuitiva: non corrisponde
-  direttamente a \"importanza\" della feature
-
-#strong[Pro:]
-
-- Almeno i #strong[support vectors sono identità]: puoi elencare quali
-  punti di training hanno influenzato la previsione
-- Questo è meglio di una rete neurale dove la decisione è completamente
-  dispersa nei parametri
-- Puoi analizzare i support vectors localmente per capire il
-  ragionamento
-
-#strong[Contrasto con altri modelli:]
-
-- #strong[LR/LogR:] coefficienti sono interpretabili per feature
-  (spiegabilità per feature)
-- #strong[DT:] cammino è tracciabile (spiegabilità per logica)
-- #strong[SVM:] support vectors sono tracciabili (spiegabilità per
-  precedenti)
+=== Predictive performance and limitations
+<sub:predictive-performance-and-limitations-svm>
+The SVM is a powerful and versatile algorithm that is able to achieve high predictive performance, especially when the data have non-linear patterns. The Soft-margin SVM decrese the impact of #gls("outlier", plural: true) and a higher number of features are an improvement over the linear models, which can easily overfit in these scenarios.\
+However, in real-world application, with massive amount of data, the computational cost of training and inference for the kernel SVM can become prohibitive.
+The ideal scenario of use is consequently for medium-sized datasets (up to tens of thousands of samples) with complex patterns that require non-linear modeling. For larger datasets, linear SVMs can be used, but they are limited to linear patterns and may not capture the complexity of the data, leading to lower predictive performance. Additionally, SVMs can be sensitive to the choice of hyperparameters which can further affect their performance. Finally, there is no direct probabilistic interpretation of the SVM outputs such as in logistic regression. \
+Therefore, while SVMs can be powerful for prediction, they may not always be the best choice for every problem, especially when scalability and interpretability are important considerations.
 
 
+=== Metrics for prediction quality
+<sub:metrics-svm>
+A large number of metrics used to evaluate the predictive performance of SVMs are the same as for other classification models, such as logistic regression where they were first described in this document. These include:
 
-== Vincoli sui Dati
-<vincoli-sui-dati>
-=== Linearità (Hard-Margin SVM)
-<linearità-hard-margin-svm>
-Hard-margin SVM #strong[richiede separabilità lineare esatta]. Se i dati
-non sono linearmente separabili, il problema di ottimizzazione
-#strong[non ha soluzione fattibile].
+- #strong[#link(<sub:confusion-matrix-logr>)[Confusion Matrix]:] Showing the number ot correct and incorrect predictions
+- #strong[#link(<sub:accuracy-logr>)[Accuracy:]] $\( T P + T N \) \/ \( T P + T N + F P + F N \)$
+- #strong[#link(<sub:precision-logr>)[Precision:]] $T P \/ \( T P + F P \)$
+- #strong[#link(<sub:sensitivity-recall-logr>)[Recall/Sensitivity:]] $T P \/ \( T P + F N \)$
+- #strong[#link(<sub:specificity-logr>)[Specificity:]] $T N \/ \( T N + F P \)$
+- #strong[#link(<sub:f1-score-logr>)[F1-Score:]] media armonica di Precision e Recall
+- #strong[#link(<sub:roc-curve-auc-logr>)[ROC Curve e AUC:]] trade-off tra TPR e FPR
 
-#strong[Soluzione:] Soft-margin SVM, che tolera violazioni.
-
-=== Linearità (Soft-Margin SVM)
-<linearità-soft-margin-svm>
-Soft-margin SVM è ancora lineare nello spazio dei dati (senza kernel).
-Se i dati hanno pattern non lineari, si usa kernel SVM.
-
-=== Scalabilità
-<scalabilità>
-Come discusso, #strong[training è $O \( n^3 \)$], quindi SVM non scala
-bene a dataset enormi senza approssimazioni.
-
-=== Bilanciamento delle Classi
-<bilanciamento-delle-classi>
-SVM può essere influenzato da #strong[classi sbilanciate]:
-
-- L\'algoritmo massimizza il margine complessivo, il che potrebbe
-  favorire la classe maggioritaria
-- Se una classe è il 95% e l\'altra il 5%, il margine \"massimo\"
-  potrebbe consistere nel classificare tutto come la classe
-  maggioritaria
-
-#strong[Soluzioni:]
-
-- #strong[Pesi di classe:] assegnare peso inverso alla frequenza (classe
-  rara = peso alto)
-- #strong[Tuning di C:] aumentare C per la classe minoritaria
-- #strong[Ricampionamento:] oversampling della classe rara,
-  undersampling della maggioritaria
-
-=== Normalizzazione delle Feature
-<normalizzazione-delle-feature>
-SVM usa la #strong[distanza euclidea] ($\| \| x_i - x_j \| \|$) nel
-kernel, quindi è #strong[sensibile alla scala]:
-
-- Se una feature va da 0-1 e un\'altra da 0-1.000.000, quest\'ultima
-  domina
-- #strong[Pratica standard:] normalizzare tutte le feature (es.
-  standardizzazione z-score o min-max scaling)
-
-=== Nessun\'altra Assunzione Strutturale
-<nessunaltra-assunzione-strutturale>
-A differenza di LR, SVM #strong[non ha assunzioni] su:
-
-- Normalità delle distribuzioni
-- Omoschedasticità
-- Relazioni lineari (soprattutto con kernel)
-
-
-
-== Capacità Predittive
-<capacità-predittive>
-=== Punti di Forza
-<punti-di-forza>
-+ #strong[Eccellente per Pattern Non Lineari (con Kernel)]
-
-  - Kernel RBF può approssimare funzioni arbitrariamente complesse
-  - Spesso outperform modelli lineari su dati reali
-
-+ #strong[Robusto a Outlier]
-
-  - Soft-margin SVM usa slack variables; outlier hanno impatto limitato
-  - Il margine è costruito basandosi su support vectors, non su tutti i
-    punti
-
-+ #strong[Funziona Bene in Alte Dimensioni]
-
-  - Efficace anche quando p \> n (numero di feature \> numero di
-    campioni)
-  - Modelli lineari tendono a overfitting in questi scenari
-
-+ #strong[Principi Teorici Solidi]
-
-  - Massimizzazione del margine ha fondamenti teorici (theory of VC
-    dimension, generalization bounds)
-  - Garantisce che la soluzione è #strong[globalmente ottimale]
-    (problema convesso)
-
-+ #strong[Versatile]
-
-  - Funziona sia per classificazione che per regressione (SVR)
-  - Multi-classe mediante one-vs-rest o one-vs-one
-
-=== Punti di Debolezza
-<punti-di-debolezza>
-+ #strong[Scarsa Interpretabilità]
-
-  - Specialmente con kernel non lineari, difficile spiegare il
-    ragionamento
-
-+ #strong[Sensibilità a Iperparametri]
-
-  - Scelta di C (soft-margin) e $gamma$ (RBF kernel) critica
-  - Tuning male = performance disastrose
-
-+ #strong[Inefficienza su Dataset Grandi]
-
-  - Complessità training $O \( n^3 \)$ --- impraticabile per n \>\>
-    100.000
-  - Anche inference può essere lenta se molti support vectors
-
-+ #strong[Non Probabilistico]
-
-  - Output è una classificazione hard (classe -1 o +1)
-  - Per ottenere probabilità, è necessario post-processing (Platt
-    scaling)
-
-+ #strong[Multicollinearità Non Gestita]
-
-  - Se feature sono fortemente correlate, performance può deteriorarsi
-  - Richiede feature selection o regularizzazione
-
-
-
-== Metriche per la Confidenza
-<metriche-per-la-confidenza>
-=== Metriche di Classificazione Standard
-<metriche-di-classificazione-standard>
-Stesse metriche di LogR e DT:
-
-- #strong[Confusion Matrix:] TP, TN, FP, FN
-- #strong[Accuracy:] $\( T P + T N \) \/ \( T P + T N + F P + F N \)$
-- #strong[Precision:] $T P \/ \( T P + F P \)$
-- #strong[Recall/Sensitivity:] $T P \/ \( T P + F N \)$
-- #strong[Specificity:] $T N \/ \( T N + F P \)$
-- #strong[F1-Score:] media armonica di Precision e Recall
-- #strong[ROC Curve e AUC:] trade-off tra TPR e FPR
-
-=== Distanza dall\'Iperpiano
-<distanza-dalliperpiano>
-Misura della #strong[confidenza specifica di SVM]:
-
+The following are metrics that are more specific to SVMs.
+==== Distance from hyperplane
+<sub:distance-hyperplane-svm>
+This rappresent the most direct measurement of the confidence of the SVM prediction. The distance of a point $x_i$ from the hyperplane is given by:
 $ d_i = y_i (beta_0 + sum_(j = 1)^p beta_j x_(i j)) $
+To make this distance comparable across different models and datasets, it is common to normalize it by the norm of the coefficient vector $beta$:
+$d_i = frac(d_i, \| \| beta \| \|) $
 
-Questa è la #strong[distanza (segnata) del punto $x_i$ dall\'iperpiano],
-normalizzata da $\| \| beta \| \|$:
+The closer the point is to the hyperplane (i.e., $d_i$ close to 0), the less confident the prediction is, while points far from the hyperplane (i.e., $d_i$ with large absolute value) are predicted with higher confidence.\
 
-$ upright("Distanza Normalizzata") = frac(d_i, \| \| beta \| \|) $
-
-#strong[Interpretazione:]
-
-- $d_i > 1$: punto ben classificato, lontano dall\'iperpiano (confidenza
-  alta)
-- $d_i approx 1$: punto sul margine (confine della decisione)
-- $0 < d_i < 1$: punto nella regione di slack (violazione del margine)
-- $d_i < 0$: punto classificato erroneamente
-
-Questa distanza è un #strong[proxy per la confidenza della previsione]:
-punti lontani dall\'iperpiano sono predetti con confidenza maggiore.
-
-=== Platt Scaling (Probabilità Posteriori)
-<platt-scaling-probabilità-posteriori>
-SVM non produce probabilità di default. Per ottenere stime di
-probabilità $P \( y = 1 \| x \)$, si usa #strong[Platt scaling]:
-
+=== Explainability and interpretability metrics
+<sub:metrics-for-interpretability-svm>
+==== Platt Scaling
+<sub:platt-scaling-svm>
+Out of the box SVM does not produce a measure of the uncertainty of its predictions, as it outputs a hard classification (+1 or -1) rather than a probability. To obtain estimates of the probability $P \( y = 1 \| x \)$, a common approach is to use #strong[Platt scaling], which fits a logistic regression model to the SVM outputs (the distances from the hyperplane) on a validation set. The formula for Platt scaling is:
 $ P \( y = 1 \) = frac(1, 1 + exp \( A dot.op d + B \)) $
 
-Dove $A \, B$ sono parametri appresi su un validation set, calibrando la
-distanza dell\'iperpiano a probabilità.
+Where $A \, B$ are parameters learned on a validation set, calibrating the distance of the hyperplane to probabilities.
+Although Platt scaling can provide a way to obtain probabilistic outputs from SVMs, it is important to note that the probabilities obtained through this method may not be well-calibrated, especially if the validation set used for calibration is not representative of the test set. Therefore, while Platt scaling can be useful for certain applications, it should be used with caution and its outputs should be interpreted carefully.
 
-#strong[Limite:] aggiunge complessità e calibrazione; le probabilità
-risultanti non hanno la stessa garanzia teorica della regressione
-logistica.
-
-
-
-== Metriche per la Comprensione e Spiegabilità
-<metriche-per-la-comprensione-e-spiegabilità>
-=== 1. Identificazione dei Support Vectors
-<1-identificazione-dei-support-vectors>
-Il set dei support vectors è la #strong[feature più interpretabile] di
-SVM:
-
-```
-Support Vectors: [istanza_3, istanza_15, istanza_42, ...]
-```
-
-Rappresentano i punti di training che hanno #strong[influenzato
-veramente la decisione]. Punti ben separati hanno $alpha_i = 0$ e sono
-ignorati.
-
-#strong[Utilizzo pratico:]
-
-- Analizzare i support vectors per capire quali punti sono \"difficili\"
-  (contorno decisionale)
-- Visualizzare support vectors vs punti di background per ispezionare il
-  modello
-- Se molti support vectors = modello complesso; se pochi = modello
-  semplice
-
-=== 2. Pesi dei Support Vectors ($alpha_i$)
-<2-pesi-dei-support-vectors-alpha_i>
-I coefficienti $alpha_i > 0$ associati ai support vectors indicano il
-loro \"peso\" nella decisione:
-
+==== Support vectors and their weights ($alpha_i$)
+<sub:support-vectors-weights-svm>
+Analysing the support vectors and their corresponding coefficients $alpha_i$ can provide insights into the decision-making process of the SVM. Support vectors are the data points that lie closest to the decision boundary and have a direct influence on its position. 
 $ f \( x \) = beta_0 + sum_(i = 1)^n alpha_i y_i K \( x \, x_i \) $
-
-#strong[Interpretazione:]
-
-- $alpha_i$ grande = il support vector $x_i$ ha grande influenza
-- $alpha_i$ piccolo = il support vector $x_i$ ha piccola influenza
-
-#strong[Caveat:] interpretazione limitata per kernel non lineari, perché
-non è immediatamente chiaro cosa stia facendo il kernel.
-
-=== 3. Feature Importance (via Permutation o SHAP)
-<3-feature-importance-via-permutation-o-shap>
-SVM non produce naturalmente feature importance. Soluzioni:
-
-#strong[Permutation Importance:]
-
-- Permutare casualmente una feature nei dati di test
-- Misurare il degrado in performance
-- Grandi degradi = feature importante
-
-#strong[SHAP (SHapley Additive exPlanations):]
-
-- Assegnare ogni output tra le feature usando valori Shapley
-- Applicabile a qualsiasi modello (SVM, NN, etc.)
-- Computazionalmente costoso pero produce spiegazioni teoricamente
-  fondate
-
-=== 4. Visualizzazione della Separazione (2D/3D)
-<4-visualizzazione-della-separazione-2d3d>
-Per dataset a bassa dimensionalità, visualizzare:
-
-- Punti di training e loro classi
-- Iperpiano di decisione (retta in 2D, piano in 3D)
-- Margine (linee parallele a distanza $M = 1 \/ \| \| beta \| \|$)
-- Support vectors (segnati diversamente)
-
-#strong[Limite:] per p \> 3, non è possibile visualizzare direttamente.
-Usare proiezione PCA per ridurre dimensioni e visualizzare.
-
-=== 5. Analisi Locale: Contrastive Explanation
-<5-analisi-locale-contrastive-explanation>
-Per una previsione di istanza $x_(upright("new"))$:
-
-- Trovare i support vectors più vicini (usando la metrica del kernel)
-- Mostrare come differiscono da $x_(upright("new"))$
-
-Esempio:
-
-```
-Istanza X è classificata come Positiva perché simile al Support Vector SV_5
-(che è Positivo), diversa dal Support Vector SV_12 (che è Negativo).
-
-Differenze principali:
-  - X.Income > SV_5.Income (simile)
-  - X.Age < SV_12.Age (dissimile)
-```
-
-
-
-== Limiti di Predizione
-<limiti-di-predizione>
-=== Non Probabilistico per Default
-<non-probabilistico-per-default>
-SVM output una classificazione hard (+1 o -1), non una probabilità:
-
-- Non ottenere stime naturali di incertezza
-- Platt scaling produce probabilità, ma richiede calibrazione aggiuntiva
-
-#strong[Conseguenza:] per problemi dove la probabilità importa (es.
-medicina), SVM deve essere post-processato.
-
-=== Sensibilità al Tuning di Iperparametri
-<sensibilità-al-tuning-di-iperparametri>
-Performance di SVM è #strong[molto sensibile] a:
-
-- #strong[C (soft-margin):] piccolo C = underfitting; grande C =
-  overfitting
-- #strong[$gamma$ (RBF kernel):] piccolo $gamma$ = generale; grande
-  $gamma$ = specifico (overfitting)
-
-#strong[Conseguenza:] il tuning di iperparametri (grid search, random
-search, Bayesian optimization) è #strong[mandatorio], il che aggiunge
-complessità.
-
-=== Sensibilità alla Normalizzazione delle Feature
-<sensibilità-alla-normalizzazione-delle-feature>
-Senza normalizzazione, feature con scale grandi dominano. SVM è
-#strong[molto sensibile] a questo.
-
-#strong[Mitigazione:] normalizzare sempre le feature (standardizzazione
-z-score è standard).
-
-=== Performance su Dataset Sbilanciate
-<performance-su-dataset-sbilanciate>
-Come discusso, SVM tende a favorire la classe maggioritaria.
-
-#strong[Mitigazione:] usare class weights (inversamente proporzionali
-alla frequenza).
-
-=== Inefficienza su Dataset Grandi
-<inefficienza-su-dataset-grandi>
-Complessità $O \( n^3 \)$ rende SVM #strong[impraticabile per n \>\>
-100.000].
-
-#strong[Mitigazioni possibili:]
-
-- Usare approssimazioni (Nyström approximation, stochastic gradient
-  descent)
-- Sottocampionare per training, validare su full dataset
-- Usare alternative scalabili (logistic regression, gradient boosting)
-
-
-
-== Limiti di Spiegabilità
-<limiti-di-spiegabilità>
-=== Opacità della Trasformazione Non Lineare (Kernel)
-<opacità-della-trasformazione-non-lineare-kernel>
-Con kernel RBF, i dati sono trasformati in uno #strong[spazio di
-dimensionalità infinita]:
-
-$ K \( x \, x' \) = exp (- gamma \| \| x - x' \| \|^2) $
-
-Questa trasformazione $phi.alt \( x \)$ è #strong[implicita e non
-visualizzabile]. Conseguenze:
-
-- Non puoi interpretare cosa stia facendo il modello nello spazio
-  trasformato
-- L\'effetto delle feature sulla previsione è #strong[nascosto dietro il
-  kernel]
-- Spiegare una previsione richiede capire il kernel, che è non intuitivo
-  per i non-esperti
-
-=== Interpretazione Limitata di $alpha_i$
-<interpretazione-limitata-di-alpha_i>
-I pesi $alpha_i$ dei support vectors non hanno interpretazione diretta:
-
-- Non significano \"questa feature è importante\"
-- Non significano \"questo support vector cambia la probabilità del
-  10%\"
-- Sono artefatti dell\'ottimizzazione quadratica, non quantità
-  interpretabili
-
-=== Dipendenza da Support Vectors Arbitrari
-<dipendenza-da-support-vectors-arbitrari>
-Quali punti diventano support vectors dipende dalla #strong[geometria
-dello spazio e dall\'iperparametro C]:
-
-- Cambiar C → diversi support vectors
-- Cambiar dataset leggermente → diversi support vectors
-- Non è evidente #strong[perché] un punto è un support vector (è dovuto
-  alla posizione geometrica, ma questa non è facilmente comunicabile)
-
-=== Scarsa Tracciabilità Globale
-<scarsa-tracciabilità-globale>
-Mentre puoi identificare i support vectors, #strong[tracciare il
-ragionamento globale è difficile]:
-
-- Non puoi dire \"la feature X è il driver principale della
-  classificazione\" (come in LR)
-- Non puoi tracciare una sequenza logica (come in DT)
-- Rimane una \"scatola nera\" anche dopo aver visto i support vectors
-
-=== Nessuna Spiegazione Naturale per Feature Importanza
-<nessuna-spiegazione-naturale-per-feature-importanza>
-A differenza di:
-
-- #strong[LR:] coefficienti diretti
-- #strong[DT:] feature importance dai split
-
-SVM non produce feature importance naturale. Devi usare tecniche esterne
-(SHAP, permutation importance).
-
-
-
-== Confronto con altri Algoritmi
-<confronto-con-altri-algoritmi>
-=== Vs. Logistic Regression
-<vs-logistic-regression>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [LogR], [SVM],),
-    table.hline(),
-    [#strong[Output]], [Probabilità], [Classe (distanza)],
-    [#strong[Interpretabilità]], [⭐⭐⭐⭐ Alta], [⭐⭐ Bassa],
-    [#strong[Pattern Non-Lineare]], [⭐ (no kernel)], [⭐⭐⭐⭐⭐ (con
-    kernel RBF)],
-    [#strong[Scalabilità]], [⭐⭐⭐⭐ O(n p k)], [⭐⭐ O(n³)],
-    [#strong[Teoria]], [Probabilistica], [Geometrica (margine)],
-    [#strong[Quando usare]], [Interpretabilità critica], [Pattern
-    non-lineare complesso],
-  )]
-  , kind: table
-  )
-
-=== Vs. Decision Tree
-<vs-decision-tree>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [DT], [SVM],),
-    table.hline(),
-    [#strong[Interpretabilità]], [⭐⭐⭐⭐⭐ Altissima], [⭐⭐ Bassa],
-    [#strong[Pattern Non-Lineare]], [⭐⭐⭐⭐⭐ Naturale], [⭐⭐⭐⭐⭐
-    Con kernel],
-    [#strong[Scalabilità]], [⭐⭐⭐⭐ O(n p log n)], [⭐⭐ O(n³)],
-    [#strong[Robustezza Outlier]], [⭐⭐ (sensibile)], [⭐⭐⭐⭐
-    (robusto)],
-    [#strong[Stabilità]], [⭐⭐ (instabile)], [⭐⭐⭐⭐ (stabile)],
-    [#strong[Quando usare]], [Massima interpretabilità], [Pattern
-    complessi + stabilità],
-  )]
-  , kind: table
-  )
-
-=== Vs. Neural Networks
-<vs-neural-networks>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [NN], [SVM],),
-    table.hline(),
-    [#strong[Capacità]], [⭐⭐⭐⭐⭐ Illimitata], [⭐⭐⭐⭐ Molto
-    buona],
-    [#strong[Interpretabilità]], [⭐ Scatola nera], [⭐⭐ Leggermente
-    migliore],
-    [#strong[Scalabilità]], [⭐⭐⭐⭐⭐ Eccellente], [⭐⭐ Scarsa],
-    [#strong[Data Requirement]], [⭐ (molto dati)], [⭐⭐⭐⭐ (meno
-    dati)],
-    [#strong[Training]], [Lungo, GPU-friendly], [Veloce ma O(n³)],
-    [#strong[Teoria]], [Inesistente], [Solida],
-    [#strong[Quando usare]], [Big data + capacità illimitata], [Data
-    medio + interpretabilità],
-  )]
-  , kind: table
-  )
-
-=== Vs. Random Forest / Gradient Boosting
-<vs-random-forest--gradient-boosting>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [Ensemble], [SVM],),
-    table.hline(),
-    [#strong[Performance]], [⭐⭐⭐⭐⭐ Spesso migliore], [⭐⭐⭐⭐
-    Buona],
-    [#strong[Interpretabilità]], [⭐⭐ (migliore di NN)], [⭐⭐ Simile],
-    [#strong[Scalabilità]], [⭐⭐⭐⭐ (meglio di SVM)], [⭐⭐],
-    [#strong[Robustezza Iperparametri]], [⭐⭐⭐ Meno sensibile], [⭐⭐
-    Molto sensibile],
-    [#strong[Implementazione]], [Easy (sklearn)], [Easy (sklearn)],
-    [#strong[Quando usare]], [Predizione è priorità \#1], [Stabilità,
-    spiegabilità, dati piccoli],
-  )]
-  , kind: table
-  )
-
-
-
-== Varianti e Estensioni
-<varianti-e-estensioni>
-=== 1. Multi-Class SVM
-<1-multi-class-svm>
-SVM è originariamente binario. Per multi-classe:
-
-#strong[One-vs-Rest (OvR):]
-
-- Creare K classificatori binari (K = numero di classi)
-- Ogni classificatore separa una classe dal resto
-- Classe finale = massima confidenza
-
-#strong[One-vs-One (OvO):]
-
-- Creare K(K-1)/2 classificatori binari (uno per coppia di classi)
-- Voting: conta quante volte ogni classe è predetta
-- Più computazionalmente costoso, spesso più accurato
-
-=== 2. Support Vector Regression (SVR)
-<2-support-vector-regression-svr>
-Estensione di SVM per #strong[regressione] (output continuo):
-
-- Anziché maximizzare il margine di classificazione, minimizzare
-  l\'errore di predizione
-- Introduce un\'#strong[epsilon-insensitive loss]: errori piccoli \<
-  $epsilon.alt$ sono tollerati
-- Utile per predizione continua con gestione robusta di outlier
-
-=== 3. Uno-Classe SVM (One-Class SVM)
-<3-uno-classe-svm-one-class-svm>
-Per problemi di #strong[anomaly detection] / #strong[outlier detection]:
-
-- Imparare un \"confine\" intorno ai dati normali
-- Punti fuori da questo confine sono anomalie
-- Usa soft-margin con una frazione $nu$ di campioni come support vectors
-
-=== 4. Relevance Vector Machine (RVM)
-<4-relevance-vector-machine-rvm>
-Variante Bayesiana di SVM:
-
-- Produce probabilità di output come LogR
-- Spesso meno support vectors (più sparso)
-- Trade-off: meno efficienza di SVM, più interpretabilità
-
-
-
-== Raccomandazioni Pratiche
-<raccomandazioni-pratiche>
-=== Quando Usare SVM
-<quando-usare-svm>
-✅ #strong[Ottime scelte:]
-
-- Dataset di piccolo-medio volume (n \< 100.000)
-- Pattern non lineari complessi
-- Necessità di stabilità e robustezza
-- Dati ad alta dimensionalità (p \> n)
-- Outlier presenti nel dataset
-
-❌ #strong[Cattive scelte:]
-
-- Dataset molto grandi (n \> 1.000.000)
-- Interpretabilità è critica per decisioni (es. medicina, finanza
-  regolata)
-- Tuning di iperparametri non è possibile
-- Output probabilistico naturale necessario
-
-=== Tuning Consigliate
-<tuning-consigliate>
-+ #strong[Normalizzare sempre le feature] (z-score o min-max)
-+ #strong[Griglia di ricerca per C e $gamma$:]
-  - C: \[0.1, 1, 10, 100, 1000\]
-  - $gamma$: \[0.001, 0.01, 0.1, 1, \'auto\'\]
-+ #strong[Cross-validation:] 5-10 fold per valutare
-+ #strong[Class weights:] se classi sbilanciate, usare pesi inversi
-+ #strong[Kernel:] iniziare con RBF; provare polinomiale se pattern
-  sospetto
-
-
-
-== Prompt
-<prompt>
+The weights $alpha_i$ associated with these support vectors indicate their importance in determining the decision boundary, the higher the value of $alpha_i$, the more influence the corresponding support vector has on the decision boundary. In kernel based SVMs, their interpretation is less intuitive.
+
+==== Feature importance
+<sub:feature-importance-svm>
+To assess the importance of individual features in the SVM model, we can use techniques that are model-agnostic, as SHAP values, since the SVM does not provide feature importance scores directly. The main idea is to measure how the model\'s predictions change when we perturb or remove a feature, which can give us insights into the importance of that feature for the model\'s decision-making process.
+
+==== Decision boundary visualization
+<sub:decision-boundary-visualization-svm>
+For low-dimensional datasets (2D or 3D), visualizing the decision boundary can provide insights into how the SVM is separating the classes. This can be done by plotting the training points, the decision boundary (the hyperplane), and the margin (the area around the hyperplane where support vectors lie). Support vectors can be highlighted to show their influence on the decision boundary. \
+For higher dimensional datasets, techniques like #gls("pca") can be used to reduce the dimensionality and visualize the decision boundary in a lower-dimensional space, although this may not capture all the complexities of the original feature space.
+
+=== Explainability limitations
+<sub:explainability-limitations-logr>
+SVM as a model has several limitations in terms of explainability, which can make it challenging to understand and interpret the decisions made by the model. These limitations are particularly pronounced when using non-linear kernels, which transform the data into a higher-dimensional space where the decision boundary is not easily visualizable. The interpretation of the weights $alpha_i$ of the support vectors is not straightforward, as they do not directly correspond to feature importance but rather to the influence of the support vectors on the decision boundary. Additionally, there is no natural way to assess feature importance directly nor to trace the reasoning process of the model, as the decision boundary is determined by a complex combination of support vectors and their corresponding weights, which can be difficult to communicate and understand, especially for non-experts. Therefore, while SVM can be powerful for prediction, its explainability limitations should be carefully considered when choosing it for a particular application, especially when interpretability is a key requirement.
