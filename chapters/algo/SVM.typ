@@ -110,22 +110,6 @@ Where:
 
 For *explainability*, this representation leads to a series of disadvantages. Firstly, it is not immediately clear why a particular point is a support vector, as it depends on the complex interactions of the data and the kernel. Secondly, for non-linear kernels, the transformation $phi.alt$ is implicit and not visualizable, making it difficult to understand how the model is making decisions. Lastly, the interpretation of $alpha_i$ is not intuitive, as it does not directly correspond to feature importance but rather to the influence of support vectors in the decision boundary. So, while SVM can be powerful for prediction, its internal representation poses significant challenges for explainability, especially for non-linear kernels, giving less insight into the decision-making process compared to more interpretable models like linear regression or decision trees.
 
-
-=== Scalabilità: Conclusioni
-<scalabilità-conclusioni>
-- #strong[Training:] cubic in n --- #strong[critico per dataset grandi]
-
-  - Per n \> 100.000, impraticabile senza approssimazioni
-  - Per n \< 10.000, ragionevole
-
-- #strong[Inference:] dipende da m (numero support vectors)
-
-  - Se m è piccolo: veloce
-  - Se m ≈ n: lento
-
-- #strong[Memoria:] proibitiva per dataset enormi (n \> 1M)
-
-
 === Data assumptions
 <sub:data-assumptions-svm>
 As discussed, the different variants of SVM have different characteristics, which extends to data assumptions too. \
