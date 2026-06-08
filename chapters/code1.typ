@@ -446,7 +446,6 @@ Adding new functionality requires NO modifications to existing code:
 #table(
   columns: 3,
   "Extension Point", "How to Add", "Example",
-  "New Algorithm", "Register in registry", "ModelFactory.register(AlgorithmRegistry(...))",
   "New Data Source", "Create DataLoader subclass", "class ParquetDataLoader(DataLoader)",
   "New Validation Rule", "Create DataValidator subclass", "class DistributionValidator(DataValidator)",
   "New Preprocessing Step", "Create DataProcessor subclass", "class NormalizationProcessor(DataProcessor)",

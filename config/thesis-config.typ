@@ -261,5 +261,62 @@
   left,right
 )
 
+#let vertical-timeline(steps) = {
+  let primary = rgb("#00a01b") // Un elegante colore indaco
+  let line-color = rgb("#14502b") // Grigio chiaro per la linea
+  
+ grid(
+    columns: (15pt, 1fr), 
+    column-gutter: 15pt,
+    fill: none, // Garantisce che non ci sia alcuno sfondo colorato di default
+    stroke: (col, row) => if col == 0 and row < steps.len() - 1 {
+      (right: 2pt + line-color) 
+    } else {
+      none
+    },
+    inset: (x: 0pt, top: 0pt, bottom: 24pt), 
+    
+    ..steps.enumerate().map(((i, step)) => (
+      // Cella sinistra: Pallino
+      place(top + right, dx: 1pt, dy: 3pt, 
+        circle(radius: 5pt, fill: primary, stroke: 2pt + white)
+      ),
+      
+      // Cella destra: Contenuto
+      block(width: 100%)[
+        #text(weight: "bold", size: 1.1em, fill: primary)[#step.title]
+        #v(4pt)
+        #text(fill: rgb("#334155"))[#step.desc]
+      ]
+    )).flatten()
+  )
+}
+
+
+#let horizontal-steps(steps) = {
+  let primary = rgb("#059669")
+  
+  grid(
+    // Crea dinamicamente tante colonne quanti sono i passi (es. 3 passi = 3 colonne da 1fr)
+    columns: (1fr,) * steps.len(),
+    column-gutter: 12pt,
+    
+    // Usiamo .map() e lo spread operator '..' per separare i passi in celle distinte
+    ..steps.enumerate().map(((i, step)) => block(
+      width: 100%,
+      fill: primary.lighten(96%),
+      inset: 12pt,
+      radius: 8pt,
+      stroke: (left: 4pt + primary), // Barra colorata a sinistra della scheda
+      [
+        #text(weight: "bold", size: 0.8em, fill: primary)[STEP #(i + 1)] \
+        #v(2pt)
+        #text(weight: "bold", size: 1.05em, fill: rgb("#1e293b"))[#step.title] \
+        #v(6pt)
+        #text(size: 0.9em, fill: rgb("#475569"))[#step.desc]
+      ]
+    ))
+  )
+}
 
 )

@@ -1,7 +1,7 @@
 #pagebreak(to:"odd")
 #show figure : set block(breakable: true)
 #import "@preview/glossarium:0.5.9": gls
-#import "../config/thesis-config.typ": side_by_side
+#import "../config/thesis-config.typ": side_by_side, vertical-timeline, horizontal-steps
 
 = Design and code \ implementation
 <cap:code-implementation>
@@ -149,4 +149,39 @@ The facade pattern was applied to the `orchestrator`, providing a single entranc
 
 == Code implementation
 <sec:code-implementation>
-A
+The resulting product of the design process is consequently structured in a modular and layered way, with clear interfaces and separation of concerns between the different components. The implementation of the system follows the design principles and patterns described in the previous sections, resulting in a codebase that is *extensible*, *maintainable* and *scalable*. \
+
+=== Extension of the system
+The process of extending the system with new algorithms, datasets and analysis techniques follows a clear and structured process, which allows to easily add new components to the system without modifying the existing code. The process is as follows:
+1. #strong[New algorithm]
+#let algorithm-steps = (
+    (title:"NewAlgo.py", desc:"Describe the new model following \"baseMLAlgo\" interface and its template method using the abstact classes as guidelines."),
+    (title:"registryInitializer.py", desc:"Register the new algorithm in the \"RegistryInitializer\" to make it available in the system."),
+    (title:"Explainer.py", desc:"Add an entry in the \"Explainer\" strategy using the updated registry for type safety."),
+)
+#horizontal-steps(algorithm-steps)
+
+2. #strong[New dataset manipulation]
+#let dataset-steps = (
+    (title:"dataset_config.py", desc:"If what is being added is a new dataset, create a new entry in the \"dataset_config\", describing the dataset, the task, the objective and other relevant information for the analysis."),
+    (title:"dataLoader.py", desc:"If what is being added is a new dataset source, create a new class that implements the \"DataLoader\" interface, providing the necessary methods for loading the new dataset."),
+    (title:"dataValidator.py", desc:"If what is being added is a validation rule, create a new class that implements the \"DataValidator\" interface, providing the necessary methods for validating the new dataset."),
+    (title:"dataProcessor.py", desc:"If what is being added is a new preprocessing step, create a new class that implements the \"DataProcessor\" interface, providing the necessary methods for preprocessing the new dataset."),
+
+)
+#vertical-timeline(dataset-steps)
+
+3. #strong[New SHAP analysis technique]
+#let shap-steps = (
+    (title:"NewSHAP.py", desc:"Create a new class that implements the \"SHAPExplainer\" interface, providing the necessary methods for computing the SHAP values using the new technique."),
+    (title:"strategy.py", desc:"Define in the \"strategy\" which algorithm can use the new SHAP technique, using the algorithms registry for type safety."),
+    (title:"plot_renderer.py", desc:"Add eventually new methods for rendering the SHAP values.")
+)
+#horizontal-steps(shap-steps)
+
+=== Flow of the system
+For a understanding of how the system works, the flow of the pipeline is described in the following diagram, showing the main steps of the process and how the different components interact with each other.
+#figure(
+      image("../images/diagrams/Flow.png", width: 100%, alt: "Diagram of the flow of the system."),
+      caption: "Diagram of the flow of the system, showing the main steps of the process and how the different components interact with each other.",
+    )
