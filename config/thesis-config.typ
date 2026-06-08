@@ -255,8 +255,8 @@
 
 #let cmd(content) = text(fill: rgb("#00a01b"), [> ] + content)
 #let out(content) = text(fill: rgb("#14502b"), content)
-#let side_by_side(left, right) = grid(
-  columns: (1fr, 1fr),
+#let side_by_side(left, right, proporzioni: (1fr, 1fr)) = grid(
+  columns: proporzioni,
   gutter: 20pt,
   left,right
 )
