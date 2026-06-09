@@ -1,53 +1,29 @@
-= Decision Tree (Albero di Decisione)
-<decision-tree-albero-di-decisione>
-== Modello
-<modello>
-Un albero di decisione è un modello che divide ricorsivamente lo spazio
-dei dati in regioni rettangolari, creando una #strong[struttura
-gerarchica di nodi decisionali].
+== Decision Tree
+<cap:decision-tree>
+=== Mathematical model
+<sub:model-dec-tree>
+A decision tree is a model that recursively splits the data space into rectangular regions, creating a #strong[hierarchical structure of decision nodes].
+The resulting tree is built using a greedy top-down approach, where at each node the best feature and threshold are chosen to maximize the purity of the resulting child nodes (for classification) or minimize the variance (for regression). \ 
+The final predictions are made by traversing the tree from the root to a leaf, following the decision rules at each node. The leaf reached determines the predicted class (classification) or the predicted value (regression) while the internal nodes represent the decision rules based on feature thresholds.\
 
-=== Logica dell\'Algoritmo
-<logica-dellalgoritmo>
-L\'algoritmo costruisce l\'albero utilizzando un approccio
-#strong[greedy dall\'alto verso il basso] (top-down):
+==== Splitting criteria
+<sub:criteri-split-dec-tree>
+A multitude of splitting criteria exist, the following are the most common, for a more comprehensive list see @data_mining_with_decision_trees, @decomposition-knowledge-detection. These criteria are usually based on measures of impurity, measuring how mixed the classes are in a node. The goal is to find splits that create child nodes that are more pure than the parent node.
 
-+ Inizio con tutte le osservazioni nel nodo radice
-+ Ad ogni nodo, scegliere la feature e il threshold che
-  #strong[massimizzano la purezza] (classificazione) o
-  #strong[minimizzano la varianza] (regressione)
-+ Dividere ricorsivamente i nodi figli fino a criteri di stop
-  (profondità massima, numero minimo di campioni, purezza perfetta)
-
-Il risultato è una #strong[struttura ad albero] dove:
-
-- #strong[Nodi interni:] contengono regole decisionali (feature \<=
-  threshold?)
-- #strong[Foglie:] contengono predizioni (classe o valore numerico)
-
-=== Criteri di Split
-<criteri-di-split>
-==== Gini Index (Classificazione)
-<gini-index-classificazione>
-Misura la #strong[purezza di un nodo] per la classificazione:
+1. #strong[Gini Index (Classification):]
+<sub:gini-index-dec-tree>
+Measures the #strong[impurity] of a node, how mixed are the classes in the node: 
 
 $ upright("Gini") \( D \) = 1 - sum_(i = 1)^K p_i^2 $
+Where $p_i$ is the proportion of instances belonging to class $i$ in the node. $K$ is the number of classes.
+A Gini index of 0 means that all instances in the node belong to the same class (pure node). A Gini index equal to $1 - 1/K$ means that the instances are uniformly distributed among the classes (completely impure node). For binary classification ($K=2$), the maximum Gini index is 0.5 when the classes are perfectly balanced.\
+To measure the #strong[Gini Gain] of a split, we calculate the weighted average reduction in Gini impurity:
 
-Dove $p_i$ è la proporzione di istanze appartenenti alla classe $i$ nel
-nodo.
+$ upright("IG") = upright("Gini") \( upright("parent") \) - sum_(upright("son")) frac(\| D_(upright("son")) \|, \| D \|) upright("Gini") \( upright("son") \) $
 
-- #strong[Gini = 0:] nodo puro (tutte le istanze della stessa classe)
-- #strong[Gini = 1 - 1/K:] nodo completamente impuro (distribuito
-  uniformemente)
-- #strong[Per K=2 (binario):] massimo = 0.5
-
-#strong[Information Gain:] al fare uno split, il guadagno è misurato
-come la riduzione di Gini media pesata:
-
-$ upright("IG") = upright("Gini") \( upright("padre") \) - sum_(upright("figlio")) frac(\| D_(upright("figlio")) \|, \| D \|) upright("Gini") \( upright("figlio") \) $
-
-==== Entropia (Classificazione)
-<entropia-classificazione>
-Misura l\'#strong[incertezza informativa] di un nodo:
+2. #strong[Entropy (Classification):]
+<sub:entropy-dec-tree>
+Measures 
 
 $ upright("Entropia") \( D \) = - sum_(i = 1)^K p_i log_2 \( p_i \) $
 
@@ -58,7 +34,7 @@ $ upright("Entropia") \( D \) = - sum_(i = 1)^K p_i log_2 \( p_i \) $
 #strong[Information Gain (con Entropia):] il guadagno è la riduzione di
 entropia:
 
-$ upright("IG") = upright("Entropia") \( upright("padre") \) - sum_(upright("figlio")) frac(\| D_(upright("figlio")) \|, \| D \|) upright("Entropia") \( upright("figlio") \) $
+$ upright("IG") = upright("Entropia") \( upright("parent") \) - sum_(upright("son")) frac(\| D_(upright("son")) \|, \| D \|) upright("Entropia") \( upright("son") \) $
 
 #strong[Nota:] Gini e Entropia producono risultati simili in pratica;
 Gini è computazionalmente più efficiente. L'Information Gain è usato nelle prime implementazioni di Decision Tree (CART).

@@ -11,5 +11,5 @@
 #v(2cm)
 
 #align(center, [
-    Dedicato a ...
+    Dedicated to 
 ])

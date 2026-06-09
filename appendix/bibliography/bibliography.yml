@@ -195,3 +195,11 @@ svm-kernels:
     url: "https://www.geeksforgeeks.org/machine-learning/major-kernel-functions-in-support-vector-machine-svm/"
 
 
+decomposition-knowledge-detection:
+    type: Book
+    title: "Decomposition methodology for knowledge detection"
+    author: -"Oded Maimon"
+            -"Lior Rokach"
+    date: 2010
+    publisher: World Scientific Publishing
+    isbn: 981-256-079-3

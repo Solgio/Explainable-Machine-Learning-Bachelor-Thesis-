@@ -16,7 +16,7 @@
 #include("./algo/LR.typ")
 #include("./algo/LogR.typ")
 #include("./algo/SVM.typ")
-//#include("./algo/DecisionTree.typ")
+#include("./algo/DecisionTree.typ")
 //#include("./algo/RandomForest.typ")
 //#include("./algo/XGBoost.typ")
 // #include("./algo/SymbR.typ")
