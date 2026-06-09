@@ -3,6 +3,6 @@
 
 #pagebreak(to: "odd")
 
-= Glossary
+#heading(level: 1, numbering: none)[Glossary]
 
 #print-glossary(terms)
