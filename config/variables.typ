@@ -7,7 +7,7 @@
 #let myUni = "University of Padova"
 #let myDepartment = "Department of Mathematics ''Tullio Levi-Civita''"
 #let myFaculty = "Bachelor's Degree in Computer Science"
-#let profTitle = "Prof. "
+#let profTitle = "Prof."
 #let myProf = "Michele Scquizzato"
 #let myCompany = "Zucchetti S.p.A."
 #let myTutor = "Diego Polesel"
