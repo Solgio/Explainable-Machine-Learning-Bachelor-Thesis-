@@ -96,6 +96,8 @@
     )
   }
 
+  show image : set text(font: "Source Sans 3")
+
   set list(marker: (sym.bullet, sym.dash))
 
   set table(

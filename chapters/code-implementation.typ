@@ -180,8 +180,12 @@ The process of extending the system with new algorithms, datasets and analysis t
 #horizontal-steps(shap-steps)
 
 === Flow of the system
-For a understanding of how the system works, the flow of the pipeline is described in the following diagram, showing the main steps of the process and how the different components interact with each other.
+For a understanding of how the system works, the flow of the pipeline is described in the following diagram, showing the main steps of the process and how the different components interact with each other.\
+As described before, the `orchestrator`,controls the execution of the pipeline, invoking the `selector` to get the user input. Once the configuration for the run is ready, the analysis starts.\
+For every algorithm requested by the user, the `ModelFactory` is used to create an instance of the algorithm. The `DataPipeline` is used to load, validate, preprocess and split the data for the analysis. The algorithm is trained and evaluated, and the metrics are collected in a results container. If the user requested the SHAP analysis, the `Explainer` component is used to select the appropriate explainer and compute the SHAP values for the algorithm and generate the relevant plots. The results are exported in a single directory created at the start of the analysis. Finally, if the user requested the LLM analysis, the `LLMRequestManager` is used to generate the prompts, send the requests to the #gls("large language model") and collect the responses, which are then aggregated in a final report in Markdown.\
+If the user initially requested a comparative analysis, the metrics are collected in a table and displayed.\
+
 #figure(
-      image("../images/diagrams/Flow.png", width: 100%, alt: "Diagram of the flow of the system."),
+      image("../images/diagrams/ActivityDiagram1.svg", width: 120%, alt: "Diagram of the flow of the system."),
       caption: "Diagram of the flow of the system, showing the main steps of the process and how the different components interact with each other.",
     )
