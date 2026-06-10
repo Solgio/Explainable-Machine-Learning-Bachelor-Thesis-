@@ -108,7 +108,7 @@ The design of the system also incorporates some design patterns to solve common 
 ==== Strategy
 The strategy pattern was applied to the implementation of the algorithms, allowing to easily switch between different algorithms without modifying the code of the `orchestrator`. Each algorithm implements the same interface defined by the abstract `baseMLAlgo`, selecting the appropriate strategy at runtime.\
 #figure(
-      image("../images/diagrams/StrategyS.png", width: 100%, alt: "Diagram of the strategy pattern applied to the implementation of the algorithms."),
+      image("../images/diagrams/Strategy.svg", width: 100%, alt: "Diagram of the strategy pattern applied to the implementation of the algorithms."),
       caption: "Diagram of the strategy pattern applied to the implementation of the algorithms with XGBoost, Logistic and linear regression as examples of the concrete algorithms.",
     )
 
@@ -116,7 +116,7 @@ The strategy pattern was applied to the implementation of the algorithms, allowi
 The skeleton of the pipeline is defined in `BasePipeline` describing the overall structure of the analysis process. The concrete `DefaultPipeline` implements the template method, providing specific implementations for each step. The same pattern has been used in the `DataPipeline` and `Explainer` components as they share the same necessity for defined structure with possibility for customization of the specific steps.\
 
 #figure(
-      image("../images/diagrams/TemplateS.png", width: 100%, alt: "Diagram of the template method pattern applied to the implementation of the pipeline."),
+      image("../images/diagrams/Template.svg", width: 100%, alt: "Diagram of the template method pattern applied to the implementation of the pipeline."),
       caption: "Diagram of the template method pattern applied to the implementation of the pipeline.",
     )
 
@@ -124,7 +124,7 @@ The skeleton of the pipeline is defined in `BasePipeline` describing the overall
 The factory pattern was applied in the algorithms instantiation via a `ModelFactory`, allowing to easily create instances of the algorithms without exposing the instantiation logic to the client code. This allows to easily add new algorithms without modifying the existing code and dynamically loading them, making the system more *extensible* and *scalable*.\
 
 #figure(
-      image("../images/diagrams/FactoryS.png", width: 100%, alt: "Diagram of the factory pattern applied to the implementation of the algorithms and ModelFactory."),
+      image("../images/diagrams/Factory.svg", width: 100%, alt: "Diagram of the factory pattern applied to the implementation of the algorithms and ModelFactory."),
       caption: "Diagram of the factory pattern applied to the implementation of the algorithms and ModelFactory.",
     )
 
@@ -132,7 +132,7 @@ The factory pattern was applied in the algorithms instantiation via a `ModelFact
 To centrally manage the registered algorithms, a registry pattern was applied, improved by a masisve use of value objects to manage the informations about the algorithms. The validity of the registered algorithms is consequently guaranteed and it simplifies the process of adding new algorithms to the system, as it only requires to create a new class that implements the `baseMLAlgo` interface and register it in the `ModelFactory` without modifying the existing code. This design promotes *extensibility* and *maintainability* of the codebase.\
 
 #figure(
-      image("../images/diagrams/RegistryS.png", width: 100%, alt: "Diagram of the registry pattern applied to the implementation of the algorithms and its use in the context of the system."),
+      image("../images/diagrams/Registry.svg", width: 100%, alt: "Diagram of the registry pattern applied to the implementation of the algorithms and its use in the context of the system."),
       caption: "Diagram of the registry pattern applied to the implementation of the algorithms and its use in the context of the system.",
     )
 
@@ -140,7 +140,7 @@ To centrally manage the registered algorithms, a registry pattern was applied, i
 To compute the SHAP values for the algorithms, some adapting is needed to fit the specific requirements of the SHAP library. For this reason, an adapter pattern was applied to the `Explainer`, allowing to easily adapt the algorithms to the requirements of the SHAP library without modifying the existing code while maintaining a consistent interface. This design promotes *flexibility* and *reusability* of the codebase.\
 
 #figure(
-      image("../images/diagrams/AdapterS.png", width: 110%, alt: "Diagram of the adapter pattern applied to the implementation of the algorithms and its use in the context of the system."),
+      image("../images/diagrams/Adapter.svg", width: 110%, alt: "Diagram of the adapter pattern applied to the implementation of the algorithms and its use in the context of the system."),
       caption: "Diagram of the adapter pattern applied to the implementation of the algorithms and its use in the context of the system.",
     )
 
