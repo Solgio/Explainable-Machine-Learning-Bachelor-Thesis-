@@ -78,7 +78,7 @@ Transforms the data into a space of polynomials of degree $d$. Useful for polyno
 
 #strong[\3. RBF Kernel (Radial Basis Function - Gaussian)]
 
-$ K \( x_i \, x_j \) = exp (- gamma \| \| x_i - x_j \| \|^2) $
+$ K \( x_i \, x_j \) = exp (- gamma \|\| x_i - x_j \|\|^2) $
 Transforms the data into a space of infinite dimensionality. It is the #strong[most commonly used kernel] thanks to its flexibility which makes it suitable for describing complex patterns. Also has only a single hyperparameter $gamma$ (gamma) to tune, making it easy to use.\
 This hyperparameter controls the influence of a single training example. The #strong[larger] the value of $gamma$, the #strong[closer] other examples must be to be affected, leading to a higher risk of overfitting. Conversely, a #strong[smaller] value of $gamma$ means that even points #strong[far] from the decision boundary can influence it. In this case, a too small value of $gamma$ can lead to underfitting, as the model may not capture the complexity of the data.
 
@@ -147,7 +147,7 @@ The following are metrics that are more specific to SVMs.
 This rappresent the most direct measurement of the confidence of the SVM prediction. The distance of a point $x_i$ from the hyperplane is given by:
 $ d_i = y_i (beta_0 + sum_(j = 1)^p beta_j x_(i j)) $
 To make this distance comparable across different models and datasets, it is common to normalize it by the norm of the coefficient vector $beta$:
-$d_i = frac(d_i, \| \| beta \| \|) $
+$d_i = frac(d_i, \|\| beta \|\|) $
 
 The closer the point is to the hyperplane (i.e., $d_i$ close to 0), the less confident the prediction is, while points far from the hyperplane (i.e., $d_i$ with large absolute value) are predicted with higher confidence.\
 
