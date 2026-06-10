@@ -1,18 +1,22 @@
+#import "../../appendix/glossarium/terms.typ": terms
+#import "@preview/glossarium:0.5.9": gls
+#import "../../config/thesis-config.typ": side_by_side
+
 == Decision Tree
 <cap:decision-tree>
 === Mathematical model
-<sub:model-dec-tree>
+<sub:dec-tree-model>
 A decision tree is a model that recursively splits the data space into rectangular regions, creating a #strong[hierarchical structure of decision nodes].
 The resulting tree is built using a greedy top-down approach, where at each node the best feature and threshold are chosen to maximize the purity of the resulting child nodes (for classification) or minimize the variance (for regression). \ 
 The final predictions are made by traversing the tree from the root to a leaf, following the decision rules at each node. The leaf reached determines the predicted class (classification) or the predicted value (regression) while the internal nodes represent the decision rules based on feature thresholds.\
 
 ==== Splitting criteria
-<sub:criteri-split-dec-tree>
+<sub:dec-tree-criteri-split>
 A multitude of splitting criteria exist, the following are the most common, for a more comprehensive list see @data_mining_with_decision_trees, @decomposition-knowledge-detection. These criteria are usually based on measures of impurity, measuring how mixed the classes are in a node. The goal is to find splits that create child nodes that are more pure than the parent node.
 
 1. #strong[Gini Index (Classification):]
-<sub:gini-index-dec-tree>
-Measures the #strong[impurity] of a node, how mixed are the classes in the node: 
+<sub:dec-tree-gini-index>
+Measures based on #strong[impurity] for classification problems: 
 
 $ upright("Gini") \( D \) = 1 - sum_(i = 1)^K p_i^2 $
 Where $p_i$ is the proportion of instances belonging to class $i$ in the node. $K$ is the number of classes.
@@ -22,95 +26,40 @@ To measure the #strong[Gini Gain] of a split, we calculate the weighted average 
 $ upright("IG") = upright("Gini") \( upright("parent") \) - sum_(upright("son")) frac(\| D_(upright("son")) \|, \| D \|) upright("Gini") \( upright("son") \) $
 
 2. #strong[Entropy (Classification):]
-<sub:entropy-dec-tree>
-Measures 
+<sub:dec-tree-entropy>
+Another measure of impurity for classification problems, based on the concept of entropy from information theory:
 
-$ upright("Entropia") \( D \) = - sum_(i = 1)^K p_i log_2 \( p_i \) $
+$ upright("Entropy") \( D \) = - sum_(i = 1)^K p_i log_2 \( p_i \) $
+The closer the entropy is to 0, the purer the node. The maximum entropy occurs when the classes are perfectly balanced, which is $log_2 \( K \)$ for $K$ classes. For binary classification ($K=2$), the maximum entropy is 1 when the classes are perfectly balanced.\
+From the entropy we can derive the #strong[Information Gain] of a split, which measures how much the entropy is reduced by the split similarly to Gini Gain:
 
-- #strong[Entropia = 0:] nodo puro
-- #strong[Entropia = $log_2 \( K \)$:] nodo completamente impuro
-- #strong[Per K=2:] massimo = 1
+$ upright("IG") = upright("Entropy") \( upright("parent") \) - sum_(upright("son")) frac(\| D_(upright("son")) \|, \| D \|) upright("Entropy") \( upright("son") \) $
 
-#strong[Information Gain (con Entropia):] il guadagno è la riduzione di
-entropia:
+The measures Gini and Entropy often lead to similar splits, but Gini is computationally faster, which is why it is more commonly used in practice.
 
-$ upright("IG") = upright("Entropia") \( upright("parent") \) - sum_(upright("son")) frac(\| D_(upright("son")) \|, \| D \|) upright("Entropia") \( upright("son") \) $
-
-#strong[Nota:] Gini e Entropia producono risultati simili in pratica;
-Gini è computazionalmente più efficiente. L'Information Gain è usato nelle prime implementazioni di Decision Tree (CART).
-
-==== Mean Squared Error (MSE) - Regressione
-<mean-squared-error-mse---regressione>
-Misura la #strong[varianza all\'interno di un nodo] per problemi di
-regressione:
-
+==== Mean Squared Error (MSE) (Regression):
+<sub:dec-tree-mean-squared-error-mse>
+Measures based on #strong[variance] for regression problems. The goal is to find splits that minimize the variance of the target variable in the child nodes. The MSE of a node is calculated as:
 $ upright("MSE") \( D \) = frac(1, \| D \|) sum_(i = 1)^(\| D \|) \( y_i - macron(y) \)^2 $
 
-Dove $macron(y) = frac(1, \| D \|) sum_(i = 1)^(\| D \|) y_i$ è la media
-dei target nel nodo.
+Where $macron(y) = frac(1, \| D \|) sum_(i = 1)^(\| D \|) y_i$ is the mean of the target variable in the node.
 
-Lo split è scelto per #strong[minimizzare la somma pesata di MSE] nei
-nodi figli.
+=== Time complexity
+<sub:dec-tree-time-complexity>
+The time complexity of the decision tree is bounded by the process of evaluating the best split at each node, which involves scanning through the data and calculating the splitting criterion for each feature.
+$ O \( n^2 dot.op p dot.op log \( n \) \) $
+Where $n$ is the number of observations and $p$ the number of features.\
+In fact, sorting the data for each feature takes $O \( n log \( n \) \)$, and this process is repeated for each of the $p$ features at each level of the tree. If the tree is grown to every leaf (no pruning), the number of nodes is in order of $O \( n \)$, giving the final complexity.
+As descibed in the official Scikit-learn documentation @scikit-docs, the time complexity can the optimize to $O \( n dot.op p dot.op log \( n \) \)$ thanks to clever tracking of the general ordder of indices of the features, allowing to avoid sorting at each node.\
+For *inference*, the time complexity is dependent on the depth of the tree, which in the worst case can be $O \( n \)$ (degenerate tree) and in the best case $O \( log \( n \) \)$ (balanced tree).\
 
+=== Spacial complexity
+<sub:dec-tree-spacial-complexity>
+The spacial complexity is determined by the need to store the tree structure and the metrics for the evaluation of the splits. The spacial complexity is consequently $O\( n + n dot.op p \)$
 
-
-== Complessità Computazionale
-<complessità-computazionale>
-=== Training (Costruzione dell\'Albero)
-<training-costruzione-dellalbero>
-La complessità dipende dalla #strong[profondità massima] dell\'albero e
-dal numero di feature:
-
-==== Nel caso generale:
-<nel-caso-generale>
-$ O \( n dot.op p dot.op log \( n \) dot.op d \) $
-
-Dove:
-
-- $n$ = numero di osservazioni
-- $p$ = numero di feature
-- $log \( n \)$ ≈ profondità dell\'albero (se bilanciato)
-- $d$ = profondità effettiva (\<= $log \( n \)$ per albero bilanciato)
-
-==== Nella pratica:
-<nella-pratica>
-- Per ogni nodo, scansionare tutte le $p$ feature
-- Per ogni feature, ordinare i dati (o usare binning per velocizzare) →
-  $O \( n log \( n \) \)$
-- Questo accade ad ogni profondità dell\'albero
-- Se l\'albero è bilanciato, profondità ≈ $log \( n \)$
-
-==== Semplificazione:
-<semplificazione>
-Un albero completamente bilanciato ha complessità
-#strong[$O \( n dot.op p dot.op log^2 \( n \) \)$]
-
-#strong[Nota importante:] Un albero #strong[completamente sviluppato]
-(no pruning) su n campioni può avere profondità fino a n (albero
-degenerato a lista), con complessità $O \( n^2 dot.op p \)$ --- questo è
-un limite teorico, ma dimostra il rischio di overfitting.
-
-=== Inference (Previsione)
-<inference-previsione>
-$ O \( d \) $
-
-Dove $d$ è la #strong[profondità dell\'albero]. Basta attraversare il
-cammino dalla radice alla foglia.
-
-- Per alberi bilanciati: $O \( log \( n \) \)$
-- Per alberi degenerati: $O \( n \)$
-
-=== Memoria
-<memoria>
-$ O \( n dot.op d + p \) $
-
-- Memorizzazione dell\'albero stesso: proporzionale al numero di nodi
-- In un albero bilanciato: $O \( n \)$ nodi nel peggiore,
-  $O \( 2^d \) = O \( n \)$ nel medio
-- Spazio per i dati di training: $O \( n dot.op p \)$
 
 === Considerazioni sulla Scalabilità
-<considerazioni-sulla-scalabilità>
+<sub:dec-tree-considerazioni-sulla-scalabilità>
 - #strong[Vantaggi:]
 
   - Training veloce per #strong[piccoli-medi dataset]
@@ -128,182 +77,70 @@ $ O \( n dot.op d + p \) $
 
 
 
-== Rappresentazione Interna
-<rappresentazione-interna>
-Un decision tree è rappresentato internamente come una #strong[struttura
-ad albero ricorsiva]:
+=== Internal representation
+<sub:dec-tree-internal-representation>
+A decision tree is represented internally as a recursive tree structure, as suggested by the name. Each node:
+
 
 ```
-Nodo(feature=x1, threshold=5.5, left=Nodo(...), right=Nodo(...))
+Node(feature=x1, threshold=5.5, left=Node(...), right=Node(...))
 ```
+contains the feature used for splitting, the threshold value for the split and the reference to the left and right child nodes while a leaf only contains the predicted class or value and the number of samples in that leaf.\
+This structure not only allows for efficient traversal during inference but for *explainability*, provides a clear and interpretable representation of the decision-making process. Each path from the root to a leaf corresponds to a specific set of conditions on the features.\
+Still, with deep trees, understanding the global structure can become difficult, even if the local decision paths remain interpretable.\
+An advantage of the decision tree structure is the natural handling of #gls("categorical_features") without need for encoding.
 
-Ogni nodo contiene:
 
-- #strong[Condizione:] quale feature e quale threshold
-- #strong[Puntatori ai figli:] rami sinistro e destro
-- #strong[Informazioni di predizione:] classe modale (classificazione) o
-  valore medio (regressione)
+=== Data assumptions
+<sub:dec-tree-data-assumptions>
+The only assumption of decision trees is that the data can be split based on feature thresholds to create *homogeneous* groups. Unbalanced classes can affect the predictive performance regarding the minority class in favour of a deep tree for the majoritary class.\
+This is a very weak assumption compared to linear models, which require linearity, normality, homoscedasticity, and independence of features. However, it not always possible to satisfy it and sometimes resampling or proportional weighting is needed to address it.
 
-=== Implicazioni per la Spiegabilità
-<implicazioni-per-la-spiegabilità>
-#strong[Vantaggi:]
 
-- La struttura è #strong[completamente esplicita e navigabile]
-- Ogni previsione ha un #strong[tracciamento completo]: seguire il
-  cammino dalla radice alla foglia spiega perfettamente come è stata
-  raggiunta
-- Non esiste ambiguità o \"magia\": è una sequenza di confronti
-
-#strong[Svantaggi:]
-
-- #strong[Alberi profondi o complessi] diventano difficili da
-  interpretare (decine o centinaia di nodi)
-- Le interazioni tra feature sono #strong[implicite nella struttura]: se
-  feature A e B interagiscono, l\'albero le cattura tramite split in
-  serie, ma questo non è ovvio dal grafico
-- #strong[Instabilità:] piccoli cambiamenti nei dati possono portare a
-  strutture completamente diverse (vedi sezione Limiti)
-
-Rispetto a modelli lineari (LR, logistica), la rappresentazione è
-#strong[meno compatta ma più complessa].
+=== Predictive performance and limitations
+<sub:dec-tree-predictive-performance-and-limitations>
+Decision trees are powerful models in context of classification, especially when the relationship between features and target is complex and non-linear, for example in a context with multiple #gls("categorical_features"). Feature interactions are naturally captured by the tree structure without explicitly modeling them. As said previously, decision trees can handle #gls("categorical_features") without the need for encoding, which can be a significant advantage in many real-world datasets. Moreover, they do not require any assumptions about the distribution of the data or the linearity of relationships between features and target variable, making them versatile for a wide range of problems.\ All there advantages lead to a model that can capture automatically complex patterns in a vast variety of datasets.\
+On the contrary, decision trees can be inaccurate on purely linear data, where a simple linear model would achieve better performance. In general, decision tree regressors tend to be inaccurate as they approximate the target variable with piecewise constant predictions, which can lead to high bias. Moreover, decision trees are prone to overfitting, especially when the tree is allowed to grow deep and capture noise in the training data and in high dimensionalities. This can lead to poor generalization performance on unseen data.\
+Finally, decision trees can be unstable, meaning that small changes in the training data can lead to significantly different tree structures and predictions. This is because the tree-building process is greedy and makes locally optimal decisions at each node, which can be sensitive to variations in the data.
 
 
 
-== Vincoli sui Dati
-<vincoli-sui-dati>
-=== Dataset Bilanciato
-<dataset-bilanciato>
-I decision tree possono essere #strong[influenzati da classi
-sbilanciate]:
+=== Metrics for prediction quality
+<sub:dec-tree-metrics>
+To evaluate the predictive performance of decision trees, we can use both general metrics for classification and regression, as well as specific metrics that take advantage of the tree structure. For the common metrics, see @cap:classification-metrics(Classification) and @cap:regression-metrics(Regression).\
 
-- L\'algoritmo greedy tende a favorire split che massimizzano il puro
-  della classe #strong[maggioritaria]
-- Su un dataset con 95% negativi e 5% positivi, un albero potrebbe
-  diventare molto profondo per catturare i pochi positivi
-- #strong[Conseguenza:] scarsa capacità di classificazione sulla classe
-  minoritaria (FN altissimi)
+==== Confidence score or Probability on the leaf
+<sub:dec-tree-confidence-score>
+To estimate the confidence of a prediction, we can use the distribution of classes in the leaf node reached by the instance. The confidence score for a predicted class can be calculated as the proportion of instances of that class in the leaf compared to the total number of instances in that leaf:
 
-#strong[Soluzioni:]
+$ upright("Confidence") = frac(\# upright("instances of the predicted class in the leaf"), \# upright("total instances in the leaf")) $
 
-- Assegnare #strong[pesi di classe] inversi alla frequenza
-- Ricampionare (oversampling della classe rara, undersampling della
-  maggioritaria)
-- Usare metriche di valutazione appropriate (F1, non Accuracy)
+This metric could be used to filter predictions based on the level of confidence, for example by accepting only predictions with a confidence score above a certain threshold (e.g., 0.8). This can be particularly useful in applications where the cost of false positives or false negatives is high, allowing us to focus on predictions that the model is more certain about.
 
-=== Nessun Ulteriore Vincolo Strutturale
-<nessun-ulteriore-vincolo-strutturale>
-A differenza della regressione lineare e logistica, gli alberi di
-decisione #strong[non hanno assunzioni] su:
+=== Explainability and interpretability metrics
+<sub:dec-tree-metrics-for-interpretability>
+Visualize via plots and feature importance can improve the interpretability of decision trees. The following plots and metrics are specifically chosen to extrapolate insights from the decision trees and to understand the decision-making process of the model, rather than just evaluating its predictive performance.
 
-- Linearità
-- Normalità di distribuzioni
-- Omoschedasticità
-- Indipendenza di feature
+==== Tree visualization
+<sub:dec-tree-tree-visualization>
+The first and most intuitive way to understand a decision tree is to visualize it. The node show the feature and its threshold while the leafs show the predicted class. This way it is easily traceable the decision path and which features are the most important, dividing, features. 
+#figure(
+  image("../../images/plots/tree-structure.png", alt: "Visualization of a decision tree with the feature and threshold for each node and the predicted class for each leaf"),
+  caption: "Visualization of a decision tree."
+)
 
-Questo è un vantaggio (flessibilità), ma anche un rischio (overfitting
-senza controllo).
+For deep trees, the complete visualization can become cluttered and difficult to interpret. In such cases it can still be useful to visualize only the top levels of the tree, which capture the most important splits.
 
+==== Feature importance
+<sub:dec-tree-feature-importance>
+Measures how often a fearure is used as a splitting criterion and how much it reduces the average impurity:
 
+$ upright("Importance")_j = frac(sum_(upright("nodes with feature ") j) \( upright("IG")_(upright("node")) \) times \( upright("n nodes") \) \/ n, upright("sum of all the nodes")) $
+The more a feature is used for splitting and the more it reduces impurity, the higher its importance score. This metric can help to identify not only which features are most influential in the model, but also to understand the relative importance of different features in the decision-making process of the tree. In fact, the most dividing features would appear at the top and could be identified easily with other methods, but the feature importance metric allows to identify also less important features that are used for splitting in deeper levels of the tree and that have been used frequently.
 
-== Capacità Predittive
-<capacità-predittive>
-=== Punti di Forza
-<punti-di-forza>
-- #strong[Pattern non lineari:] cattura relazioni complesse e non
-  lineari che modelli lineari non vedono
-- #strong[Interazioni automatiche:] le interazioni tra feature sono
-  catturate naturalmente dalla struttura
-- #strong[Feature categoriche:] gestisce feature categoriche senza
-  necessità di encoding
-- #strong[Nessuna assunzione:] nessun prerequisito su distribuzione o
-  linearità dei dati
-
-=== Punti di Debolezza
-<punti-di-debolezza>
-- #strong[Pattern lineari:] su dati puramente lineari, gli alberi sono
-  #strong[inefficienti e imprecisi]
-
-  - Avanzano tramite split ortogonali, creando funzioni a gradini
-  - La predizione cambia bruscamente al passaggio di un threshold
-  - Un modello lineare semplice avrebbe R² più alto con meno parametri
-
-- #strong[Dati sparsi ad alta dimensionalità:] con molte feature e pochi
-  campioni, il rischio di overfitting è massimo
-
-
-
-== Metriche per la Confidenza
-<metriche-per-la-confidenza>
-=== Metriche di Classificazione
-<metriche-di-classificazione>
-Utilizza le stesse metriche della #strong[Regressione Logistica]:
-
-- #strong[Confusion Matrix:] TP, TN, FP, FN
-- #strong[Accuracy:] $\( T P + T N \) \/ \( T P + T N + F P + F N \)$
-- #strong[Sensitivity / Recall:] $T P \/ \( T P + F N \)$
-- #strong[Specificity:] $T N \/ \( T N + F P \)$
-- #strong[Precision:] $T P \/ \( T P + F P \)$
-- #strong[F1-Score:] media armonica di Precision e Recall
-- #strong[ROC Curve e AUC:] trade-off tra TPR e FPR
-
-=== Metriche di Regressione
-<metriche-di-regressione>
-Per alberi di regressione:
-
-- #strong[MSE:] errore quadratico medio
-- #strong[RMSE:] radice quadrata di MSE
-- #strong[MAE:] errore assoluto medio
-- #strong[R²:] frazione di varianza spiegata
-
-=== Probabilità di Foglia (Confidence Score)
-<probabilità-di-foglia-confidence-score>
-Un vantaggio specifico degli alberi è che forniscono naturalmente una
-#strong[stima di confidenza della previsione]:
-
-$ upright("Confidence") = frac(\# upright("istanze della classe predetta nella foglia"), \# upright("istanze totali nella foglia")) $
-
-Se una foglia contiene 100 campioni e 95 appartengono alla classe
-positiva, la confidenza della previsione \"positivo\" è 0.95.
-
-#strong[Utilizzo:] si può filtrare le predizioni per accuratezza:
-accettare solo previsioni con confidenza \> 0.8.
-
-
-
-== Metriche per la Comprensione e Spiegabilità
-<metriche-per-la-comprensione-e-spiegabilità>
-=== Visualizzazione dell\'Albero
-<visualizzazione-dellalbero>
-Il principale strumento è la #strong[visualizzazione grafica
-dell\'albero]:
-
-- Ogni nodo mostra la condizione di split e la distribuzione delle
-  classi
-- Foglie mostrano la previsione e il numero di campioni
-
-#strong[Limite:] su alberi profondi (\>5-6 livelli), la visualizzazione
-diventa illeggibile
-
-=== Feature Importance
-<feature-importance>
-Misura quante volte una feature viene utilizzata come criterio di split
-e quanto riduce l\'impurità media:
-
-$ upright("Importance")_j = frac(sum_(upright("nodi con feature ") j) \( upright("IG")_(upright("nodo")) \) times \( upright("n campioni nodo") \) \/ n, upright("somma su tutti i nodi")) $
-
-#strong[Interpretazione:] feature con importanza alta sono state
-cruciali per le decisioni dell\'albero.
-
-=== Spiegazione Locale (Path to Prediction)
-<spiegazione-locale-path-to-prediction>
-Per una singola istanza:
-
-+ Tracciare il cammino dalla radice alla foglia
-+ Elencare tutti i confronti (feature \<= threshold) che hanno
-  determinato la previsione
-
-#strong[Esempio:]
-
+==== Path to prediction 
+<sub:dec-tree-path-to-prediction>
+For a single instance is possible to trace the complete path from root to leaf and list all the comparisons (feature \<= threshold) that led to the prediction. This is a #strong[huge advantage for explainability] compared to #gls("black box") models. Every prediction is completely traceable locally.\
 ```
 Istanza X predetta come "Sì" perché:
   - Age <= 35 ✓
@@ -317,8 +154,9 @@ modelli \"scatola nera\". Ogni previsione è completamente tracciabile.
 
 
 
-== Limiti di Predizione
-<limiti-di-predizione>
+
+=== Explainability limitations
+<sub:explainability-limitations-dec-tree>
 === Overfitting
 <overfitting>
 Il limite #strong[principale] degli alberi di decisione. Senza
@@ -387,7 +225,7 @@ feature correlate, ma non immuni:
 
 
 
-== Limiti di Spiegabilità
+=== Limiti di Spiegabilità
 <limiti-di-spiegabilità>
 === Alberi Complessi
 <alberi-complessi>
@@ -438,7 +276,7 @@ logistica).
 
 
 
-== Confronto con altri Algoritmi
+=== Confronto con altri Algoritmi
 <confronto-con-altri-algoritmi>
 === Vs. Modelli Lineari (LR, Logistica)
 <vs-modelli-lineari-lr-logistica>
@@ -496,8 +334,3 @@ riduce overfitting su alcuni dataset.
 <conditional-inference-trees>
 Alberi che utilizzano test statistici per la selezione di split, meno
 biased verso feature con più livelli.
-
-
-
-== Prompt
-<prompt>

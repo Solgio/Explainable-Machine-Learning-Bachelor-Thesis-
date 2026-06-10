@@ -203,3 +203,9 @@ decomposition-knowledge-detection:
     date: 2010
     publisher: World Scientific Publishing
     isbn: 981-256-079-3
+
+scikit-docs:
+    type: Web
+    title: "Scikit-learn Documentation"
+    url: https://scikit-learn.org/stable/supervised_learning.html
+    date: 2025
