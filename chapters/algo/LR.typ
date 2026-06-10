@@ -77,22 +77,7 @@ However, in real-world scenarios, these conditions are often violated, leading t
 === Metrics for prediction quality
 <sub:metrics-lr>
 What follows is a list of most relevant metrics for evaluating the predictive performance of linear regression models, based on the task and the data assumptions.
-==== $R^2$ (Determination Coefficient)
-<sub:r-square-coefficient-lr>
-$R^2$ quantifies how much the model explains the total variance of the data. Il ranges from 0 to 1, where 0 is a model that cannot explain the datas and 1 is a perfect adherance.
-
-$ R^2 = 1 - frac(S S E, S S T) $
-
-Where:
-- $S S E = sum_(i = 1)^n \( y^(\( i \)) - hat(y)^(\( i \)) \)^2$ is the sum of squared residuals, quantifying the variance unexplained by the model
-- $S S T = sum_(i = 1)^n \( y^(\( i \)) - macron(y) \)^2$ is the total variance
-
-==== $macron(R)^2$ (Adjusted R²)
-<sub:macron-r-square-lr>
-$R^2$ tends to increase with the number of features, even if those features are not useful. Adjusted R² penalizes the addition of non-informative features.
-
-$ macron(R)^2 = 1 - \( 1 - R^2 \) frac(n - 1, n - p - 1) $
-Where $n$ is the number of instances and $p$ is the number of features.
+For the general metrics see @cap:regression-metrics.
 
 ==== Feature Importance (t-statistic)
 <sub:feature-importance-t-statistic-lr>
@@ -114,19 +99,6 @@ Mallows\'Cp is a model selection metric that balances model fit and complexity, 
 $ C p = frac(S S E, hat(sigma)^2) - n + 2 p $
 
 Where $hat(sigma)^2$ is the estimate of residuals variance of the complete model. It's used to reduce the problem of overfitting, reducing the number of features.
-
-==== #gls("rmse", long: true)
-<sub:rmse-root-mean-squared-error-lr>
-$"RMSE"$ measures the magnitude of the errors, in the same scale as the
-target variable:
-
-$ "RMSE" = sqrt(frac(S S E, n)) $
-
-==== #gls("mae", long: true)
-<sub:mae-mean-absolute-error-lr>
-$"MAE"$ measures the average magnitude of the errors, without considering their direction:
-
-$ "MAE" = 1 / n sum_(i = 1)^n \| y_i - hat(y)_i \| $
 
 === Diagnostic plots
 <sub:diagnostic-plots-lr>

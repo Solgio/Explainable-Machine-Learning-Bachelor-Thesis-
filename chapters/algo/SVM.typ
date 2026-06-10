@@ -91,7 +91,7 @@ The sigmoid kernel resembles the activation function of a neural network and can
 
 === Time complexity
 <sub:time-complexity-svm>
-The time complexity for SVM training is heavily dependent on the different variants of the algorithm and the size of the dataset. In general, the training time complexity is between $O \( n^2 k \)$ and $O \( n^3 k \)$, where $n$ is the number of training samples and $k$ is the number of iterations to convergence. This is because SVM training involves solving a quadratic optimization problem, which can be computationally expensive, especially for large datasets. To make up to the cost bottleneck of kernel use in SVM, various optimizations can be employed. Approximate kernel methods, such as the #gls("nystrom method") method or #gls("random fourier features"), can reduce the computational cost of kernel SVMs by approximating the kernel matrix by sampling a subset of the data or using random Fourier transformations. Additionally, #gls("sequential minimal optimization") breaks down the optimization problem into smaller subproblems that can be solved analytically. 
+The time complexity for SVM training is heavily dependent on the different variants of the algorithm and the size of the dataset. In general, the training time complexity is between $O \( n^2 p \)$ and $O \( n^3 p \)$, where $n$ is the number of training samples and $p$ is the number of features. This is because SVM training involves solving a quadratic optimization problem, which can be computationally expensive, especially for large datasets. To make up to the cost bottleneck of kernel use in SVM, various optimizations can be employed. Approximate kernel methods, such as the #gls("nystrom method") method or #gls("random fourier features"), can reduce the computational cost of kernel SVMs by approximating the kernel matrix by sampling a subset of the data or using random Fourier transformations. Additionally, #gls("sequential minimal optimization") breaks down the optimization problem into smaller subproblems that can be solved analytically. 
 Even with this efficient optimization algorithms, using sophisticated kernels leads to higher computational costs, balancing the better predictive performances.\
 On the other hand, linear SVMs with proper optimization, like #gls("linear programming") or #gls("stochastic gradient descent"), lower the time complexity to $O \( n p \)$, where $p$ is the number of features. This makes linear SVMs more scalable for large datasets, but they are limited to linear patterns.\
 For *inference*, the time complexity is again releted to the kernel function and the number of support vectors, which usually grows with the size of the training set and can be generally between $O \( m p \)$ and $O \( m n \)$, where $m$ is the number of support vectors, while for linear SVMs the inference time complexity is $O \( p \)$, as the prediction is a simple dot product between the input features and the coefficients of the hyperplane.
@@ -131,17 +131,7 @@ Therefore, while SVMs can be powerful for prediction, they may not always be the
 
 === Metrics for prediction quality
 <sub:metrics-svm>
-A large number of metrics used to evaluate the predictive performance of SVMs are the same as for other classification models, such as logistic regression where they were first described in this document. These include:
-
-- #strong[#link(<sub:confusion-matrix-logr>)[Confusion Matrix]:] Showing the number ot correct and incorrect predictions
-- #strong[#link(<sub:accuracy-logr>)[Accuracy:]] $\( T P + T N \) \/ \( T P + T N + F P + F N \)$
-- #strong[#link(<sub:precision-logr>)[Precision:]] $T P \/ \( T P + F P \)$
-- #strong[#link(<sub:sensitivity-recall-logr>)[Recall/Sensitivity:]] $T P \/ \( T P + F N \)$
-- #strong[#link(<sub:specificity-logr>)[Specificity:]] $T N \/ \( T N + F P \)$
-- #strong[#link(<sub:f1-score-logr>)[F1-Score:]] media armonica di Precision e Recall
-- #strong[#link(<sub:roc-curve-auc-logr>)[ROC Curve e AUC:]] trade-off tra TPR e FPR
-
-The following are metrics that are more specific to SVMs.
+The following is a list of SVM specific metrics for evaluating the predictive performance of the model. For the general metrics see @cap:classification-metrics.
 ==== Distance from hyperplane
 <sub:distance-hyperplane-svm>
 This rappresent the most direct measurement of the confidence of the SVM prediction. The distance of a point $x_i$ from the hyperplane is given by:
