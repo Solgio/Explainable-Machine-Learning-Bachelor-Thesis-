@@ -6,7 +6,7 @@
     description: "Field of computer science that focuses on creating systems capable of performing tasks that typically require human intelligence, such as learning, reasoning, problem-solving, and understanding natural language.",
   ),
   (
-    key: "black box",
+    key: "black_box",
     short: "black box",
     long: "Black Box",
     description: "A term used to describe machine learning models that are complex and not easily interpretable, making it difficult to understand how they arrive at their predictions or decisions.",

@@ -94,8 +94,7 @@ An advantage of the decision tree structure is the natural handling of #gls("cat
 === Data assumptions
 <sub:dec-tree-data-assumptions>
 The only assumption of decision trees is that the data can be split based on feature thresholds to create *homogeneous* groups. Unbalanced classes can affect the predictive performance regarding the minority class in favour of a deep tree for the majoritary class.\
-This is a very weak assumption compared to linear models, which require linearity, normality, homoscedasticity, and independence of features. However, it not always possible to satisfy it and sometimes resampling or proportional weighting is needed to address it.
-
+This is a very weak assumption compared to linear models, which require linearity, normality, homoscedasticity, and independence of features. However, it not always possible to satisfy it and sometimes resampling or proportional weighting is needed to address it. Similarly to linear models, decision trees can be affected by multicollinearity, as they tend to prefer one feature over another when they are highly correlated, which can lead to instability in the tree structure and potentially affect the interpretability of the model.\
 
 === Predictive performance and limitations
 <sub:dec-tree-predictive-performance-and-limitations>
@@ -140,197 +139,27 @@ The more a feature is used for splitting and the more it reduces impurity, the h
 
 ==== Path to prediction 
 <sub:dec-tree-path-to-prediction>
-For a single instance is possible to trace the complete path from root to leaf and list all the comparisons (feature \<= threshold) that led to the prediction. This is a #strong[huge advantage for explainability] compared to #gls("black box") models. Every prediction is completely traceable locally.\
+For a single instance is possible to trace the complete path from root to leaf and list all the comparisons (feature \<= threshold) that led to the prediction. This is a #strong[huge advantage for explainability] compared to @black_box:long models. Every prediction is completely traceable locally.\
 ```
-Istanza X predetta come "Sì" perché:
-  - Age <= 35 ✓
-  - Income > 50000 ✓
-  - CreditScore <= 700 ✓
-  → Foglia: Sì (95 istanze, 85 positive)
+Instance: (x1=3.2, x2=1.5, x3=A)
+
+Path to prediction:
+- Node 1: x1 <= 5.5 (True)
+- Node 2: x2 <= 2.0 (True)
+- Node 3: x3 == B (False)
+- Node 4: x3 == A (True)
+
+Prediction: Class 1 (Confidence: 0.8)
 ```
-
-Questo è un #strong[vantaggio enorme per la spiegabilità] rispetto a
-modelli \"scatola nera\". Ogni previsione è completamente tracciabile.
-
-
+This is especially useful in contexts where understanding the reasoning behind a specific prediction is crucial, such as in medical diagnosis or credit scoring. By examining the path to prediction, we can identify which features and thresholds were most influential in the decision-making process for that particular instance, providing insights into the model's behavior and potentially uncovering any biases or issues in the data.
 
 
 === Explainability limitations
-<sub:explainability-limitations-dec-tree>
-=== Overfitting
-<overfitting>
-Il limite #strong[principale] degli alberi di decisione. Senza
-controllo:
+<sub:dec-tree-explainability-limitations-dec-tree>
+The decision trees are generally considered interpretable models, but they have some limitations in terms of explainability too. \ 
+One of the main limitations is that as the tree grows deeper and more complex, it can become difficult to understand the global structure of the model and how different features interact with each other across the entire tree. While it is possible to trace the decision path for a single instance, understanding the overall reasoning process of the model can be challenging when there are many nodes and interactions between features. \
+In the context of correlated features, decision trees can mask the importance of one feature in favor of another, losing valuable insights about the data.
+Additionally, decision trees can be biased towards features with more levels (especially categorical features), which can lead to misleading interpretations of feature importance.
+Finally for regression tasks, the piecewise constant predictions can make it difficult to understand the relationship between features and the target variable, especially when the tree is deep and captures complex interactions.\
+Even with these limitations decision trees still remain _white boxes_ and of easy understanding. 
 
-- L\'albero continua a dividersi fino a quando ogni foglia è pura (una
-  sola classe)
-- Su dataset piccoli, ogni campione potrebbe trovarsi in una foglia
-  propria
-- #strong[Risultato:] R² = 1.0 sul training set, ma pessimo su test set
-
-#strong[Soluzioni:]
-
-- #strong[Pruning:] rimuovere nodi che non migliorano significativamente
-  la generalizzazione
-- #strong[Limiti sulla crescita:] profondità massima, numero minimo di
-  campioni per split, impurità minima per split
-- #strong[Ensemble methods:] Random Forests e Gradient Boosting riducono
-  l\'overfitting combinando più alberi
-
-=== Instabilità
-<instabilità>
-Piccoli cambiamenti nei dati di training possono causare #strong[grandi
-cambiamenti nella struttura dell\'albero]:
-
-- Cambiare 1-2 campioni può portare a split completamente diversi
-- L\'ordine dei campioni non importa, ma la composizione sì (alta
-  varianza)
-
-#strong[Conseguenza:] il modello è difficile da fidarsi se nuovi dati
-sono appena diversi dal training
-
-#strong[Soluzione:] ensemble methods mitigano questo problema
-
-=== Relazioni Lineari
-<relazioni-lineari>
-Su pattern puramente lineari, gli alberi sono #strong[inefficienti]:
-
-Esempio: $y = 2 x_1 + 3 x_2 + 1$
-
-Un albero dovrà creare molti split ortogonali per approssimare la retta:
-
-```
-If x1 <= 5: ...
-  If x2 <= 3: ...
-    If x1 <= 4.5: ...
-      ...
-```
-
-Mentre un modello lineare cattura la relazione con due coefficienti.
-
-#strong[Risultato:] errore più alto, overfitting per compensare
-
-=== Multicollinearità
-<multicollinearità>
-I decision tree sono #strong[meno sensibili] della regressione lineare a
-feature correlate, ma non immuni:
-
-- Tendono a #strong[scegliere una feature] del gruppo correlato (la
-  \"prima\" a ridurre impurità)
-- Ignor le altre, perdendo potenzialmente informazione complementare
-- Se il dataset cambia leggermente, un\'altra feature potrebbe essere
-  scelta, causando instabilità
-
-#strong[Conseguenza:] modelli potenzialmente diversi su dataset simili
-
-
-
-=== Limiti di Spiegabilità
-<limiti-di-spiegabilità>
-=== Alberi Complessi
-<alberi-complessi>
-Un albero con molti nodi (es. 100+ nodi) diventa #strong[difficile da
-interpretare visualmente]:
-
-- Non riesci più a tenere in mente l\'intero modello
-- Le interazioni tra feature, sebbene catturate, non sono evidenti
-- È ancora tracciabile per una singola istanza, ma difficile capire il
-  \"ragionamento globale\" del modello
-
-=== Interazioni tra Feature
-<interazioni-tra-feature>
-L\'albero cattura le interazioni (feature A influenza l\'effetto di
-feature B), ma #strong[non le rende esplicite]:
-
-- Una foglia raggiunta dopo split \[A \<= 5\] → \[B \> 10\] implica
-  un\'interazione
-- Ma non è ovvio dal grafico che A e B interagiscono
-- Per modelli lineari, le interazioni sono esplicite se aggiunte
-  manualmente
-
-=== Bias verso Feature con Più Livelli
-<bias-verso-feature-con-più-livelli>
-I decision tree #strong[tendono a preferire feature categoriche con
-molti valori unici], perché hanno più opportunità di split e quindi di
-ridurre impurità:
-
-Esempio: su dataset con una feature \"Città\" (100 città), l\'albero
-potrebbe scegliere molteplici split su Città, mentre feature numeriche
-continueranno a usare threshold.
-
-#strong[Conseguenza:] un modello che sembra dipendere dalla Città,
-quando in realtà potrebbe essere meno importante di un\'altra feature
-meno \"versatile\".
-
-#strong[Mitigation:] limitare la profondità e usare feature importance
-ponderata.
-
-=== Difficoltà nel Comunicare Probabilità Bassa
-<difficoltà-nel-comunicare-probabilità-bassa>
-Se una foglia predice \"Sì\" ma il 60% dei campioni sono \"No\", la
-confidenza è 0.4.
-
-Comunicare \"il modello dice Sì, ma con confidenza 0.6\" è meno
-intuitivo che dire \"la probabilità stimata è 60%\" (come fa la
-logistica).
-
-
-
-=== Confronto con altri Algoritmi
-<confronto-con-altri-algoritmi>
-=== Vs. Modelli Lineari (LR, Logistica)
-<vs-modelli-lineari-lr-logistica>
-- #strong[Alberi:] catturano non linearità e interazioni, ma complessi e
-  instabili
-- #strong[Lineari:] trasparenti e stabili, ma rigidi
-- #strong[Scelta:] dati con pattern complessi → alberi; dati lineari o
-  quando interpretabilità è critica → modelli lineari
-
-=== Vs. Ensemble Methods (Random Forests, Gradient Boosting)
-<vs-ensemble-methods-random-forests-gradient-boosting>
-- #strong[Singolo albero:] interpretabile, veloce, ma prone a
-  overfitting
-- #strong[Ensemble:] combina più alberi, miglior predizione e stabilità,
-  ma meno interpretabile
-- #strong[Trade-off:] interpretabilità vs accuratezza
-- #strong[Quando usare:] per problemi critici dove performance conta più
-  di interpretabilità → ensemble
-
-=== Vs. SVM (Support Vector Machine)
-<vs-svm-support-vector-machine>
-- #strong[Alberi:] output naturale di classe/probabilità, tracciamento
-  facile
-- #strong[SVM:] output geometrico (margine), \"scatola nera\" per
-  l\'interpretazione
-- #strong[Trade-off:] SVM spesso migliore accuratezza su dati complessi,
-  alberi più interpretabili
-
-=== Vs. Neural Networks
-<vs-neural-networks>
-- #strong[Alberi:] interpretabili, nessun tuning di hyperparameter
-  complicato
-- #strong[Neural Networks:] capacità superiore su dati ad alta
-  dimensionalità, ma \"scatola nera\"
-- #strong[Trade-off:] alberi per dataset piccoli-medi e interpretabilità
-  richiesta; NN per big data e quando l\'interpretabilità non è critica
-
-=== Varianti Specializzate
-<varianti-specializzate>
-==== Alberi Potati
-<alberi-potati>
-Rimozione iterativa di nodi per ridurre overfitting:
-
-- #strong[Cost-Complexity Pruning:] elimina nodi che non riducono
-  significativamente l\'errore
-- #strong[Reduced Error Pruning:] rimuove nodi usando un validation set
-
-==== Extra Trees (Extremely Randomized Trees)
-<extra-trees-extremely-randomized-trees>
-Simile ai Decision Tree, ma sceglie split #strong[casualmente] invece di
-deterministicamente. Veloce su dataset grandi, introduce varianza che
-riduce overfitting su alcuni dataset.
-
-==== Conditional Inference Trees
-<conditional-inference-trees>
-Alberi che utilizzano test statistici per la selezione di split, meno
-biased verso feature con più livelli.
