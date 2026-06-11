@@ -1,132 +1,52 @@
-= Random Forest
+#import "../../appendix/glossarium/terms.typ": terms
+#import "@preview/glossarium:0.5.9": gls
+#import "../../config/thesis-config.typ": side_by_side
+
+
+== Random forest
 <random-forest>
-== Modello
-<modello>
-=== Logica dell\'Algoritmo
-<logica-dellalgoritmo>
-Un #strong[Random Forest] è un #strong[ensemble method] (metodo di
-insieme) che combina #strong[molteplici decision trees] per ottenere una
-previsione finale migliore rispetto a un singolo albero.
+=== Mathematical model
+<sub:rand-for-model> 
+Random forest is an ensamble method that combines multiple decision trees to improve better prediction performance compared to a single tree. In particular, the idea is to address the overfitting and instability problems discussed in @sub:dec-tree-predictive-performance-and-limitations. Exists multiple ways to achieve this. The most common are:
 
-#strong[Idea fondamentale:] ridurre l\'overfitting e l\'instabilità
-degli alberi singoli tramite:
++ #strong[Bootstrap Aggregating (Bagging):] training every tree on a different sample of the dataset
++ #strong[Feature Randomness:] every split consider only a random subset of features
++ #strong[Averaging/Voting:] the single predictions are combined to extract a final prediction using mean (regression) or majority voting (classification)
 
-+ #strong[Bootstrap Aggregating (Bagging):] addestrare ogni albero su un
-  campione bootstrap diverso dei dati
-+ #strong[Feature Randomness:] ad ogni split, considerare solo un subset
-  casuale di feature
-+ #strong[Averaging/Voting:] combinare le previsioni di tutti gli alberi
-  (media per regressione, majority voting per classificazione)
+This three techniques are backed by the idea of #strong[diversity] among the trees.\
+A single tree is a high-variance model, so by combining many different trees, we can reduce the variance and improve the generalization performance.
+$ upright("Var") \( macron(X) \) = frac(upright("Var") \( X \), T) $
+If the trees were completely independent, the variance of the mean would decrease by a factor of $T$ (number of trees). In practice they are not independent because the features considered are the same, so the reduction is less, but still significant.\
+The feature randomness further de-correlates the trees by forcing the trees to learn different dependencies between features. If they were all using the same features, even with different samples, they would still tend to choose the same splits.\
+The resulting process is: 
+```
+1. For each tree t in 1 to T (number of trees, usually 100-1000):
+   a. Create a bootstrap dataset D_t by sampling n instances with replacement from the original data
+   b. Train a decision tree on D_t with the following constraints:
+      - At each node, consider only m_try = sqrt(p) features (classification) or m_try = p / 3 (regression)
+      - Grow the tree fully (no pruning) until purity (overfitting is OK, will be mitigated by bagging)
 
-=== Procedura di Training
-<procedura-di-training>
-+ #strong[Per ogni albero $t$ da 1 a $T$ (numero di alberi, solitamente
-  100-1000):]
-
-  a. Creare un #strong[dataset bootstrap] $D_t$ campionando $n$ istanze
-  #strong[con reinserimento] dai dati originali
-
-  b. Addestrare un #strong[decision tree] su $D_t$ con i seguenti
-  vincoli:
-
-  - Ad ogni nodo, considerare solo $m_(upright("try")) = sqrt(p)$
-    feature (per classificazione) o $m_(upright("try")) = p \/ 3$ (per
-    regressione)
-  - Crescere l\'albero #strong[completamente] (senza potatura) fino a
-    purezza (overfitting è OK, verrà mitigato dal bagging)
-
-+ #strong[Per la previsione:]
-
-  - #strong[Classificazione:] far votare tutti gli alberi → classe
-    finale = moda (più frequente)
-  - #strong[Regressione:] far predire tutti gli alberi → valore finale =
-    media
-
-=== Motivazione Teorica
-<motivazione-teorica>
-#strong[Perché il Bagging funziona?]
-
-Se abbiamo un modello con varianza alta (come un albero singolo),
-combinare molti modelli indipendenti (addestrati su dataset diversi)
-#strong[riduce la varianza]:
-
-$ upright("Var") \( macron(X) \) = frac(upright("Var") \( X \), N) $
-
-Se gli alberi fossero completamente indipendenti, la varianza della
-media calerebbe di un fattore di $T$ (numero di alberi). In pratica non
-sono indipendenti (correlati perché addestrati sugli stessi dati),
-quindi la riduzione è minore, ma comunque significativa.
-
-#strong[Perché la Randomness nelle Feature?]
-
-Il termine $m_(upright("try"))$ introduce #strong[de-correlazione] tra
-gli alberi:
-
-- Se usassero tutte le feature, tutti gli alberi farebbero gli stessi
-  split iniziali (molto correlati)
-- Considerando solo $sqrt(p)$ feature casuali, alberi diversi imparano
-  dipendenze diverse → sono meno correlati
-- Alberi meno correlati → riduzione della varianza nel voting
-
-
-
-== Complessità Computazionale
-<complessità-computazionale>
-=== Training
-<training>
+2. For prediction:
+   - Classification: let all trees vote → final class == mode (most frequent)
+   - Regression: let all trees predict → final value = mean of predictions
+```
+=== Time complexity
+<sub:rand-for-time-complexity>
+The time complexity of Random forest is obviously based on the time complexity of training and inference of a single decision tree, multiplied by the number of trees $T$ (@sub:dec-tree-time-complexity).
 $ O \( T dot.op n log \( n \) dot.op p \) $
 
-Dove:
-
-- $T$ = numero di alberi (solitamente 100-1000, quindi fattore
-  significativo)
-- $n$ = numero di osservazioni
-- $log \( n \)$ = profondità media di un albero bilanciato (senza
-  potatura)
-- $p$ = numero di feature (ma con feature randomness, solo $sqrt(p)$
-  considerate)
-
-#strong[Spiegazione:]
-
-- Per ogni albero ($T$ iterazioni):
-  - Creare bootstrap: $O \( n \)$
-  - Trainare albero: $O \( n log \( n \) dot.op m_(upright("try")) \)$
-    dove $m_(upright("try")) = sqrt(p)$ →
-    $O \( n log \( n \) sqrt(p) \)$
-- #strong[Total:] $O \( T dot.op n log \( n \) sqrt(p) \)$
-
-=== Parallelizzazione
-<parallelizzazione>
-Random Forest è #strong[intrinsecamente parallelizzabile]:
-
-- Ogni albero è indipendente → addestrare su processori diversi
-- Con $K$ processori, speedup ≈ $K$ (idealmente)
-- Pratica standard: usare tutti i core disponibili
-
-=== Inference (Previsione)
-<inference-previsione>
+Where $n$ is the number of observation and $p$ is the number of features. Note that the feature randomness reduces the effective number of features considered.
+If at first impact the time complexity seems high, it is important to consider that the training of multiple trees can be easily parallelized, cutting down effectively the training time.
+For *inference*, the time complexity again depends on the time complexity of the single tree, multiplied by $T$:
 $ O \( T dot.op d \) $
+Where $d$ is the average depth of a tree which for unpruned trees, $d approx log \( n \)$ in the average case and n in the worst case (completely unbalanced tree). Usually what is preferred, is to have fast inference models but that can be trained for a long time, so the training time is not a big issue, while the inference time is more critical. In this case, Random forest is a good compromise, as it is slower than a single tree but still efficient enough for most applications.
 
-Dove $d$ è la #strong[profondità media di un albero].
+=== Spacial complexity
+<sub:rand-for-spacial-complexity>
+The space complexity of Random forest takes in account the sapce needed to store the $m$ samples and $p$ feaures during training, for a total spacial complexity of $O(m dot.op p)$. Once the training is completed, the space complexity is determined by the number of trees and the size of each tree. 
+$ O \( T dot.op n\) $
 
-Per alberi non potati, $d approx log \( n \)$, quindi:
-
-$ O \( T log \( n \) \) $
-
-#strong[Confronto con singolo albero:] $O \( log \( n \) \)$ vs
-$O \( T log \( n \) \)$ --- inference è più lenta di un albero singolo,
-ma comunemente accettabile.
-
-=== Memoria
-<memoria>
-$ O \( T dot.op n dot.op d \) $
-
-Memorizzare $T$ alberi, ognuno con $O \( n \)$ nodi nel peggiore
-(completo):
-
-Per alberi bilanciati: $O \( T dot.op n \)$ (lineare in $T$).
-
-=== Scalabilità: Conclusioni
+==== Scalabilità: Conclusioni
 <scalabilità-conclusioni>
 #strong[Vantaggi:]
 
@@ -145,31 +65,21 @@ compromessi tra performance e scalabilità, secondo solo ai metodi
 gradient-based (Gradient Boosting, LightGBM) per dataset molto grandi.
 
 
-
-== Rappresentazione Interna
-<rappresentazione-interna>
-=== Struttura del Modello
-<struttura-del-modello>
-Un Random Forest è rappresentato come:
-
+=== Internal representation
+<sub:rand-for-internal-representation>
+A Random forest is represented as a list of trees, each of which is a complete decision tree.
 ```
-Forest = [Tree_1, Tree_2, ..., Tree_T]
+Forest == [Tree_1, Tree_2, ..., Tree_T]
 
-Dove ogni Tree_i è un Decision Tree completo (no pruning)
+Each tree is:
+Node(feature=x1, threshold=5.5, left=Node(...), right=Node(...))
 ```
-
-Internamente:
-
-- #strong[T alberi indipendenti], ognuno con una struttura ricorsiva
-  (nodo → split → figli)
-- #strong[Ogni albero ha:] feature indice, threshold, puntatori ai
-  figli, predizioni nelle foglie
-
-=== Implicazioni per la Spiegabilità
+For *explainability*, the internal representation is a more complex and obscure structure compared to a single decision tree. It becomes difficult to understand the overall decision process of the forest, as it is an aggregation of many trees. Even the local explanation of a  signle prediction is much more opaque for the same reason. A single tree can still be visualized and interpreted, for example by choosing the one that better explains a specific prediction, but the overall model remains of little interpretability.
+==== Implicazioni per la Spiegabilità
 <implicazioni-per-la-spiegabilità>
 #strong[Contro:]
 
-- #strong[Molto opaco globalmente:] con T = 100-500 alberi, è
+- #strong[Molto opaco globalmente:] con T == 100-500 alberi, è
   impossibile ispezionare manualmente il modello completo
 - #strong[Difficile tracciare ragionamento:] non puoi seguire una
   singola catena di decisioni (ci sono 100 catene parallele)
@@ -192,594 +102,74 @@ Internamente:
   interpretabilità per feature
 - #strong[SVM:] completamente opaco, nessuna feature importance naturale
 
+=== Data assumptions
+<sub:rand-for-data-assumptions>
+As described in @sub:dec-tree-data-assumptions, Decision Trees make very few assumptions about the data, and Random Forest inherits this property. In particular, Random Forest only assumes that the data is representative of the underlying distribution and that the features have some predictive power.\ This is particularly important thinking about the bagging process, as the random sampling of the data must be representative to ensure that the trees learn meaningful patterns. Stratification in consequently needed to enable the trees to predict effectively.
 
 
-== Vincoli sui Dati
-<vincoli-sui-dati>
-=== Nessuna Assunzione Strutturale
-<nessuna-assunzione-strutturale>
-Come Decision Trees singoli, Random Forest #strong[non ha assunzioni]
-su:
+=== Predictive performance and limitations
+<sub:rand-for-predictive-performance-and-limitations>
+The ensamble nature of Random Forest allows it to achieve excellent predictive performance, tackling the overfitting and instability problems of a single tree.
+At the same time it inherits the ability to capture complex patterns and interaction between features, as well as naturally handling both numerical and #gls("categorical_features").\
+However, it has its own limitations. It is still sensitive to feature dominance especially for categorical features with many categories. Moreover, it is not a good choice for purely linear data, where a simple linear model would achieve better performance.\
+The use of many trees also makes it more computationally and memory intensive. This is paired with a higher number of hyperparameters, for example the number of trees, the dimension of the random feature subset, in addition to the tree depth and minimum samples per split. If not tuned properly, the performance can be significantly reduced.\
+Finally, the output of a Random Forest is a probability (fraction of trees that vote for a class), which is not well calibrated as in Logistic Regression, so it may not reflect true confidence in the prediction.
+To summarize, the main improvements of Random forest, better stability and lower variance, come at the cost of computational complexity and still maintains some limitation with linear data, feature dominance and class imbalance.
 
-- Linearità
-- Normalità
-- Omoschedasticità
-- Indipendenza (relativa)
+=== Metrics for prediction quality
+<sub:rand-for-metrics>
+To evaluate the predictive performance of Random forest, we can use both general metrics for classification and regression, as well as specific metrics that take advantage of the tree structure and ensemble nature. For the common metrics, see @cap:classification-metrics(Classification) and @cap:regression-metrics(Regression).\
 
-=== Bilanciamento delle Classi
-<bilanciamento-delle-classi>
-Random Forest eredita il problema dei Decision Trees per #strong[classi
-sbilanciate]:
+==== Class probability (Voting)
+<sub:rand-for-class-probability-voting>
+Random forest naturally produces a class probability for classification, based on the fraction of trees that vote for each class:
+$ P \( y == k \) = frac(upright("number of trees that vote for class") k, T) $
+This probability can be used to evaluate the confidence of the prediction, but as mentioned before, it is not well calibrated, so it should be used with caution. For calibrated probabilities, post-hoc methods like Platt scaling or isotonic regression can be applied.
 
-- Il voting del majority può favorire la classe maggioritaria
-- Su dataset 95% negativi / 5% positivi, il modello potrebbe predire
-  sempre negativo
+==== Out-of-Bag (OOB) Error
+<sub:rand-for-out-of-bag-oob-error>
+OOB error is a unique metric for Random Forest that provides an estimate of the generalization error without the need for a separate validation set. During training, each tree is trained on a bootstrap sample of the data, which means that some instances are left out (out-of-bag). These OOB instances can be used to test the performance of the tree on unseen data. The OOB error is calculated as the average error of the predictions made by the trees on their respective OOB instances:
 
-#strong[Soluzioni:]
-
-- #strong[Class weights:] pesi inversi alla frequenza per ogni albero
-- #strong[Stratified bootstrap:] assicurare che ogni bootstrap mantenga
-  la proporzione di classi
-- #strong[Threshold tuning:] non usare 50% come confine, usare una
-  soglia ottimale
-
-=== Feature di Tipi Diversi
-<feature-di-tipi-diversi>
-Random Forest gestisce #strong[feature categoriche e numeriche]
-naturalmente:
-
-- Non richiede encoding (come LR, LogR)
-- Split su feature categoriche sono gestiti automaticamente
-- Nessun vincolo di scala (a differenza di SVM)
-
-=== Nessun Vincolo sulla Multicollinearità
-<nessun-vincolo-sulla-multicollinearità>
-A differenza di LR/LogR, Random Forest #strong[non è sensibile a
-multicollinearità]:
-
-- Se due feature sono correlate, l\'albero semplicemente ne usa una
-- Non causa instabilità come nei modelli lineari
-
-
-
-== Capacità Predittive
-<capacità-predittive>
-=== Punti di Forza
-<punti-di-forza>
-+ #strong[Eccellente Performance su Dati Reali]
-
-  - Spesso outperform molti altri algoritmi su dataset variegati
-  - Cattura pattern non lineari e interazioni naturalmente
-
-+ #strong[Robusto a Outlier e Rumore]
-
-  - Gli outlier influenzano alcuni alberi, non tutti
-  - Voting/averaging mitiga l\'impatto
-
-+ #strong[Gestisce Pattern Complessi]
-
-  - Interazioni tra feature
-  - Feature categoriche e numeriche miste
-  - Relazioni non monotone
-
-+ #strong[Riduce Overfitting dei Singoli Alberi]
-
-  - Bagging + feature randomness mitiga fortemente l\'instabilità
-  - Più stabile di un singolo albero
-
-+ #strong[Feature Importance Nativa]
-
-  - Misura diretta dell\'importanza di ogni feature
-  - Utile per feature selection e interpretazione
-
-+ #strong[Scalabilità]
-
-  - Parallelizzabile
-  - Gestisce dataset grandi
-
-=== Punti di Debolezza
-<punti-di-debolezza>
-+ #strong[Interpretabilità Scarsa Globalmente]
-
-  - Con 100-500 alberi, è impossibile ispezionare il modello
-  - Black box dal punto di vista dell\'interpretazione globale
-
-+ #strong[Sensibilità a Feature Dominanti]
-
-  - Se una feature ha molte categorie, l\'albero può over-splitarvi
-  - Bias verso feature ad alta cardinality (come DT singolo)
-
-+ #strong[Memoria e Tempo di Inference]
-
-  - Più lento di un singolo albero o di modelli lineari
-  - Memoria proporzionale a T × dimensioni albero
-
-+ #strong[Hyperparameter Tuning]
-
-  - Parametri principali: T (numero alberi), max\_depth,
-    min\_samples\_split, m\_try
-  - Tuning male = performance ridotta
-
-+ #strong[Predizione Non Probabilistica per Classificazione]
-
-  - Output è probabilità (frazione di alberi che votano classe) --- non
-    calibilata come LogR
-
-
-
-== Metriche per la Confidenza
-<metriche-per-la-confidenza>
-=== Metriche di Classificazione Standard
-<metriche-di-classificazione-standard>
-Stesse metriche di altri classificatori:
-
-- #strong[Confusion Matrix:] TP, TN, FP, FN
-- #strong[Accuracy:] $\( T P + T N \) \/ \( T P + T N + F P + F N \)$
-- #strong[Precision:] $T P \/ \( T P + F P \)$
-- #strong[Recall/Sensitivity:] $T P \/ \( T P + F N \)$
-- #strong[Specificity:] $T N \/ \( T N + F P \)$
-- #strong[F1-Score:] media armonica di Precision e Recall
-- #strong[ROC Curve e AUC:] trade-off tra TPR e FPR
-
-=== Probabilità di Classe (Voting)
-<probabilità-di-classe-voting>
-Random Forest produce naturalmente #strong[probabilità della classe] per
-classificazione:
-
-$ P \( y = k \) = frac(upright("numero di alberi che votano classe ") k, T) $
-
-#strong[Interpretazione:]
-
-- Se 80 su 100 alberi votano \"Positivo\", $P \( y = 1 \) = 0.80$
-- Questa è una #strong[stima di confidenza] della previsione
-
-#strong[Caveat:] queste probabilità non sono ben calibrate (non
-riflettono accuratezza vera come in LogR). Per probabilità calibrate,
-usare Platt scaling o isotonic regression post-hoc.
-
-=== Out-of-Bag (OOB) Error
-<out-of-bag-oob-error>
-Misura di validazione #strong[gratuita] senza validation set separato:
-
-Per ogni istanza di training, gli alberi addestrati su bootstrap che
-#strong[non contengono] quell\'istanza (out-of-bag) la predicono. OOB
-error = errore medio su queste predizioni.
-
-$ upright("OOB Error") = 1 / n sum_(i = 1)^n bb(1) \[ upright("predizione OOB")_i eq.not y_i \] $
-
+$ upright("OOB Error") == 1 / n sum_(i == 1)^n bb(1) \[ upright("OOB")_i eq.not y_i \] $
 #strong[Vantaggi:]
 
-- Stima di generalizzazione senza bisogno di validation set
-- Correlato con test error (anche se non identico)
-- Utile per tuning di hyperparameter
+=== Explainability and interpretability metrics
+<sub:rand-for-metrics-for-interpretability>
+The use of plots and explainability oriented metrics can help to understand the behaviour of the ensamble, provinding a better insight on how the prediction are made.
 
-=== Metriche di Regressione
-<metriche-di-regressione>
-Per regressione:
+==== Feature importance (Average impurity)
+<sub:rand-for-feature-importance-average-impurity>
+Random Forest provides a natural way to measure feature importance based on the reduction of impurity (Information Gain) across all trees. The importance of a feature is calculated as the average reduction in impurity that it provides when it is used for splitting, averaged over all trees in the forest:
+$ upright("Importance")_j == 1 / T sum_(t == 1)^T sum_(upright("nodes in which the feature ") j upright("plits")) upright("IG")_(t \, upright("node")) $
+Where $upright("IG")$ is the information gain (reduction in impurity) provided by the split on that feature at that node. This metric allows us to identify which features are most important for the predictions made by the Random Forest, and can be used for feature selection or for communicating the importance of features to non-experts, especially if visualized using bar plots.\
 
-- #strong[Mean Squared Error (MSE):] $1 / n sum \( y_i - hat(y)_i \)^2$
-- #strong[Root Mean Squared Error (RMSE):] $sqrt(M S E)$
-- #strong[Mean Absolute Error (MAE):] $1 / n sum \| y_i - hat(y)_i \|$
-- #strong[R²:] frazione di varianza spiegata
-- #strong[OOB RMSE:] alternativa a cross-validation
+#figure(
+        image("../../images/plots/feature-importance-impurity.png", alt: "Feature importance plot"),
+        caption: "Feature importance plot of a random forest model."
+      )
 
 
+==== Feature Importance (Permutation-Based)
+<sub:rand-for-feature-importance-permutation-based>
+An alternative to the impurity based method is the permutation. The idea is to randomly permute the value of a feature in the test data, measuring the degradation in performance. If the performance degrades significantly, it means that the feature is important for the model.\
 
-== Metriche per la Comprensione e Spiegabilità
-<metriche-per-la-comprensione-e-spiegabilità>
-=== 1. Feature Importance (Impurità Media)
-<1-feature-importance-impurità-media>
-La metrica più importante di Random Forest per l\'interpretazione:
-
-$ upright("Importance")_j = 1 / T sum_(t = 1)^T sum_(upright("nodi dove feature ") j upright(" fa split")) upright("IG")_(t \, upright("nodo")) $
-
-Dove $upright("IG")$ è l\'#strong[information gain] (riduzione di
-impurità).
-
-#strong[Interpretazione:]
-
-- Feature con importanza alta contribuiscono molto alle decisioni
-- Ordinare per importanza identifica le feature più rilevanti
-- Utile per feature selection e comunicazione ai non-esperti
-
-#strong[Visualizzazione:] bar plot di feature ordinate per importanza.
-
-=== 2. Feature Importance (Permutation-Based)
-<2-feature-importance-permutation-based>
-Alternativa al metodo di impurità:
-
-- Permutare casualmente una feature nei dati di test
-- Misurare il degrado in performance
-- Grandi degradi = feature importante
-
-#strong[Vantaggio:] meno biased verso feature ad alta cardinality (come
-il metodo di impurità).
-
-=== 3. Partial Dependence Plot (PDP)
-<3-partial-dependence-plot-pdp>
+==== Partial Dependence Plot (PDP)
+<sub:rand-for-partial-dependence-plot-pdp>
+Shows the marginal effect of a feature on the predicted outcome, averaging out the effects of all other features. It helps to understand how the model's predictions change as a specific feature varies, while keeping other features constant.
 Mostra come la previsione media varia al variare di una feature:
 
-$ upright("PDP")_j \( x_j \) = 1 / n sum_(i = 1)^n hat(f) \( x_j \, x_(- j)^(\( i \)) \) $
-
-Dove $x_(- j)^(\( i \))$ sono i valori di altre feature dall\'istanza i,
-mantenendo $x_j$ fisso.
-
-#strong[Visualizzazione:] linea o curva che mostra l\'effetto della
-feature sulla previsione.
-
-#strong[Caveat:] se la feature è correlata con altre, l\'effetto può
-essere spurio.
-
-=== 4. Individual Conditional Expectation (ICE) Plot
-<4-individual-conditional-expectation-ice-plot>
-Versione per-istanza di PDP:
-
-- Mostrare come la previsione cambia al variare di una feature per
-  singoli campioni
-- Linee per campione (invece che media su tutti)
-
-#strong[Utilità:] capire se l\'effetto di una feature è uniforme o varia
-tra istanze.
-
-=== 5. SHAP (SHapley Additive exPlanations)
-<5-shap-shapley-additive-explanations>
-Metodo avanzato per spiegabilità:
-
-- Assegnare ogni output tra le feature usando valori Shapley dalla
-  teoria dei giochi
-- Applicabile a qualsiasi modello
-- Produce spiegazioni teoricamente fondate
-
-#strong[Vantaggio:] considerare interazioni e correlazioni tra feature.
-
-=== 6. Single Tree Extraction
-<6-single-tree-extraction>
-Per una previsione specifica:
-
-- Estrarre il singolo albero che ha la maggiore \"responsabilità\" della
-  previsione
-- Mostrare il cammino dalla radice alla foglia di quell\'albero
-- Comunicare il ragionamento tramite quello specifico albero
-
-#strong[Limite:] può essere fuorviante perché ignora il contributo degli
-altri alberi.
-
-
-
-== Limiti di Predizione
-<limiti-di-predizione>
-=== Sensibilità a Feature Dominanti
-<sensibilità-a-feature-dominanti>
-Come Decision Trees, Random Forest tende a preferire feature con
-#strong[molte categorie o valori unici]:
-
-- Feature categoriche con 100 valori vs feature numerica continua
-- Questo bias persiste anche con feature randomness
-
-#strong[Mitigazione:] usare permutation-based feature importance, che è
-meno biased.
-
-=== Difficoltà con Dati Molto Sbilanciati
-<difficoltà-con-dati-molto-sbilanciati>
-Se le classi sono estremamente sbilanciate (99% vs 1%):
-
-- Il majority voting favorisce la classe maggioritaria
-- Accuratezza può essere alta ma recall sulla classe rara bassa
-
-#strong[Mitigazione:] usare class weights, stratified bootstrap, o
-threshold tuning.
-
-=== Scarsa Extrapolazione
-<scarsa-extrapolazione>
-Random Forest è un #strong[interpolatore locale]:
-
-- Non può predire valori significativamente fuori dal range di training
-- Per regressione, le predizioni rimangono nel range dei dati di
-  training
-- Non adatto per trend/trend extrapolation
-
-=== Performance su Feature Numeriche Pure
-<performance-su-feature-numeriche-pure>
-Su dataset con solo feature numeriche e pattern lineare, modelli lineari
-(LR) superano spesso Random Forest:
-
-- RF \"impara\" la linearità tramite molti split ortogonali →
-  inefficiente
-- LR cattura la linearità con pochi parametri
-
-=== Sensibilità a Iperparametri
-<sensibilità-a-iperparametri>
-Sebbene meno sensibile di SVM, Random Forest ha iperparametri critici:
-
-- #strong[T (numero alberi):] troppo pochi = underfitting; non ha limite
-  superiore strict
-- #strong[max\_depth:] alberi troppo profondi = overfitting; troppo poco
-  profondi = underfitting
-- #strong[min\_samples\_split:] controlla quando smettere di splittare
-- #strong[m\_try (feature per split):] influenza la diversità tra alberi
-
-
-
-== Limiti di Spiegabilità
-<limiti-di-spiegabilità>
-=== Opacità Globale
-<opacità-globale>
-Con T = 100-500 alberi:
-
-- #strong[Impossibile ispezionare manualmente] il modello completo
-- Non puoi tracciare una singola sequenza di decisioni (ce ne sono T
-  parallele)
-- Il modello rimane una #strong[\"scatola nera\"] per la maggior parte
-  degli utenti
-
-#strong[Contrasto con DT singolo:] un albero piccolo è completamente
-trasparente; un RF non lo è.
-
-=== Interpretazione di Feature Importance Ambigua
-<interpretazione-di-feature-importance-ambigua>
-Feature importance (impurità) conta quante volte una feature fa split,
-non necessariamente quanto sia causale:
-
-- Una feature correlata ad un\'altra può avere bassa importanza se
-  l\'altra è splittata per prima
-- Importanza non implica causalità
-
-#strong[Soluzione:] usare permutation-based importance (meno biased) o
-SHAP.
-
-=== Interazioni Non Esplicite
-<interazioni-non-esplicite>
-Random Forest cattura interazioni automaticamente (feature A influenza
-come feature B splitta), ma:
-
-- Le interazioni rimangono implicite nella struttura dell\'albero
-- Difficile comunicare \"feature A e B interagiscono così\"
-
-#strong[Soluzione:] usare SHAP per analizzare interazioni specifiche.
-
-=== Dipendenza da Iperparametri
-<dipendenza-da-iperparametri>
-La spiegazione fornita da feature importance dipende da:
-
-- max\_depth (alberi più profondi = più split su feature rare)
-- m\_try (feature randomness influenza quali feature sono considerate)
-- T (più alberi = più stabile, meno varianza)
-
-Se si cambia iperparametri, feature importance cambia → spiegazione non
-è robusta.
-
-=== Difficoltà di Spiegazione per Non-Esperti
-<difficoltà-di-spiegazione-per-non-esperti>
-Comunicare il risultato di RF a un non-esperto richiede:
-
-- Tradurre \"feature importance\" in linguaggio intuitivo
-- Evitare di mostrare 100 alberi
-- Usare visualizzazioni (SHAP, PDP) per semplificare
-
-
-
-== Confronto con altri Algoritmi
-<confronto-con-altri-algoritmi>
-=== Vs. Decision Tree Singolo
-<vs-decision-tree-singolo>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [DT Singolo], [Random Forest],),
-    table.hline(),
-    [#strong[Interpretabilità]], [⭐⭐⭐⭐⭐ Altissima], [⭐⭐ Bassa],
-    [#strong[Overfitting]], [⭐⭐⭐⭐⭐ (alto)], [⭐ (basso, mitigato)],
-    [#strong[Stabilità]], [⭐ (instabile)], [⭐⭐⭐⭐⭐ (stabile)],
-    [#strong[Performance]], [⭐⭐⭐ Media], [⭐⭐⭐⭐⭐ Eccellente],
-    [#strong[Scalabilità]], [⭐⭐⭐⭐ Buona], [⭐⭐⭐⭐ Buona
-    (parallelizzabile)],
-    [#strong[Quando usare]], [Max interpretabilità], [Quando performance
-    conta],
-  )]
-  , kind: table
-  )
-
-=== Vs. Logistic Regression
-<vs-logistic-regression>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [LogR], [Random Forest],),
-    table.hline(),
-    [#strong[Interpretabilità]], [⭐⭐⭐⭐ Alta], [⭐⭐ Bassa],
-    [#strong[Performance Dati Lineari]], [⭐⭐⭐⭐⭐ Eccellente], [⭐⭐
-    Inefficiente],
-    [#strong[Performance Dati Non-Lineari]], [⭐ Scarsa], [⭐⭐⭐⭐⭐
-    Eccellente],
-    [#strong[Feature Categoriche]], [⭐ (richiede
-    encoding)], [⭐⭐⭐⭐⭐ Naturale],
-    [#strong[Quando usare]], [Pattern lineare +
-    interpretabilità], [Pattern complesso, features miste],
-  )]
-  , kind: table
-  )
-
-=== Vs. SVM
-<vs-svm>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [SVM], [Random Forest],),
-    table.hline(),
-    [#strong[Scalabilità]], [⭐⭐ Scarsa O(n³)], [⭐⭐⭐⭐ Buona],
-    [#strong[Performance]], [⭐⭐⭐⭐ Buona], [⭐⭐⭐⭐⭐ Spesso
-    migliore],
-    [#strong[Interpretabilità]], [⭐⭐ Scarsa], [⭐⭐ Scarsa],
-    [#strong[Hyperparameter Tuning]], [⭐⭐ Sensibile], [⭐⭐⭐ Meno
-    sensibile],
-    [#strong[Feature Importance]], [❌ No naturale], [✅ Sì, nativo],
-    [#strong[Quando usare]], [Dati piccoli/medi stabili], [Dati grandi,
-    performance critica],
-  )]
-  , kind: table
-  )
-
-=== Vs. Gradient Boosting
-<vs-gradient-boosting>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [Gradient Boosting], [Random Forest],),
-    table.hline(),
-    [#strong[Performance]], [⭐⭐⭐⭐⭐ Spesso migliore], [⭐⭐⭐⭐
-    Buona],
-    [#strong[Velocità Training]], [⭐⭐ Lenta (sequenziale)], [⭐⭐⭐⭐
-    Veloce (parallela)],
-    [#strong[Hyperparameter Tuning]], [⭐ Difficile (molti
-    parametri)], [⭐⭐⭐ Più semplice],
-    [#strong[Risk Overfitting]], [⭐⭐ Alto], [⭐ Basso],
-    [#strong[Quando usare]], [Massima performance (con
-    tuning)], [Performance buona, implementazione semplice],
-  )]
-  , kind: table
-  )
-
-=== Vs. Neural Networks
-<vs-neural-networks>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [Neural Networks], [Random Forest],),
-    table.hline(),
-    [#strong[Capacità]], [⭐⭐⭐⭐⭐ Illimitata], [⭐⭐⭐⭐ Molto
-    buona],
-    [#strong[Dati Necessari]], [⭐ Molto (milioni)], [⭐⭐⭐⭐ Meno
-    (migliaia)],
-    [#strong[Feature Importance]], [❌ Molto difficile], [✅ Nativa],
-    [#strong[Interpretabilità]], [⭐ Nessuna], [⭐⭐ Poca],
-    [#strong[Training]], [⭐⭐ Lungo, GPU-friendly], [⭐⭐⭐ Veloce,
-    CPU],
-    [#strong[Quando usare]], [Big data, no interpretabilità], [Medium
-    data, need feature importance],
-  )]
-  , kind: table
-  )
-
-
-
-== Varianti e Estensioni
-<varianti-e-estensioni>
-=== 1. Extra Trees (Extremely Randomized Trees)
-<1-extra-trees-extremely-randomized-trees>
-Simile a Random Forest, ma con maggiore randomness:
-
-- Split threshold è #strong[casuale] (non cerca il miglior threshold)
-- Meno computazionalmente costoso (no search del threshold)
-- Spesso produce alberi meno profondi e più generali
-- Trade-off: performance leggermente minore, ma velocità molto maggiore
-
-=== 2. Gradient Boosting (XGBoost, LightGBM, CatBoost)
-<2-gradient-boosting-xgboost-lightgbm-catboost>
-Evoluzione sequenziale di Random Forest:
-
-- Anziché addestrare alberi in parallelo (indipendenti), li addestra in
-  #strong[sequenza]
-- Ogni albero corregge gli errori del precedente
-- Spesso outperform RF, ma richiede tuning più accurato
-- Più lento per training ma spesso migliore in performance
-
-=== 3. Isolation Forest
-<3-isolation-forest>
-Specializzato per #strong[anomaly detection]:
-
-- Alberi costruiti per isolare anomalie (non per classificazione
-  regolare)
-- Anomalie sono isolate in meno split rispetto a punti normali
-- Veloce e efficiente per alta dimensionalità
-
-=== 4. Random Forest per Regressione
-<4-random-forest-per-regressione>
-Applica la stessa logica ma:
-
-- Predizione finale è #strong[media] (non voting)
-- Feature importance basata su riduzione MSE (non impurità)
-- Output naturalmente continuo
-
-
-
-== Raccomandazioni Pratiche
-<raccomandazioni-pratiche>
-=== Quando Usare Random Forest
-<quando-usare-random-forest>
-✅ #strong[Ottime scelte:]
-
-- Dataset di qualsiasi taglia (piccolo a medio)
-- Pattern non lineari e complessi
-- Necessità di feature importance
-- Features miste (categoriche e numeriche)
-- Quando interpretabilità non è critica ma performance sì
-
-❌ #strong[Cattive scelte:]
-
-- Massima interpretabilità richiesta (es. medicina regolata, finanza)
-- Dati puramente lineari (LR è più efficiente)
-- Inferenza in real-time su devices con risorse limitate (T alberi è
-  lento)
-- Quando è critico capire il \"perché\" di ogni singola previsione
-
-=== Hyperparameter Tuning Consigliato
-<hyperparameter-tuning-consigliato>
-+ #strong[Numero di alberi (n\_estimators):]
-
-  - Iniziare con 100-200
-  - Aumentare fino a quando OOB error non migliora
-  - Diminishing returns dopo 500-1000
-
-+ #strong[Profondità massima (max\_depth):]
-
-  - Iniziare senza limite (None), poi ridurre se overfitting
-  - Tipicamente: 10-20 per dataset di taglia media
-
-+ #strong[Min samples per split (min\_samples\_split):]
-
-  - Default: 2 (troppo aggressivo)
-  - Provare: 5, 10, 20
-  - Aumentare per ridurre overfitting
-
-+ #strong[Feature per split (max\_features):]
-
-  - Classification: sqrt(p) (default, di solito ottimale)
-  - Regressione: p/3 (default)
-  - Provare: \'auto\', \'sqrt\', \'log2\'
-
-+ #strong[Class weights (se classi sbilanciate):]
-
-  - \'balanced\' per pesi automatici (inversi alla frequenza)
-
-=== Miglior Pratica di Validazione
-<miglior-pratica-di-validazione>
-```
-1. Dividere in train (70-80%), test (20-30%)
-2. Training su train set con OOB error per validazione interna
-3. Validare su test set separato
-4. Cross-validation (5-10 fold) per più stabilità
-```
-
-=== Feature Engineering
-<feature-engineering>
-Random Forest è #strong[resistente a feature engineering scadente]:
-
-- Non richiede scaling
-- Gestisce feature categoriche automaticamente
-- Non sensibile a feature correlate
-
-Quindi focus su:
-
-- Feature relevance (sono importanti per il problema?)
-- Feature nuove (es. interazioni derivate manualmente) se performance
-  non è suffisiente
-
-
-
-== Prompt
-<prompt>
+$ upright("PDP")_j \( x_j \) == 1 / n sum_(i == 1)^n hat(f) \( x_j \, x_(- j)^(\( i \)) \) $
+
+Where $x_(- j)^(\( i \))$ are the values of the other features from instance $i$, keeping $x_j$ fixed.
+Notice that if the features are correlated the effect could be misleading.
+
+==== Individual Conditional Expectation (ICE) Plot
+<sub:rand-for-individual-conditional-expectation-ice-plot>
+ICE plot is a variant of PDP that shows the effect of a feature on the predicted outcome for individual instances, rather than averaging over all instances. It allows us to see how the prediction changes for each instance as the feature varies, which can reveal heterogeneity in the effect of the feature across different instances.\
+
+=== Explainability limitations
+<sub:rand-for-explainability-limitations-dec-tree>
+For its ensamble nature, Random forest presents some limitations in terms of explainability, especially when compared to a single decision tree. The main issue is related to the path that leads to a specific prediction. In a single tree, it is straightforward to follow the path from the root to the leaf node that makes the prediction, understanding which features and thresholds were used at each split. In a Random Forest, there are multiple trees, and each tree may use different features and thresholds for splitting, making it difficult to trace a single path for a specific prediction.\ 
+The problem is not only local, but also global, as the overall decision process is based on averaging the predictions, disrupting the interpretability of the model.\
+This leads to a more opaque model, even if with higher performance. The feature importance can help to understand which features are generally important for the model, but it does not provide a clear explanation of how the features interact to produce a specific prediction and it can be misleading in case of correlated features. \
+In summary, Random FOrest is yet another example of how the trade-off between performance and explainability is not always clear-cut, and it is important to consider the specific context and requirements of the problem when choosing a model.
