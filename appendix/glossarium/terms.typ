@@ -103,6 +103,7 @@
   (
     key: "objective_function",
     long: "Objective Function",
+    short: "objective function",
     description: "A mathematical function that an algorithm optimizes during training, which defines the goal of the learning process and guides the model's adjustments to minimize error or maximize performance.",
   ),
   (

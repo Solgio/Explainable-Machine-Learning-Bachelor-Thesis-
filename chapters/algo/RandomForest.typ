@@ -46,25 +46,6 @@ Where $d$ is the average depth of a tree which for unpruned trees, $d approx log
 The space complexity of Random forest takes in account the sapce needed to store the $m$ samples and $p$ feaures during training, for a total spacial complexity of $O(m dot.op p)$. Once the training is completed, the space complexity is determined by the number of trees and the size of each tree. 
 $ O \( T dot.op n\) $
 
-==== Scalabilità: Conclusioni
-<scalabilità-conclusioni>
-#strong[Vantaggi:]
-
-- Training scala bene con $n$ (logaritmico) e $p$ (sqrt)
-- Parallelizzazione è naturale e efficiente
-- Può gestire dataset molto grandi (milioni di istanze)
-
-#strong[Svantaggi:]
-
-- fattore $T$ (numero di alberi) aggiunge overhead
-- Memoria cresce linearmente con $T$
-- Per interpretabilità, $T$ grande rende difficile ispezionare
-
-#strong[Pratica:] Random Forest è considerato uno dei migliori
-compromessi tra performance e scalabilità, secondo solo ai metodi
-gradient-based (Gradient Boosting, LightGBM) per dataset molto grandi.
-
-
 === Internal representation
 <sub:rand-for-internal-representation>
 A Random forest is represented as a list of trees, each of which is a complete decision tree.

@@ -49,8 +49,8 @@ Where $macron(y) = frac(1, \| D \|) sum_(i = 1)^(\| D \|) y_i$ is the mean of th
 The time complexity of the decision tree is bounded by the process of evaluating the best split at each node, which involves scanning through the data and calculating the splitting criterion for each feature.
 $ O \( n^2 dot.op p dot.op log \( n \) \) $
 Where $n$ is the number of observations and $p$ the number of features.\
-In fact, sorting the data for each feature takes $O \( n log \( n \) \)$, and this process is repeated for each of the $p$ features at each level of the tree. If the tree is grown to every leaf (no pruning), the number of nodes is in order of $O \( n \)$, giving the final complexity.
-As descibed in the official Scikit-learn documentation @scikit-docs, the time complexity can the optimize to $O \( n dot.op p dot.op log \( n \) \)$ thanks to clever tracking of the general ordder of indices of the features, allowing to avoid sorting at each node.\
+In fact, sorting the data for each feature takes $O \( n log \( n \) \)$, and this process is repeated for each of the $p$ features at each level of the tree. If the tree is grown to every leaf (no pruning), the number of nodes is in order of $O \( n \)$, giving the final complexity. The quadratic term in the worst case can represent a bottleneck for large datasets, especially when the tree is allowed to grow deep and capture noise in the data. In this case, gradient-based tree algorithms (@xgboost-extreme-gradient-boosting) could be preferred, not only for their better time complexity but also for their improved predictive performance and regularization capabilities.\
+On the other side, as descibed in the official Scikit-learn documentation @scikit-docs, the time complexity can the optimize to $O \( n dot.op p dot.op log \( n \) \)$ thanks to clever tracking of the general ordder of indices of the features, allowing to avoid sorting at each node.\
 For *inference*, the time complexity is dependent on the depth of the tree, which in the worst case can be $O \( n \)$ (degenerate tree) and in the best case $O \( log \( n \) \)$ (balanced tree).\
 
 === Spacial complexity

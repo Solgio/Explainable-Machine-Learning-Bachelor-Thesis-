@@ -1,97 +1,47 @@
-= XGBoost: Extreme Gradient Boosting
-<xgboost-extreme-gradient-boosting>
-== Modello
-<modello>
-=== Logica dell\'Algoritmo
-<logica-dellalgoritmo>
-#strong[XGBoost] (Extreme Gradient Boosting) è un #strong[ensemble
-method sequenziale] che costruisce alberi decisionali uno dopo l\'altro,
-dove ogni nuovo albero #strong[corregge gli errori del precedente].
+#import "../../appendix/glossarium/terms.typ": terms
+#import "@preview/glossarium:0.5.9": gls
+#import "../../config/thesis-config.typ": side_by_side
 
-A differenza di #strong[Random Forest] (alberi paralleli indipendenti),
-XGBoost è un #strong[boosting algorithm] che combina predizioni tramite:
+== XGBoost: Extreme Gradient Boosting
+<xgboost-extreme-gradient-boosting>
+
+=== Mathematical model
+<sub:xgboost-model>
+The Extreme Gradient Boosting (XGBoost) is a ensamble method that uses the boosting technique to combine the predictions of mumltiple decision trees. The main idea behind XGBoost is that it builds trees sequentially, training each new tree to correct the errors made by the previous trees. \
+The resulting prediction is formulated as:
 
 $ hat(y)_i^(\( t \)) = hat(y)_i^(\( t - 1 \)) + f_t \( x_i \) $
 
-Dove:
-
-- $hat(y)_i^(\( t - 1 \))$ è la previsione cumulativa dopo t-1 alberi
-- $f_t \( x_i \)$ è il nuovo albero che predice i residui
-  dell\'iterazione precedente
-
-=== Obiettivo Regolarizzato
-<obiettivo-regolarizzato>
-XGBoost minimizza un obiettivo di loss regolarizzato:
-
+Where - $hat(y)_i^(\( t \))$ is the prediction for instance i after $t-1$ trees and $f_t \( x_i \)$ is the new tree that predicts the residuals of the previous iteration. \
+The global @objective_function is defined as:
 $ L \( phi.alt \) = sum_(i = 1)^n l \( hat(y)_i \, y_i \) + sum_(k = 1)^K Omega \( f_k \) $
+Where the first term is the loss function that measures the error between the predicted and true values, and the second term is a regularization term that penalizes the complexity of the ensemble of trees. The regularization is need to prevent overfitting of the model and it is defined as:
+$ Omega \( f \) = gamma T + 1 / 2 lambda \|\| w \|\|^2 $ penalizing both the number of leaves (T) and the magnitude of the leaf weights (w) using respectively $gamma$ and $lambda$.
 
-Dove:
-
-- Primo termine: #strong[loss function] (errore tra previsione e realtà)
-- Secondo termine: #strong[regolarizzazione] che penalizza la
-  complessità dell\'insieme di alberi
-
-La regolarizzazione è:
-
-$ Omega \( f \) = gamma T + 1 / 2 lambda \| \| w \| \|^2 $
-
-Dove:
-
-- $gamma T$ penalizza il numero di foglie (T)
-- $1 / 2 lambda \| \| w \| \|^2$ penalizza la magnitudine dei pesi delle
-  foglie
-
-#strong[Interpretazione:] il termine di regolarizzazione preferisce
-alberi semplici e pesi piccoli, #strong[riducendo overfitting].
-
-=== Gradient Tree Boosting (Secondo Ordine)
-<gradient-tree-boosting-secondo-ordine>
-Anziché minimizzare direttamente, XGBoost usa un #strong[secondo-ordine
-approximation] della loss:
-
-$ L^(\( t \)) approx sum_(i = 1)^n [g_i f_t \( x_i \) + 1 / 2 h_i f_t^2 \( x_i \)] + Omega \( f_t \) $
-
-Dove:
-
+Considering the step t, the model is trained to minimize the following objective function:
+$ L^(\( t \)) = sum_(i = 1)^n l \( y_i \, hat(y)_i^(\( t - 1 \)) + f_t \( x_i \) \) + Omega \( f_t \) $
+This formulation is approximated using a #strong[second order Taylor expansion], resulting in a more efficient optimization process that considers both the first and second derivatives of the loss function. This also allows XGBoost to use a wider range of loss functions with the constraint of being twice differentiable.
+$ L^(\( t \)) approx sum_(i = 1)^n [g_i f_t \( x_i \) + 1 / 2 h_i f_t^2 \( x_i \)] + gamma T+1/2 lambda sum_(j=1)^T \|\| w_j \|\|^2 $
+As said before, the gradients are defined as:
 - $g_i = frac(partial l, partial hat(y)^(\( t - 1 \))) l \( y_i \, hat(y)^(\( t - 1 \)) \)$
-  è il #strong[primo-ordine gradiente] (come in GBM standard)
+  as first-order gradient
 - $h_i = frac(partial^2, partial^2 hat(y)^(\( t - 1 \))) l \( y_i \, hat(y)^(\( t - 1 \)) \)$
-  è il #strong[secondo-ordine gradiente] (novità di XGBoost)
+  as second-order gradient
 
-L\'uso del secondo-ordine consente un\'#strong[ottimizzazione più
-accurata] rispetto a metodi che usano solo il primo-ordine.
-
-=== Scoring Function per Split
-<scoring-function-per-split>
-Per una struttura d\'albero fissa, il #strong[quality score] è:
-
+For the creation of the trees, XGBoost uses a greedy algorithm that iteratively splits the data based on the feature that provides the best improvement in the objective function. The quality of a split is measured by the following score:
 $ upright("Score") \( q \) = - 1 / 2 sum_(j = 1)^T frac(\( sum_(i in I_j) g_i \)^2, sum_(i in I_j) h_i + lambda) + gamma T $
-
-Dove:
-
-- $I_j$ è l\'insieme di istanze nella foglia j
-- Questo score misura quanto una struttura d\'albero è \"buona\"
-- Valori negativi più grandi (più negativi) = alberi migliori
+Where $I_j$ is the set of instances in leaf j. This score measures how good a tree structure is, with more negative values indicating better trees.
 
 
+=== Time complexity
+<sub:xgboost-time-complexity>
+The time complexity for the greedy algorithm directly depends on the number of trees (K), the depth of the trees (d) and the number of observations (n). The exact greedy algorithm has a time complexity of:
+$ O \( K dot.op d dot.op n dot.op f log \( n \) \) $
+Using on block structure, moving the sorting outside the tree construction without re-sorting at each iteration, the time complexity is reduced to:
+$ O \( n dot.op f log \( n \) \) + O\( K dot.op d dot.op n dot.op f \)$ Where the first term is the cost of the initial sorting and the second term is the cost of building K trees with depth d. \
+In reality, the $n dot.op f$ in often reduced to the only data entries with non-missing entries thanks to the sparsity-aware algorithm, resulting in a significant speedup for sparse datasets that amounts to 50 times@xgboost.
 
-== Complessità Computazionale
-<complessità-computazionale>
-=== Training (Esatto)
-<training-esatto>
-$ O \( K dot.op d dot.op n log \( n \) \) $
-
-Dove:
-
-- $K$ = numero di alberi (iterazioni)
-- $d$ = profondità massima dell\'albero
-- $n$ = numero di osservazioni
-- $log \( n \)$ = sorting dei dati per trovare gli split
-
-Per ogni albero, l\'algoritmo \"exact greedy\":
-
-- Ordina i dati per feature: $O \( n log n \)$ once per feature
-- Enumera split con accumulo di gradienti: $O \( n \)$
+For *inference*, the algorithm needs to traverse K trees sequentially, following the path from the root to the leaf for each tree. The time complexity is therfore $ O \( K dot.op d \) $ where d is the average depth of the trees. \
 
 === Training (Approssimato - con Quantile Sketch)
 <training-approssimato---con-quantile-sketch>
@@ -103,23 +53,13 @@ Usando il #strong[weighted quantile sketch] (novità di XGBoost):
 - Non richiede sorting completo
 - Ottimale per dataset out-of-core
 
-=== Inference (Previsione)
-<inference-previsione>
-$ O \( K dot.op d \) $
 
-Dove K è il numero di alberi, d la profondità media:
 
-- Attraversare K alberi sequenzialmente
-- Per ogni albero, seguire il cammino dalla radice alla foglia
-  (profondità d)
-
-=== Memoria
-<memoria>
-$ O \( K dot.op n dot.op d + upright("block structure") \) $
-
-- Memorizzare K alberi: $O \( K dot.op n \)$ nel peggiore (tutte le
-  istanze in ogni albero)
-- Block structure per parallelizzazione: $O \( n \)$ aggiuntivo
+=== Spacial complexity
+<sub:xgboost-spacial-complexity>
+The total spacial complexity of XGBoost is the sum of the space needed to store the model (the ensemble of trees) and the space needed to store the data during training. The spacial complexity for storing K trees with depth d is:
+$ O \( K dot.op 2^d + m dot.op n \) $\
+If block structure is used, the spacial complexity should consider the additional space required to store the indexes for the columns. This results in a used of double space for the data, which does not effect O notation but can be significant in practice. \
 
 === Scalabilità: Conclusioni
 <scalabilità-conclusioni>
@@ -555,109 +495,6 @@ Se parametri cambiano leggermente:
 
 - Feature importance può cambiare drasticamente
 - Spiegazioni non sono \"robuste\"
-
-
-
-== Confronto con altri Algoritmi
-<confronto-con-altri-algoritmi>
-=== Vs. Random Forest
-<vs-random-forest>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [Random Forest], [XGBoost],),
-    table.hline(),
-    [#strong[Velocità Training]], [Veloce (parallelo)], [Lento
-    (sequenziale)],
-    [#strong[Velocità Inference]], [Veloce], [Veloce],
-    [#strong[Performance]], [⭐⭐⭐⭐ Buona], [⭐⭐⭐⭐⭐ Eccellente],
-    [#strong[Overfitting]], [⭐⭐ Basso], [⭐ Basso ma sensibile
-    tuning],
-    [#strong[Interpretabilità]], [⭐⭐ Media], [⭐⭐ Media (ma con
-    SHAP)],
-    [#strong[Tuning]], [⭐⭐⭐ Semplice], [⭐ Complesso],
-    [#strong[Quando usare]], [Velocità + buona performance], [Massima
-    performance],
-  )]
-  , kind: table
-  )
-
-=== Vs. Logistic Regression
-<vs-logistic-regression>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [LogR], [XGBoost],),
-    table.hline(),
-    [#strong[Interpretabilità]], [⭐⭐⭐⭐ Alta], [⭐⭐ Bassa],
-    [#strong[Pattern Non-Lineare]], [⭐ Scarso], [⭐⭐⭐⭐⭐
-    Eccellente],
-    [#strong[Tuning]], [⭐⭐⭐ Semplice], [⭐ Complesso],
-    [#strong[Scalabilità]], [⭐⭐⭐⭐ Buona], [⭐⭐⭐ Media],
-    [#strong[Dati Rari]], [⭐⭐⭐⭐ Buono], [⭐⭐⭐ Buono (needs
-    tuning)],
-    [#strong[Quando usare]], [Interpretabilità + baseline], [Performance
-    è prioritario],
-  )]
-  , kind: table
-  )
-
-=== Vs. Neural Networks
-<vs-neural-networks>
-#figure(
-  align(center)[#table(
-    columns: 3,
-    align: (auto,auto,auto,),
-    table.header([Aspetto], [Neural Networks], [XGBoost],),
-    table.hline(),
-    [#strong[Capacità]], [⭐⭐⭐⭐⭐ Illimitata], [⭐⭐⭐⭐ Molto
-    buona],
-    [#strong[Dati Necessari]], [⭐ Molti (milioni)], [⭐⭐⭐⭐ Meno
-    (migliaia)],
-    [#strong[Training]], [⭐⭐ Lungo], [⭐⭐⭐ Veloce],
-    [#strong[Interpretabilità]], [⭐ Nessuna], [⭐⭐ SHAP disponibile],
-    [#strong[Quando usare]], [Big data + pattern visivo], [Structured
-    data + performance],
-  )]
-  , kind: table
-  )
-
-=== Vs. LightGBM / CatBoost
-<vs-lightgbm--catboost>
-#strong[LightGBM] (Light Gradient Boosting Machine):
-
-- Simile a XGBoost ma con #strong[histogram-based split] finding
-- \~2x più veloce di XGBoost
-- Più basso memoria
-- Meno maturo (comunità più piccola)
-
-#strong[CatBoost] (Categorical Boosting):
-
-- Specializzato in dati categorici
-- Gestisce nativamente categorie senza encoding
-- Meno tuning necessario (default migliori)
-- Performance leggermente superiore a XGBoost su dati categorici
-
-#strong[Confronto:]
-
-#figure(
-  align(center)[#table(
-    columns: 4,
-    align: (auto,auto,auto,auto,),
-    table.header([Aspetto], [XGBoost], [LightGBM], [CatBoost],),
-    table.hline(),
-    [#strong[Velocità]], [⭐⭐⭐⭐], [⭐⭐⭐⭐⭐], [⭐⭐⭐⭐],
-    [#strong[Performance]], [⭐⭐⭐⭐⭐], [⭐⭐⭐⭐⭐], [⭐⭐⭐⭐⭐],
-    [#strong[Tuning Facile]], [⭐⭐], [⭐⭐⭐], [⭐⭐⭐⭐],
-    [#strong[Dati Categorici]], [⭐⭐], [⭐⭐⭐], [⭐⭐⭐⭐⭐],
-    [#strong[Comunità]], [⭐⭐⭐⭐⭐], [⭐⭐⭐⭐], [⭐⭐⭐],
-    [#strong[Stabilità]], [⭐⭐⭐⭐⭐], [⭐⭐⭐⭐], [⭐⭐⭐],
-  )]
-  , kind: table
-  )
-
 
 
 == Varianti e Estensioni
