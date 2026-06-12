@@ -682,8 +682,3 @@ Controllare per bias rispetto a protected attributes:
 - Gender, Race, Age, etc.
 - Usare fairness metrics (disparate impact ratio, etc.)
 - Monitor SHAP values per protected groups
-
-
-
-== Prompt
-<prompt>
