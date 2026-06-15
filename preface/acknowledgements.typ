@@ -16,11 +16,11 @@
 
 #v(3em)
 
-#text(style: "italic", "Firstly, I would like to thank " + profTitle + " " +myProf + " for their guidance and support during the writing of this thesis and along all the duration of the stage. Also, I would like to express my gratitude to the team at Zucchetti for the opportunity to work on this project and living this experience.")
+#text(style: "italic", "Firstly, I would like to thank " + profTitle + " " +myProf + " for their guidance and support during the writing of this thesis and along all the duration of the stage. I would also like to express my gratitude to the team at Zucchetti for the opportunity to work on this project and living this experience.")
 
 #linebreak()
 
-#text(style: "italic", "Then, I would like to thank my friends and family for the encouragement during all my university years.")
+#text(style: "italic", "Furthermore, I would like to thank my friends and family for the encouragement during all my university years.")
 
 #linebreak()
 

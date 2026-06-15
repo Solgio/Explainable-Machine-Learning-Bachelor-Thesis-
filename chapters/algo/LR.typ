@@ -15,21 +15,21 @@ $ hat(beta) = "argmin"_(beta_0 . . . beta_p) sum_(i = 1)^n \( y^(\( i \)) - \( b
 
 === Time complexity
 <sub:time-complexity-lr>
-Mainly there are two approches to solve this optimization problem: the analytical solution and the iterative optimization methods (e.g. #gls("gradient descent")). The analytical solution is given by the normal equation:
+Mainly there are two approches to solve this optimization problem: the analytical solution and the iterative optimization methods (e.g. #gls("gradient descent")). The analytical solution uses by the normal equation:
 
 $ hat(beta) = \( X^T X \)^(- 1) X^T y $
 
-In this formulation, $X$ is an $n x p$ matrix where $n$ is the number of instances and $p$ is the number of features. The matrix $X$ is augmented with a column of 1s to account for the intercept term $beta_0$. The #gls("computational_complexity") of the analitical solution is dominated by the matrix multiplication and inversion operations. In fact, the cost for the moltiplication of matrixes is $O \( p^2 n \)$ and the cost for the inversion of a $p x p$ matrix is $O \( p^3 \)$. Therefore, the overall #gls("computational_complexity") of the analytical solution is $O \( p^2 n + p^3 \)=O \( p^3)$, which for vast datasets, over 10000 records, becomes prohibitive.\
+$X$ is an $n dot.op p$ matrix where $n$ is the number of instances and $p$ is the number of features. The matrix $X$ is augmented with a column of 1s to account for the intercept term $beta_0$. The #gls("computational_complexity") of the analitical solution is dominated by the matrix multiplication and inversion operations. In fact, the cost for the multiplication of matrixes is $O \( p^2 n \)$ and the cost for the inversion of a $p x p$ matrix is $O \( p^3 \)$. Therefore, the overall #gls("computational_complexity") of the analytical solution is $O \( p^2 n + p^3 \)=O \( p^3)$, which for vast datasets, over 10000 records, becomes prohibitive.\
 The iterative methods, such as #gls("gradient descent"), calculate the gradient of the loss function with respect to the weights and update the weights iteratively until convergence. The #gls("computational_complexity") of the gradient calculation is $O \( p n \)$ per iteration, and the number of iterations required for convergence can vary depending on the learning rate and the specific dataset. However, in practice, iterative methods can be more efficient than the analytical solution for large datasets, as they do not require matrix inversion and can converge faster with appropriate hyperparameter tuning. Other methods like #gls("stochastic gradient descent") can further reduce the computational cost by approximating the gradient using a subset of the data at each iteration.\
 On the other side, for smaller dataset, analytical solution offers convergence in a single step, without the need for hyperparameter tuning, and guarantees a global optimal solution.
 
-For *inference*, the #gls("computational_complexity") is $O \( p \)$ per instance, as it involves a simple dot product between the feature vector and the weight vector.
+For *inference*, the time complexity is $O \( p \)$ per instance, as it involves a simple dot product between the feature vector and the weight vector.
 
-=== Spacial complexity
-<sub:spacial-complexity-lr>
-The spacial complexity of the linear regression model is determined by the need to store the input data, the weight vector, and any intermediate matrices used in the analytical solution. Specifically, the analytical solution requires storing the $n x p$ matrix $X$, the $p x p$ matrix $X^T X$, and the $p$-dimensional weight vector $beta$. Therefore, the overall spacial complexity of the linear regression model is dominated by the storage of the input data and the intermediate matrices, resulting in a spacial complexity of $O \( n p + p^2 \)$.\
-For the #gls("gradient descent") method, the spacial complexity is reduced to $O \( n p + p \)$, as it does not require storing the intermediate matrix $X^T X$.\
-For *inference*, the #gls("computational_complexity") is $O \( p \)$ per instance, as it only stores the weight vector and the feature vector.
+=== Spatial complexity
+<sub:spatial-complexity-lr>
+The spatial complexity of the linear regression model is determined by the need to store the input data, the weight vector, and any intermediate matrices used in the analytical solution. Specifically, the analytical solution requires storing the $n x p$ matrix $X$, the $p x p$ matrix $X^T X$, and the $p$-dimensional weight vector $beta$. Therefore, the overall spatial complexity of the linear regression model is dominated by the storage of the input data and the intermediate matrices, resulting in a spatial complexity of $O \( n p + p^2 \)$.\
+For the #gls("gradient descent") method, the spatial complexity is reduced to $O \( n p + p \)$, as it does not require storing the intermediate matrix $X^T X$.\
+For *inference*, the spatial complexity is $O \( p \)$ per instance, as it only stores the weight vector and the feature vector.
 
 === Internal representation
 <sub:internal-representation-lr>
@@ -52,15 +52,12 @@ Linear regression relies on several key assumptions about the data to ensure the
   of very large houses is extremely variable, while that of small
   houses is concentrated.
 
-+ #strong[Indipendence of measurements:] instances don't have to be correlated. Dipendent datas, such as time series, violate 
++ #strong[Independence of measurements:] instances don't have to be correlated. Dependent datas, such as time series, violate 
   this assumption and as such should not be investigated with linear regression.
 
-+ #strong[Feature fisse:] le feature devono essere considerate come
-  costanti, non soggette a errori di misurazione significativi. Se le
-  feature contengono errore di misura, i coefficienti sono distorti
-  (attenuation bias)
++ #strong[Fixed Features:] features should be fixed and measured without error. In practice, this assumption is often violated, as features can be subject to measurement error or can change over time, which can lead to biased estimates of the coefficients and reduced predictive performance. This is particularly relevant in real-world scenarios where data quality can be an issue (attenuation bias).
 
-+ #strong[Absence of multicollinearity:] Feature should not be highly correlated. Multicollinearity causes numerical instability during the inversion of $X^T X$ e weights inflation in absolute value. Using #gls("gradient descent") the geometrical properties of the loss function changes and leads to very slim vallies causing an important reduction of the learning rate. 
++ #strong[Absence of multicollinearity:] features should not be highly correlated. Multicollinearity causes numerical instability during the inversion of $X^T X$ e weights inflation in absolute value. When using #gls("gradient descent") the geometrical properties of the loss function changes and leads to very slim valleys causing an important reduction of the learning rate. 
 
 ==== Preprocessing
 <sub:preprocessing-lr>
@@ -72,7 +69,7 @@ Where $R_j^2$ is the coefficient of determination for the regression of feature 
 === Predictive performance and limitations
 <sub:predictive-performance-and-limitations-lr>
 As discussed, the linear regression imposes several constraints on the data and model performance. Very good performances are achieved whenever linear relationships exist between features and target both in accuracy and efficiency. \
-However, in real-world scenarios, these conditions are often violated, leading to poor predictive performance. The model is particularly sensitive to #gls("outlier", plural:true), which can disproportionately influence the weights and lead to skewed predictions. Additionally, linear regression is *not suitable for capturing complex, non-linear relationships* in the data, which limits its applicability in many real-world problems where such relationships are common. Finally, the model's performance can degrade significantly when the number of features is large relative to the number of observations, leading to overfitting and poor generalization to new data. This limitation is intensified by the presence of @categorical_features.
+However, in real-world scenarios, these conditions are often violated, leading to poor predictive performance. The model is particularly sensitive to #gls("outlier", plural:true), which can disproportionately influence the weights and lead to skewed predictions. Additionally, linear regression is *unsuitable for capturing complex, non-linear relationships* in the data, which limits its applicability in many real-world problems where such relationships are common. Finally, the model's performance can degrade significantly when the number of features is large relative to the number of observations, leading to overfitting and poor generalization to new data. This limitation is intensified by the presence of @categorical_features.
 
 === Metrics for prediction quality
 <sub:metrics-lr>
@@ -81,11 +78,11 @@ For the general metrics see @cap:regression-metrics.
 
 ==== Feature Importance (t-statistic)
 <sub:feature-importance-t-statistic-lr>
-$ t_(hat(beta)_j)$ measures the statistical significance of each coefficient, calculated as the weight scaled by its standard error:
+$ t_(hat(beta)_j)$ measures the statistical significance of each coefficient, calculated as the weight divided by its standard error:
 
 $ t_(hat(beta)_j) = frac(hat(beta)_j, S E \( hat(beta)_j \)) $
 
-Intuitively, the higher the absolute value of a coefficient is, the more the feature is statistically significant in predicting the target variable. \
+Intuitively, a higher absolute value of a coefficient indicates a more statistically significant feature. \
 As intuitively, the hgher the variance of the coefficient is, the less the feature is significant, as the model is more uncertain about the true value of the coefficient. \
 
 ==== p-value
@@ -106,7 +103,6 @@ The use of diagnostic plots is crucial to visually assess the assumptions of lin
 ==== Actual vs Predicted
 <sub:actual-vs-predicted-lr>
 Scatter plot with actual values $y_i$ on the y-axis and predicted values $hat(y)_i$ on the x-axis.
-$hat(y)_i$.
 If the model fits well, the points should be concentrated around the diagonal line $y = hat(y)$. Deviations from this pattern can indicate various issues with the model fit. 
 
 ==== Histogram of residuals distribution

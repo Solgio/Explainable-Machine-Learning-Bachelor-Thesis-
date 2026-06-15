@@ -15,7 +15,7 @@ Introduction to the stage idea, goals, company and thesis organization. This cha
 
 == Company
 
-Zucchetti S.p.A. is a leading Italian software company specializing in providing comprehensive IT solutions for businesses. Founded in 1978, Zucchetti has grown to become one of the largest software providers in Italy, offering a wide range of products and services that cater to various industries, including manufacturing, retail, healthcare, and public administration. 
+Zucchetti S.p.A. is a leading Italian software company specializing in providing comprehensive IT solutions for businesses. Founded in 1978, Zucchetti has become one of Italy's largest software providers, offering a wide range of products and services that cater to various industries, including manufacturing, retail, healthcare, and public administration. 
 
 With a strong focus on innovation and customer satisfaction, Zucchetti is committed to helping organizations optimize their operations and achieve their business goals through cutting-edge technology. Exactly from this commit, the company has been actively involved in the development and implementation of #gls("ml") and #gls("ai") solutions, aiming to enhance the capabilities of their software offerings and provide more value to their clients.
 
@@ -27,7 +27,7 @@ With a strong focus on innovation and customer satisfaction, Zucchetti is commit
 == Stage idea
 
 The internship project is centered around the exploration of #gls("explainable ai") techniques, with a specific focus on the interpretability and comprehensibility of machine learning algorithms. The primary objective is to analyze a variety of predictive models, ranging from basic #gls("regression") and #gls("classification") algorithms to more complex ensemble methods, in order to evaluate their transparency and explainability. 
-The idea is to increase the undestanding of the results of the models, and to make them more accessible to non-expert stakeholders, by leveraging advanced #gls("prompt engineering") principles to develop tailored prompts for #gls("large language model",plural:true) that can automatically generate human-readable explanations of algorithmic behaviors and predictions.
+The idea is to increase the understanding of the results of the models, and to make them more accessible to non-expert stakeholders, by leveraging advanced #gls("prompt engineering") principles to develop tailored prompts for #gls("large language model",plural:true) that can automatically generate human-readable explanations of algorithmic behaviors and predictions.
 \ \
 The timeline of the project is structured as follows:
 #figure(
@@ -55,8 +55,8 @@ In the planning phase the goals were defined as follows:
         columns: (auto, auto),
         align: (center, center),
         [*Goal*], [*Description*],
-        [O-01], [ Complete and profound comprehension of the choosen algorithms, their mathematical foundations and their internal knowledge representation.],
-        [O-02], [ Comprension of interpretability and explainability techniques in machine learning.],
+        [O-01], [ Complete and profound understanding of the chosen algorithms, their mathematical foundations and their internal knowledge representation.],
+        [O-02], [ Comprehension of interpretability and explainability techniques in machine learning.],
         [O-03], [ Comprehension of algorithms design techniques.],
         [O-04], [ Prompt generation for Large Language Models to generate human-readable explanations.],
         [O-05], [ Comprehension and application of Prompt Engineering principles in the context of XAI.],

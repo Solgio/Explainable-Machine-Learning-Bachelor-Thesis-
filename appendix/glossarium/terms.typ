@@ -86,13 +86,13 @@
   (
     key: "margin",
     short: "margin",
-    long: "Margin",
+    long: "margin",
     description: "The distance between the decision boundary (hyperplane) and the closest data points in a Support Vector Machine, which the algorithm seeks to maximize for better generalization.",
   ),
   (
     key: "ml",
     short: "ML",
-    long: "Machine Learning",
+    long: "machine learning",
     description: "A subset of artificial intelligence that involves training algorithms to learn patterns from data and make predictions or decisions without being explicitly programmed.",
   ),
   (
@@ -102,7 +102,7 @@
   ),
   (
     key: "objective_function",
-    long: "Objective Function",
+    long: "objective function",
     short: "objective function",
     description: "A mathematical function that an algorithm optimizes during training, which defines the goal of the learning process and guides the model's adjustments to minimize error or maximize performance.",
   ),
@@ -125,7 +125,7 @@
   (
     key: "prompt engineering",
     short: "PE",
-    long: "Prompt Engineering",
+    long: "prompt engineering",
     description: "The process of designing and optimizing prompts to effectively communicate with language models and elicit desired responses.",
   ),
   (
@@ -160,19 +160,19 @@
   (
     key: "stochastic gradient descent",
     short: "SGD",
-    long: "Stochastic Gradient Descent",
+    long: "stochastic gradient descent",
     description: "An optimization algorithm that updates the model's parameters using a randomly selected subset of the training data, which can lead to faster convergence and better generalization.",
   ),
   (
     key: "true positives",
     short: "TP",
-    long: "True Positives",
+    long: "true positives",
     description: "Instances correctly predicted as positive.",
   ),
   (
     key: "true negatives",
     short: "TN",
-    long: "True Negatives",
+    long: "true negatives",
     description: "Instances correctly predicted as negative.",
   ),
 )

@@ -22,18 +22,23 @@
 
 = Conclusion
 <cap:conclusion>
+
+#v(1em)
 #text(style: "italic", [
     In this final chapter, we will expose the final state of the project and the evaluation of its outcomes. \
 ])
+
+#v(1em)
 
 == Stage conclusion
 <stage-conclusion>
 The final state of the project is evaluated as satisfactory. The planned stages have been completed and the project goals have been achieved. \
 #figure(
     table(
+        block(breakable: true),
+        table.header(repeat: true,[*Goal*], [*Description*], [*Status*]),
         columns: (auto, auto, auto),
         align: (center, center, center),
-        [*Goal*], [*Description*], [*Status*],
         [O-01], [ Complete and profound comprehension of the choosen algorithms, their mathematical foundations and their internal knowledge representation.],[Achieved],
         [O-02], [ Comprehension of interpretability and explainability techniques in machine learning.],[Achieved],
         [O-03], [ Comprehension of algorithms design techniques.],[Achieved],
@@ -102,6 +107,7 @@ For complete tracking of the requirements a requirements traceability matrix has
 
 == Results
 <results>
+The analysis of the algorithms has provided valueable insights about their limitations and strenghts, allowing to understand how to improve their performance and interpretability. The integration of the mathematical results, th context of the dataset and the analysis of the results provided by the #gls("large language model") allowed to understand the behavior of the algorithms in a more complete way. The justification closed the gap between the complexity of the algorithms and the business users, providing clear and simple explainations and allowing to make informed decisions based on the results. \
 The result are generally satisfactory. This opportunity provided a way to explore the potential of #gls("large language model") in the context of explainable machine learning, and to provide a practical implementation of a system, applying the knowledge built during the academic experience. \
 Moreover, the project offered a glimpse into the working world, exploring advanced technical aspect in a productive and professional environment. 
 

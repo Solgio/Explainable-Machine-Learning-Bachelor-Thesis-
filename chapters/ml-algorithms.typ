@@ -13,12 +13,12 @@
 ])
 == Common metrics for algorithm evaluation
 <common-metrics>
-To evaluate the performance of the machine learning algorithms in the classification and regression tasks, we will use some common metrics paired with the algorithms' specific metrics.
+To evaluate machine learning algorithm performance in classification and regression tasks, we will use some common metrics paired with the algorithms' specific metrics.
 
 === Classification metrics
 <cap:classification-metrics>
-The following is a list of metrics for evluating the predictive performances of the logistic regression in the context of the classification task. \
-Before presenting this metrics, it is important to define some terms, used later:
+The following is a list of metrics for evaluating the predictive performance of the logistic regression in the context of the classification task. \
+Before presenting these metrics, it is important to define some terms, used later:
 - #strong[#gls("true positives")]: instances correctly predicted as positive
 - #strong[#gls("true negatives")]: instances correctly predicted as negative
 - #strong[#gls("false positives")]: instances incorrectly predicted as positive
@@ -86,7 +86,7 @@ Can  be interpreted as the probability that the model will rank a randomly chose
 <cap:regression-metrics>
 #strong[$R^2$ (Determination Coefficient)]\
 <sub:r-square-coefficient-lr>
-$R^2$ quantifies how much the model explains the total variance of the data. Il ranges from 0 to 1, where 0 is a model that cannot explain the datas and 1 is a perfect adherance.
+$R^2$ quantifies how much the model explains the total variance of the data. It ranges from 0 to 1, where 0 is a model that cannot explain the datas and 1 is a perfect adherance.
 
 $ R^2 = 1 - frac(S S E, S S T) $
 

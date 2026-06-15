@@ -6,7 +6,7 @@
 <cap:logistic-regression>
 === Mathematical model
 <sub:model-logr>
-The logistic regression is a model mainly used for binary classification problems where the response variable is dichotomous. Similar to linear regression(@cap:linear-regression) it uses a linear combination of the input features, but instead of directly outputting a continuous value, it applies a logistic function to map the output to a probability between 0 and 1.
+Logistic regression is a model primarily used for binary classification problems where the response variable is dichotomous. Similar to linear regression(@cap:linear-regression) it uses a linear combination of the input features, but instead of directly outputting a continuous value, it applies a logistic function to map the output to a probability between 0 and 1.
 
 $ sigma \( z \) = frac(1, 1 + exp \( - z \)) $
 
@@ -14,8 +14,8 @@ The output can consequently be interpreted as the probability that the input ins
 
 $ P \( y^(\( i \)) = 1 \| x^(\( i \)) \) = frac(1, 1 + exp \( - \( beta_0 + sum_(j = 1)^p beta_j x_j^(\( i \)) \) \)) $
 
-And the probability that it belongs to the negative class (y = 0) is 
-$P \( y^(\( i \)) = 0 \) = 1 - P \( y^(\( i \)) = 1 \)$, following the Bernoulli distribution.
+And the probability of the negative class follows as 
+$P \( y^(\( i \)) = 0 \) = 1 - P \( y^(\( i \)) = 1 \)$, consistent with the Bernoulli distribution.
 
 The goal of the logistic regression is to find the parameters $beta$ that best fit the data, which is done by maximizing the *likelihood* of observing the data given the parameters.
 
@@ -31,10 +31,10 @@ Differently from linear regression, the logistic regression does not have a clos
 As described in @sub:time-complexity-lr, the time complexity of #gls("gradient descent") is $O \( p n \)$ per iteration, and the number of iterations required for convergence can vary depending on the learning rate and the specific dataset. For *inference* the time complexity is again, $O(p)$ per instance. \
 Since the optimization is iterative, the overall time complexity can be less predictable than linear regression, especially if the data has features that lead to slow convergence (e.g., highly correlated features or features that cause the decision boundary to be close to the data points). However, in practice, logistic regression is often computationally efficient for moderate-sized datasets and can be scaled to larger datasets using #gls("stochastic gradient descent") or mini-batch gradient descent.
 
-=== Spacial complexity
-<sub:spacial-complexity-logr>
+=== Spatial complexity
+<sub:spatial-complexity-logr>
 The model stores a vector of coefficients $beta$ of size $p$, which requires $O \( p \)$ memory. During training, additional memory is needed to store the intermediate values for the optimization algorithm, which can be $O \( n \)$ for batch gradient descent due to the need to compute the predictions for all instances in each iteration. \
-For inference, the memory complexity is $O \( p \)$ for storing the coefficients and $O \( 1 \)$ for the input instance, leading to an overall spacial complexity of $O \( p \)$.
+For inference, the memory complexity is $O \( p \)$ for storing the coefficients and $O \( 1 \)$ for the input instance, leading to an overall spatial complexity of $O \( p \)$.
 
 === Internal representation
 <sub:internal-representation-logr>
@@ -105,10 +105,6 @@ Similarly to Linear Regression, @sub:feature-effect-lr, the feature effect plot 
 For every feature value, calculate:
 
 $ P \( y = 1 \| x_j = v \, x_(upright("other")) = upright("media") \) $
-
-#strong[Vantaggio rispetto a LR:] la trasformazione sigmoide rende
-visibile se l\'effetto è principalmente presso certi valori della
-feature (grafico non è una retta, è una curva).
 
 ==== Weight Plot
 <sub:weight-plot-logr>

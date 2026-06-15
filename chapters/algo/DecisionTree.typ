@@ -19,7 +19,7 @@ A multitude of splitting criteria exist, the following are the most common, for 
 Measures based on #strong[impurity] for classification problems: 
 
 $ upright("Gini") \( D \) = 1 - sum_(i = 1)^K p_i^2 $
-Where $p_i$ is the proportion of instances belonging to class $i$ in the node. $K$ is the number of classes.
+Where $p_i$ is the proportion of instances belonging to class $i$ in the node. $K$ is the total number of classes.
 A Gini index of 0 means that all instances in the node belong to the same class (pure node). A Gini index equal to $1 - 1/K$ means that the instances are uniformly distributed among the classes (completely impure node). For binary classification ($K=2$), the maximum Gini index is 0.5 when the classes are perfectly balanced.\
 To measure the #strong[Gini Gain] of a split, we calculate the weighted average reduction in Gini impurity:
 
@@ -50,32 +50,12 @@ The time complexity of the decision tree is bounded by the process of evaluating
 $ O \( n^2 dot.op p dot.op log \( n \) \) $
 Where $n$ is the number of observations and $p$ the number of features.\
 In fact, sorting the data for each feature takes $O \( n log \( n \) \)$, and this process is repeated for each of the $p$ features at each level of the tree. If the tree is grown to every leaf (no pruning), the number of nodes is in order of $O \( n \)$, giving the final complexity. The quadratic term in the worst case can represent a bottleneck for large datasets, especially when the tree is allowed to grow deep and capture noise in the data. In this case, gradient-based tree algorithms (@xgboost-extreme-gradient-boosting) could be preferred, not only for their better time complexity but also for their improved predictive performance and regularization capabilities.\
-On the other side, as descibed in the official Scikit-learn documentation @scikit-docs, the time complexity can the optimize to $O \( n dot.op p dot.op log \( n \) \)$ thanks to clever tracking of the general ordder of indices of the features, allowing to avoid sorting at each node.\
+On the other side, as descibed in the official Scikit-learn documentation @scikit-docs, the time complexity can the optimize to $O \( n dot.op p dot.op log \( n \) \)$ thanks to clever tracking of the general order of indices of the features, allowing to avoid sorting at each node. A feature level parallelization can be achieved by evaluating the splits to additionally improve performance.\
 For *inference*, the time complexity is dependent on the depth of the tree, which in the worst case can be $O \( n \)$ (degenerate tree) and in the best case $O \( log \( n \) \)$ (balanced tree).\
 
-=== Spacial complexity
-<sub:dec-tree-spacial-complexity>
-The spacial complexity is determined by the need to store the tree structure and the metrics for the evaluation of the splits. The spacial complexity is consequently $O\(n dot.op p \)$ during training but drops to $O\(n \)$ during inference as we only need to store the tree structure and the thresholds for the splits, which is proportional to the number of nodes in the tree.
-
-
-=== Considerazioni sulla Scalabilità
-<sub:dec-tree-considerazioni-sulla-scalabilità>
-- #strong[Vantaggi:]
-
-  - Training veloce per #strong[piccoli-medi dataset]
-  - Inference molto veloce anche su dataset grandi
-  - Parallelizzabile a livello di feature (considerare split in
-    parallelo per ogni feature)
-
-- #strong[Svantaggi:]
-
-  - Man mano che $n$ cresce, il tempo quadratico $O \( n^2 \)$ nel caso
-    degenerato diventa problematico
-  - Per dataset enormi, tecniche di #strong[gradient-based tree]
-    (XGBoost, LightGBM) sono preferibili, che usano binning per ridurre
-    $O \( n log n \)$ a $O \( n \)$ per feature
-
-
+=== Spatial complexity
+<sub:dec-tree-spatial-complexity>
+The spatial complexity is determined by the need to store the tree structure and the metrics for the evaluation of the splits. The spatial complexity is consequently $O\(n dot.op p \)$ during training but drops to $O\(n \)$ during inference as we only need to store the tree structure and the thresholds for the splits, which is proportional to the number of nodes in the tree.
 
 === Internal representation
 <sub:dec-tree-internal-representation>

@@ -6,15 +6,14 @@
 <support-vector-machine-svm>
 === Mathematical model
 <sub:model-svm>
-A Support Vector Machine is a classifier that finds the optimal hyperplane that separates two classes by maximizing the distance (@margin:short) between the hyperplane and the closest points of each class.
-ciascuna classe).
+A Support Vector Machine is a classifier that finds the optimal hyperplane that separates two classes by maximizing the distance (@margin:short) between the hyperplane and the closest points of each class.\
 In the case of bidimensional data, the hyperplane is a line; for three-dimensional data, it is a plane; for p-dimensional data, it is a hyperplane defined by:
 $ beta_0 + beta_1 x_1 + beta_2 x_2 + dots.h + beta_p x_p = 0 $
 Where $beta = \[ beta_1 \, . . . \, beta_p \]$ is the normal vector to the hyperplane, and $beta_0$ is the intercept.
 
 ==== Hard-Margin SVM (Linearly Separable Data)
 <sub:hard-margin-svm>
-In the ideal case in which the data are perfectly and #strong[completely separable], the goal is to find the coefficients $beta_0 \, beta_1 \, . . . \, beta_p$ that maximize the #gls("margin"). The intuition, bias, is that a hyperplane with a large margin is more #strong[robust] to variations in the data and generalizes better to unseen data.
+In the ideal case in which the data are perfectly and #strong[completely separable], the goal is to find the coefficients $beta_0 \, beta_1 \, . . . \, beta_p$ that maximize the #gls("margin"). The intuition, is that a hyperplane with a large margin is more #strong[robust] to variations in the data and generalizes better to unseen data.
 The separation condition is then the following: 
 
 $ y_i \( beta_0 + beta_1 x_(i 1) + beta_2 x_(i 2) + dots.h + beta_p x_(i p) \) gt.eq 1 quad forall i $
@@ -22,16 +21,16 @@ $ y_i \( beta_0 + beta_1 x_(i 1) + beta_2 x_(i 2) + dots.h + beta_p x_(i p) \) g
 Where $y_i in { - 1 \, + 1 }$ is the class label.
 
 The distance between a point in the training set and the hyperplane is given by:
-$ r_i = frac(y_i \( beta_0 + sum_(j = 1)^p beta_j x_(i j) \), \|| beta \||) $
+$ r_i = frac(y_i \( beta_0 + sum_(j = 1)^p beta_j x_(i j) \), \|\| beta \|\|) $
 
-Where $\| \| beta \| \| = sqrt(sum_(j = 1)^p beta_j^2)$ is the
+Where $\|\| beta \|\| = sqrt(sum_(j = 1)^p beta_j^2)$ is the
 #strong[euclidean norm] of the coefficient vector.
 
 To maximize the @margin, defined as the distance between the hyperplane and the closest points, we can express it as:
-$ M = frac(1, \|| beta \||) $
+$ M = frac(1, \|\| beta \|\|) $
 is equivalent to minimizing
-$\| \| beta \| \|$. This formulation leads to the following optimization problem:
-$ min_(beta \, beta_0) 1 / 2 \|| beta \||^2 $
+$\|\| beta \|\|$. This formulation leads to the following optimization problem:
+$ min_(beta \, beta_0) 1 / 2 \|\| beta \|\|^2 $
 
 Under the constraint that:
 
@@ -46,9 +45,9 @@ $ y_i (beta_0 + sum_(j = 1)^p beta_j x_(i j)) gt.eq 1 - xi_i quad forall i $
 
 Once we allow violations, we need to penalize them in the objective function to prevent the model from simply classifying all points as the majority class. This leads to the following optimization problem:
 
-$ min_(beta \, beta_0 \, xi) [1 / 2 \|| beta \||^2 + C sum_(i = 1)^n xi_i] $
+$ min_(beta \, beta_0 \, xi) [1 / 2 \|\| beta \|\|^2 + C sum_(i = 1)^n xi_i] $
 
-The objective function shows the importance of two components of the model. Firstly the distance of the hyperplane (first term) and secondly the violations of the margin (second term). The parameter $C$ is a #strong[hyperparameter of regularization] that controls the trade-off between maximizing the margin and minimizing the violations. A high value of the parameter $C$ will prioritize minimizing the violations, rapproching the hard-margin SVM and potentially leading to a higher overfitting. A low value of $C$ will prioritize maximizing the margin, allowing more violations.
+The objective function shows the importance of two components of the model. Firstly the distance of the hyperplane (first term) and secondly the violations of the margin (second term). The parameter $C$ is a #strong[hyperparameter of regularization] that controls the trade-off between maximizing the margin and minimizing the violations. A high value of the parameter $C$ will prioritize minimizing the violations, approching the hard-margin SVM and potentially leading to a higher overfitting. A low value of $C$ will prioritize maximizing the margin, allowing more violations.
 
 ==== Kernel SVM
 <kernel-svm>
@@ -96,8 +95,8 @@ Even with this efficient optimization algorithms, using sophisticated kernels le
 On the other hand, linear SVMs with proper optimization, like #gls("linear programming") or #gls("stochastic gradient descent"), lower the time complexity to $O \( n p \)$, where $p$ is the number of features. This makes linear SVMs more scalable for large datasets, but they are limited to linear patterns.\
 For *inference*, the time complexity is again releted to the kernel function and the number of support vectors, which usually grows with the size of the training set and can be generally between $O \( m p \)$ and $O \( m n \)$, where $m$ is the number of support vectors, while for linear SVMs the inference time complexity is $O \( p \)$, as the prediction is a simple dot product between the input features and the coefficients of the hyperplane.
 
-=== Spacial complexity
-<sub:spacial-complexity-svm>
+=== Spatial complexity
+<sub:spatial-complexity-svm>
 For the memory complexity, the main bottleneck is the storage of the kernel matrix, which has a size of $O \( n^2 \)$, making it impractical for large datasets. For linear SVMs, the memory complexity is much lower, at $O \( p \)$, as it only needs to store the coefficients of the hyperplane. The number of support vectors also affects the memory complexity, as each support vector requires storing its corresponding coefficient and features. In general, the memory complexity can be between $O \( n^2 + m p \)$ and $O \( m p \)$, where $m$ is the number of support vectors.\ To mitigate the memory issues that for large datasets mean impracticality, the same approximations used for time complexity can be applied, reducing the complexity of the problem in more limited and manageable subproblems.
 
 === Internal representation
