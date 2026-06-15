@@ -23,16 +23,16 @@ Before implementing the system, it is crucial to define what the goals and the r
         align: (center, center),
         [RFN-1], [The system must allow the user to choose the dataset to analyse],
         [RFN-2], [The system must allow the user to choose the algorithm for the analysis],
-        [RFN-3], [The system must allow the user to choose the level of detail for the analysis (example SHAP/No-SHAP)],
+        [RFN-3], [The system must allow the user to choose the level of detail for the analysis (example #gls("shap")/No-SHAP)],
         [RFN-4], [The system must allow the user to choose whether to execute the LLM analysis or not],
         [RFN-5], [The system must allow the user to access the result of the analysis in a clear and organized way],
         [RFN-6], [The system must allow the user to know the reason in case of an error during the execution of the analysis],
         [RFN-7], [The system must allow the user to run multiple analyses to compare the performances of different algorithms and techniques],
-        [RFO-1], [The system should be accessible via graphical user interface (No-CLI)],
-        [RQN-1], [The system should be open to the use of different datasets, algorithms],
+        [RFO-1], [The system should be accessible via #gls("gui"), not only #gls("cli")],
+        [RQN-1], [The system should be open to different datasets, algorithms],
         [RQN-2], [The system should be open to the use of different explainability and analysis techniques],
         [RQN-3], [The system should be open to the use of different LLMs for the analysis],
-        [RQD-1], [The system should process the data and execute the analysis in a reasonable time frame, including the LLM analysis the pipeline should not take more than 15 minutes to execute],
+        [RQD-1], [The system should process the data and execute the analysis in a reasonable time frame, including the LLM analysis, the pipeline should not take more than 15 minutes to execute],
     ),
     caption: "Table of requirements for the analysis pipeline.",
 )
@@ -65,7 +65,7 @@ Streamlit was chosen for the implementation of the #gls("gui") of the system. It
 GitHub was chosen for the version control of the project, for an effective codebase management.
 
 === Typst
-Typst was chosen as principal tool for the notes and documentation. Thanks to its flexibility, modern design, powerful features, effective rendering of the PDFs, Typst 
+Typst was chosen as primary tool for the notes and documentation, thanks to its flexibility, modern design, powerful features and effective rendering of the PDFs.
 
 == Design
 <sec:design>
@@ -90,14 +90,14 @@ Typst was chosen as principal tool for the notes and documentation. Thanks to it
 
 === Guiding principles
 <sec:guiding-principles>
-For the best possible design of the system have been used the principles of object-oriented programming and some design patterns. First of all the SOLID principles @design-patterns-martin, @clean-code. In particular:
-+ #strong[Single Responsibility Principle]: each class has a single responsibility, making the code more modular and easier to maintain. A clear example is the modular structure cited just before. A concrete example is the management of the dataset. The `DataPipeline` interface describes the general structure of the data pipeline, while the `DatasetLoader` interface is responsible for loading the dataset, the `DataValidator` interface is responsible for validating the data, the `DataProcessor` interface is responsible for preprocessing the data and the `DataSplitter` interface is responsible for splitting the data into training and test sets.\ This separation allows to replace or modify each component without affecting the others, making the code more *flexible* and *maintainable*. \
+For the best possible design of the system have been used the principles of object-oriented programming and some design patterns. First, the SOLID principles @design-patterns-martin, @clean-code were applied. In particular:
++ #strong[Single Responsibility Principle]: each class has a single responsibility, making the code more modular and easier to maintain. A clear example is the modular structure cited just before. A concrete example is the management of the dataset. The `DataPipeline` interface describes the structure of the data pipeline, while the `DatasetLoader` interface is responsible for loading the dataset, the `DataValidator` interface is responsible for validating the data, the `DataProcessor` interface is responsible for preprocessing the data and the `DataSplitter` interface is responsible for splitting the data into training and test sets.\ This separation allows to replace or modify each component without affecting the others, making the code more *flexible* and *maintainable*. \
 
 + #strong[Open/Closed Principle]: each implementation of the abstract `baseMLAlgo` can expand the possibility of the base class, adding new functionality without modifying the existing code.  All the implementations inherit the basic skeleton of the base class, wrapping the specific algorithm, usually a scikit-learn estimator. The algorithm implemetation only need to implement the specific methods for fitting and metrics/plot generation following the template defined by the base class. This allows to easily add new algorithms without modifying the existing code, making the system more *extensible* and *scalable*.\
 
 + #strong[Liskov Substitution Principle]: the implementation of the `baseMLAlgo` substitute the abstract class, applying their version of the functions and modifying the analysis. The `orchestrator` uses the abstract class, allowing to easily switch between different implementations of the algorithms without modifying the orchestrator. The same principle has been applied in the `DataPipeline`, providing a clear interface for the data loading, validation, processing and splitting, allowing to easily *switch between different implementations* of these components without affecting the rest of the system. \
 
-+ #strong[Interface Segregation Principle]: the interfaces of the different components are designed to be specific to their functionality, avoiding unnecessary dependencies between them. For example, the `LLMRequestManager` has a specific interface for managing the requests to the #gls("large language model"), without depending on the implementation of the algorithms or the orchestrator. Same for the `DataPipeline` and the `Explainer` components, which are designed to be indipendent and modular, allowing to easily replace or modify each component without affecting the others. This design promotes *loose coupling* and *high cohesion* in the codebase, making it easier to maintain and extend. \
++ #strong[Interface Segregation Principle]: the interfaces of the different components are designed to be specific to their functionality, avoiding unnecessary dependencies between them. For example, the `LLMRequestManager` has a specific interface for managing the requests to the #gls("large language model"), without depending on the implementation of the algorithms or the orchestrator. Same for the `DataPipeline` and the `Explainer` components, which are designed to be independent and modular, allowing to easily replace or modify each component without affecting the others. This design promotes *loose coupling* and *high cohesion* in the codebase, making it easier to maintain and extend. \
 
 + #strong[Dependency Inversion Principle]: the high-level modules (`orchestrator`) do not depend on low-level modules (algorithms, LLM request manager), but both depend on abstractions. For example, the orchestrator depends on the abstract `baseMLAlgo` and `LLMRequestManager`, allowing to easily switch between different implementations of the algorithms and the LLM request manager without modifying the orchestrator.
 
@@ -106,14 +106,14 @@ For the best possible design of the system have been used the principles of obje
 The design of the system also incorporates some design patterns to solve common problems and improve the structure of the code. In particular, the following design patterns were applied:
 
 ==== Strategy
-The strategy pattern was applied to the implementation of the algorithms, allowing to easily switch between different algorithms without modifying the code of the `orchestrator`. Each algorithm implements the same interface defined by the abstract `baseMLAlgo`, selecting the appropriate strategy at runtime.\
+The strategy pattern enables switching between different algorithms without modifying the code of the `orchestrator`. Each algorithm implements the same interface defined by the abstract `baseMLAlgo`, selecting the appropriate strategy at runtime.\
 #figure(
       image("../images/diagrams/Strategy.svg", width: 100%, alt: "Diagram of the strategy pattern applied to the implementation of the algorithms."),
       caption: "Diagram of the strategy pattern applied to the implementation of the algorithms with XGBoost, Logistic and linear regression as examples of the concrete algorithms.",
     )
 
 ==== Template method  
-The skeleton of the pipeline is defined in `BasePipeline` describing the overall structure of the analysis process. The concrete `DefaultPipeline` implements the template method, providing specific implementations for each step. The same pattern has been used in the `DataPipeline` and `Explainer` components as they share the same necessity for defined structure with possibility for customization of the specific steps.\
+`BasePipeline` defines the overall structure of the analysis process. The concrete `DefaultPipeline` implements the template method, providing specific implementations for each step. The same pattern has been used in the `DataPipeline` and `Explainer` components as they share the same necessity for defined structure with possibility for customization of the specific steps.\
 
 #figure(
       image("../images/diagrams/Template.svg", width: 100%, alt: "Diagram of the template method pattern applied to the implementation of the pipeline."),
@@ -129,7 +129,7 @@ The factory pattern was applied in the algorithms instantiation via a `ModelFact
     )
 
 ==== Registry
-To centrally manage the registered algorithms, a registry pattern was applied, improved by a masisve use of value objects to manage the informations about the algorithms. The validity of the registered algorithms is consequently guaranteed and it simplifies the process of adding new algorithms to the system, as it only requires to create a new class that implements the `baseMLAlgo` interface and register it in the `ModelFactory` without modifying the existing code. This design promotes *extensibility* and *maintainability* of the codebase.\
+To centrally manage the registered algorithms, a registry pattern was applied, improved by a massive use of value objects to manage the informations about the algorithms. The validity of the registered algorithms is consequently guaranteed and it simplifies the process of adding new algorithms to the system, as it only requires to create a new class that implements the `baseMLAlgo` interface and register it in the `ModelFactory` without modifying the existing code. This design promotes *extensibility* and *maintainability* of the codebase.\
 
 #figure(
       image("../images/diagrams/Registry.svg", width: 100%, alt: "Diagram of the registry pattern applied to the implementation of the algorithms and its use in the context of the system."),

@@ -32,7 +32,7 @@
 
 == Stage conclusion
 <stage-conclusion>
-The final state of the project is evaluated as satisfactory. The planned stages have been completed and the project goals have been achieved. \
+The project reached a satisfactory final state. All planned stages were completed and project goals were achieved. \
 #figure(
     table(
         block(breakable: true),
@@ -58,11 +58,11 @@ Some secondary goals have not been achieved:
 - The goal D-01, which was to create a metric to evaluate the explainability of the analyzed algorithms, was not achieved due to the nature of the task. It was not possible to create a metric that could be applied to all the algorithms analyzed, as the explainability of each algorithm is highly dependent on the specific context and data used and the metric would have been too generic to be useful. \
 - The goal F-01, which was to apply the analysis system in real-world scenarios, was only partially achieved due to the limited availability of suitable datasets. More on that on @limitations-and-future-work. \
 - The goal F-02, which was to study the explainability of semi-supervised and unsupervised algorithms, was not achieved due to time constraints and preference in focusing on the supervised ones. \
+Overall, the project has been successful in achieving its objectives and providing a valuable addition to the personal and professional growth of the author, as well as its possible applications in business contexts. \
 
 == Product final state
 <product-final-state>
-The results obtained are satisfactory as the resulting system is in line with the initial goal of making a flexible and adaptable system that can be applied to a wide range of algorithms and datasets, providing valuable insights for business users. \
-Overall, the project has been successful in achieving its objectives and providing a valuable addition to the personal and professional growth of the author, as well as its possible applications in business contexts. \
+The results are satisfactory; the system aligns with the initial goal of making a flexible and adaptable system that can be applied to a wide range of algorithms and datasets, providing business users valuable insights. \
 #figure(
    table(
         block(breakable: true),
@@ -114,5 +114,5 @@ Moreover, the project offered a glimpse into the working world, exploring advanc
 == Limitations and future work
 <limitations-and-future-work>
 The main limitation of the project is the limited availability of suitable datasets for the analysis. The dataset used in the project are limited in size and scope, which may have affected the generalizability of the results. It's synthetic nature offers limited complexity and real-world applicability. \
-Future work could focus on expanding the analysis to a wider range of datasets and algorithms, as well as exploring the use of different #gls("large language model", plural: true) for the analysis.
-An important improvement would be to enhance the efficiency as mentioned @stage-conclusion, reducing the execution time. A simple solution would be to only run the analysis using a single #gls("large language model") or perhaps, running all the different results analysis one after the other for every algorithm before switching to a different model.\
+Future work could focus on expanding the analysis to a wider range of datasets and algorithms, as well as exploring different #gls("large language model", plural: true) for the analysis.
+An important improvement would be to enhance the efficiency as mentioned in @stage-conclusion, reducing the execution time. A simple solution would be to only run the analysis using a single #gls("large language model") or perhaps running all the different results analysis one after the other for every algorithm before switching to a different model.\

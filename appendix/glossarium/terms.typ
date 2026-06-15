@@ -23,6 +23,12 @@
     description: "A type of machine learning problem in which the goal is to predict discrete class labels based on input features.",
   ),
   (
+    key: "cli",
+    short: "CLI",
+    long: "Command Line Interface",
+    description: "A text-based interface that allows users to interact with a computer system by typing commands, rather than using graphical elements.",
+  ),
+  (
     key: "computational_complexity",
     short: "computational complexity",
     long: "Computational complexity",
