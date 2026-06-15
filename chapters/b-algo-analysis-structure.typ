@@ -5,7 +5,7 @@
 <cap:algo-analysis-structure>
 
 #v(1em)
-The analysis of the algorithms is structured in a systematic way ensuring a comprehensive evaluation of their interpretability and functioning". The structure includes the following components:
+The analysis of the algorithms is structured in a systematic way ensuring a interpretable evaluation of their interpretability and functioning". The structure includes the following components:
 
 + #strong[Mathematical foundations]:  detailed examination of the mathematical principles underlying each algorithm, including their assumptions and theoretical properties. The focus is on the understanding of the specific @objective_function:long that the algorithms optimize, the regularization techniques they use, and the mathematical properties that govern their behavior.
 
@@ -19,6 +19,6 @@ The analysis of the algorithms is structured in a systematic way ensuring a comp
 
 + #strong[Metrics for prediction quality]: presentation of the most relevant metrics for evaluating the models performance, based on the task.
 
-+ #strong[Metrics for interpretability]: presentation of the most relevant metrics for evaluating the models interpretability, based on the task.
++ #strong[Metrics for explainability]: presentation of the most relevant metrics for evaluating the models explainability, based on the task.
 
 + #strong[Explainability limitations]: discussion of the limitations of explainability techniques for each algorithm, including potential pitfalls and challenges in interpreting their predictions.

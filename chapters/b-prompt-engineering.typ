@@ -32,7 +32,7 @@ The principal features that these formats present, and that makes them particula
 <sub:chain-of-thought>
 Chain of Thought (CoT) prompting is a technique that consists in the design of prompts that guide the #gls("large language model", plural:true) to generate a step-by-step reasoning process to reach the final answer. This technique is particularly useful in the context of this project, as it allows to generate explanations that are more coherent and relevant to the analyzed algorithms. \
 The additional value of the guided, step-by-step reasoning has been proven in multiple benchmarks@chain-of-thought, and it is particularly useful in the context of this project, as it allows to generate explanations that are more coherent and relevant to the analyzed algorithms. \
-In the particular context of #gls("explainable ai") and non-technical audiences because it enhances the model's ability to provide detailed and understandable explanations. The generated answer is not just a final result, but a comprehensive explanation that breaks down the reasoning process into clear and logical steps.
+In the particular context of #gls("explainable ai") and non-technical audiences because it enhances the model's ability to provide detailed and understandable explanations. The generated answer is not just a final result, but a interpretable explanation that breaks down the reasoning process into clear and logical steps.
 
 === Zero-Shot prompting
 <sub:zero-shot-prompting>
@@ -41,5 +41,5 @@ The zero-shot prompting also revealed to be quite effective with some additional
 
 === Multimodal prompt
 <sub:multimodal-prompt>
-The multimodal prompting technique consists of the design of prompts that include multiple modalities, such as text, images, tables, etc. This technique is particularly useful in the context of this project, as it allows to provide the model with a richer and more comprehensive context for generating explanations.\
+The multimodal prompting technique consists of the design of prompts that include multiple modalities, such as text, images, tables, etc. This technique is particularly useful in the context of this project, as it allows to provide the model with a richer and more interpretable context for generating explanations.\
 The use of multimodal prompts can enhance the model's ability to comprehend and analyze the results of the algorithms, as it can leverage the information provided in different formats to generate more accurate and relevant explanations. In fact, _"visual prompts effectively interact with the textual prompts, enhancing the alignment between modalities and thereby improving the model's performance on the zero-shot instruction learning"_ @multimodal-prompt.\

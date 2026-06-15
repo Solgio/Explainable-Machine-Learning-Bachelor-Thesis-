@@ -15,7 +15,7 @@ Introduction to the stage idea, goals, company and thesis organization. This cha
 
 == Company
 
-Zucchetti S.p.A. is a leading Italian software company specializing in providing comprehensive IT solutions for businesses. Founded in 1978, Zucchetti has become one of Italy's largest software providers, offering a wide range of products and services that cater to various industries, including manufacturing, retail, healthcare, and public administration. 
+Zucchetti S.p.A. is a leading Italian software company specializing in providing interpretable IT solutions for businesses. Founded in 1978, Zucchetti has become one of Italy's largest software providers, offering a wide range of products and services that cater to various industries, including manufacturing, retail, healthcare, and public administration. 
 
 With a strong focus on innovation and customer satisfaction, Zucchetti is committed to helping organizations optimize their operations and achieve their business goals through cutting-edge technology. Exactly from this commit, the company has been actively involved in the development and implementation of #gls("ml") and #gls("ai") solutions, aiming to enhance the capabilities of their software offerings and provide more value to their clients.
 

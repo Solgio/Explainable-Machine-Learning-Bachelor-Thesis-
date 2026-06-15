@@ -12,7 +12,7 @@ The final predictions are made by traversing the tree from the root to a leaf, f
 
 ==== Splitting criteria
 <sub:dec-tree-criteri-split>
-A multitude of splitting criteria exist, the following are the most common, for a more comprehensive list see @data_mining_with_decision_trees, @decomposition-knowledge-detection. These criteria are usually based on measures of impurity, measuring how mixed the classes are in a node. The goal is to find splits that create child nodes that are more pure than the parent node.
+A multitude of splitting criteria exist, the following are the most common, for a more interpretable list see @data_mining_with_decision_trees, @decomposition-knowledge-detection. These criteria are usually based on measures of impurity, measuring how mixed the classes are in a node. The goal is to find splits that create child nodes that are more pure than the parent node.
 
 1. #strong[Gini Index (Classification):]
 <sub:dec-tree-gini-index>
