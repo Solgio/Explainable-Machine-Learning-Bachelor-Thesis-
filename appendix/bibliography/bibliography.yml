@@ -209,3 +209,21 @@ scikit-docs:
     title: "Scikit-learn Documentation"
     url: https://scikit-learn.org/stable/supervised_learning.html
     date: 2025
+
+student-dataset:
+    type: Web
+    title: "Student Placement & Salary Dataset (Skills based)"
+    url: https://www.kaggle.com/datasets/amaymishra11/student-placement-and-salary-dataset-skills-based
+    date: 2025
+
+heart-dataset:
+    type: Web
+    title: "Heart Failure Prediction Dataset"
+    url: https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction
+    date: 2021
+
+life-expectancy-dataset:
+    type: Web
+    title: "Life Expectancy (WHO)"
+    url: https://www.kaggle.com/datasets/kumarajarshi/life-expectancy-who
+    date: 2018

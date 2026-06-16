@@ -107,12 +107,13 @@ For complete tracking of the requirements a requirements traceability matrix has
 
 == Results
 <results>
-The analysis of the algorithms has provided valueable insights about their limitations and strenghts, allowing to understand how to improve their performance and interpretability. The integration of the mathematical results, th context of the dataset and the analysis of the results provided by the #gls("large language model") allowed to understand the behavior of the algorithms in a more complete way. The justification closed the gap between the complexity of the algorithms and the business users, providing clear and simple explainations and allowing to make informed decisions based on the results. \
+The analysis of the algorithms has provided valueable insights about their limitations and strenghts, allowing to understand how to improve their performance and interpretability. A comprehensive comparison of the algorithms is available in @algorithmic-comparison. \ 
+The integration of the mathematical results, the context of the dataset and the analysis of the results provided by the #gls("large language model") allowed to understand the behavior of the algorithms in a more complete way. The justification closed the gap between the complexity of the algorithms and the business users, providing clear and simple explainations and allowing to make informed decisions based on the results. \
 The result are generally satisfactory. This opportunity provided a way to explore the potential of #gls("large language model") in the context of explainable machine learning, and to provide a practical implementation of a system, applying the knowledge built during the academic experience. \
 Moreover, the project offered a glimpse into the working world, exploring advanced technical aspect in a productive and professional environment. 
 
 == Limitations and future work
 <limitations-and-future-work>
-The main limitation of the project is the limited availability of suitable datasets for the analysis. The dataset used in the project are limited in size and scope, which may have affected the generalizability of the results. It's synthetic nature offers limited complexity and real-world applicability. \
-Future work could focus on expanding the analysis to a wider range of datasets and algorithms, as well as exploring different #gls("large language model", plural: true) for the analysis.
+The main limitation of the project is the limited impact of images. THe pure mathematical nature of the plots and the complexity of the algorithms make it difficult to extract valueable insights from them, especially for business users. The search of techniques for better use of the images is surely a aspect to improve. A first idea is the integration with a more precise description of the images or perhaps raw data as support of the images itself.\
 An important improvement would be to enhance the efficiency as mentioned in @stage-conclusion, reducing the execution time. A simple solution would be to only run the analysis using a single #gls("large language model") or perhaps running all the different results analysis one after the other for every algorithm before switching to a different model.\
+
