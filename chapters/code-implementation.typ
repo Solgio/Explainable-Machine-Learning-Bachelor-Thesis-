@@ -56,6 +56,7 @@ Scikit-learn provides implementations of most of the algorithms in exam, without
 The models that were not offered by scikit-learn were implemented using the original implementations provided by the authors of the algorithms, for example for XGBoost@xgboost.
 
 === Optuna
+<sec:optuna>
 Since a lot of algorithms benefits from hyperparameter tuning, Optuna was chosen for its efficiency and ease of use in automatically optimizing the hyperparameters of machine learning models.
 
 === Streamlit

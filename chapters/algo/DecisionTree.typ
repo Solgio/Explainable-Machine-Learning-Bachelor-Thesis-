@@ -61,7 +61,6 @@ The spatial complexity is determined by the need to store the tree structure and
 <sub:dec-tree-internal-representation>
 A decision tree is represented internally as a recursive tree structure, as suggested by the name. Each node:
 
-
 ```
 Node(feature=x1, threshold=5.5, left=Node(...), right=Node(...))
 ```
@@ -142,4 +141,3 @@ In the context of correlated features, decision trees can mask the importance of
 Additionally, decision trees can be biased towards features with more levels (especially categorical features), which can lead to misleading interpretations of feature importance.
 Finally for regression tasks, the piecewise constant predictions can make it difficult to understand the relationship between features and the target variable, especially when the tree is deep and captures complex interactions.\
 Even with these limitations decision trees still remain _white boxes_ and of easy understanding. 
-
