@@ -142,7 +142,7 @@ It's possible to visualize individual trees in the ensemble, but the interpretab
 
 === Explainability limitations
 <sub:xgboost-explainability-limitations>
-As other ensamble methods, XGBoost trades off interpretability for predictive performance. The main limitations are due to the sequential nature of the trees. A single tree cannot fully explain the prediction, and it is difficult to trace the reasoning process step by step. Even if the basic concept is easy to grasp, it is difficult to understand its application. \
+As other ensemble methods, XGBoost trades off interpretability for predictive performance. The main limitations are due to the sequential nature of the trees. A single tree cannot fully explain the prediction, and it is difficult to trace the reasoning process step by step. Even if the basic concept is easy to grasp, it is difficult to understand its application. \
 Additionally, the feature importance metrics can give different rankings depending on the method used (gain, cover, frequency), and there is no single universally "correct" way to interpret them but are context-dependent. Feature impoortance also suffers from instability for a variaty of reasons. Firstly, correlated features can be selected alternatively and changes in data can affect the corresponding importance scores.\
 Finally, while #gls("shap") values can provide insights into feature contributions, they are computationally expensive to calculate, especially for large datasets with many features. \
 To summarize, while XGBoost provides some tools for explainability, it is not designed to be an interpretable model, and its complexity can make it challenging to understand the underlying decision-making process.
