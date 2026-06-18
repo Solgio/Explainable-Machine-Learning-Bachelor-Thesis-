@@ -16,7 +16,7 @@ Where - $hat(y)_i^(\( t \))$ is the prediction for instance i after $t-1$ trees 
 The global @objective_function is defined as:
 $ L \( phi.alt \) == sum_(i == 1)^n l \( hat(y)_i \, y_i \) + sum_(k == 1)^K Omega \( f_k \) $
 Where the first term is the loss function that measures the error between the predicted and true values, and the second term is a regularization term that penalizes the complexity of the ensemble of trees. The regularization is need to prevent overfitting of the model and it is defined as:
-$ Omega \( f \) == gamma T + 1 / 2 lambda \|\| w \|\|^2 $ penalizing both the number of leaves (T) and the leaf weight magnitude(w) using $gamma$ and $lambda$ respectively.
+$ Omega \( f \) == gamma T + 1 / 2 lambda \|\| w \|\|^2 $ penalizing both the number of leaves ($T$) and the leaf weight magnitude($w$) using $gamma$ and $lambda$ respectively.
 
 Considering the step t, the model is trained to minimize the following objective function:
 $ L^(\( t \)) == sum_(i == 1)^n l \( y_i \, hat(y)_i^(\( t - 1 \)) + f_t \( x_i \) \) + Omega \( f_t \) $
@@ -30,11 +30,11 @@ As said before, the gradients are defined as:
 
 For the creation of the trees, XGBoost uses a greedy algorithm that iteratively splits the data based on the feature that provides the best improvement in the objective function. The quality of a split is measured by the following score:
 $ upright("Score") \( q \) == - 1 / 2 sum_(j == 1)^T frac(\( sum_(i in I_j) g_i \)^2, sum_(i in I_j) h_i + lambda) + gamma T $
-Where $I_j$ is the set of instances in leaf j. This score measures how good a tree structure is, with more negative values indicating better trees.
+Where $I_j$ is the set of instances in leaf $j$. This score measures how good a tree structure is, with more negative values indicating better trees.
 
 === Time complexity
 <sub:xgboost-time-complexity>
-The time complexity for the greedy algorithm directly depends on the number of trees (K), the depth of the trees (d) and the number of observations (n). The exact greedy algorithm has a time complexity of:
+The time complexity for the greedy algorithm directly depends on the number of trees ($K$), the depth of the trees ($d$) and the number of observations ($n$). The exact greedy algorithm has a time complexity of:
 $ O \( K dot.op d dot.op n dot.op f log \( n \) \) $
 Using on block structure, moving the sorting outside the tree construction without re-sorting at each iteration, the time complexity is reduced to:
 $ O \( n dot.op f log \( n \) \) + O\( K dot.op d dot.op n dot.op f \)$ Where the first term is the cost of the initial sorting and the second term is the cost of building K trees with depth d. \
@@ -43,43 +43,11 @@ In reality, the $n dot.op f$ in often reduced to the only data entries with non-
 For *inference*, the algorithm needs to traverse K trees sequentially, following the path from the root to the leaf for each tree. The time complexity is therfore $ O \( K dot.op d \) $ where d is the average depth of the trees. \
 
 
-==== Training (Approssimato - con Quantile Sketch)
-<training-approssimato---con-quantile-sketch>
-$ O \( K dot.op d dot.op n \) $
-
-Usando il #strong[weighted quantile sketch] (novità di XGBoost):
-
-- Propone candidate split points in modo intelligent
-- Non richiede sorting completo
-- Ottimale per dataset out-of-corE
-
 === Spatial complexity
 <sub:xgboost-spatial-complexity>
 The total spatial complexity of XGBoost is the sum of the space needed to store the model (the ensemble of trees) and the space needed to store the data during training. The spatial complexity for storing K trees with depth d is:
 $ O \( K dot.op 2^d + m dot.op n \) $\
 If block structure is used, the spatial complexity should consider the additional space required to store the indexes for the columns. This results in a used of double space for the data, which does not effect O notation but can be significant in practice. \
-
-=== Scalabilità: Conclusioni
-<scalabilità-conclusioni>
-#strong[Vantaggi rispetto a Random Forest:]
-
-- #strong[Sequenziale è più efficiente:] ogni albero è costruito per
-  correggere errori specifici
-- #strong[Alberi più piccoli:] con boosting, alberi più shallow
-  (tipicamente profondità 5-8) vs RF (profondità \<== n)
-- #strong[Meno alberi necessari:] 100-500 alberi vs RF 1000+
-- #strong[Out-of-core:] XGBoost supporta natively dati che non fit in
-  memoria
-
-#strong[Svantaggi:]
-
-- #strong[Sequenziale:] training è sequenziale, non parallelizzabile
-  come RF
-- #strong[Sensibile ai parametri:] il tuning di learning rate, depth,
-  regularization è critico
-
-#strong[Trade-off:] XGBoost è \~10x più veloce di Random Forest per item
-su dataset moderati (Chen & Guestrin, 2016).
 
 === Internal representation
 <sub:xgboost-internal-representation>

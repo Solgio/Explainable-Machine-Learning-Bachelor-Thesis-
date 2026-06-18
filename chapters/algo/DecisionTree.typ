@@ -12,7 +12,7 @@ The final predictions are made by traversing the tree from the root to a leaf, f
 
 ==== Splitting criteria
 <sub:dec-tree-criteri-split>
-A multitude of splitting criteria exist, the following are the most common, for a more interpretable list see @data_mining_with_decision_trees, @decomposition-knowledge-detection. These criteria are usually based on measures of impurity, measuring how mixed the classes are in a node. The goal is to find splits that create child nodes that are more pure than the parent node.
+A multitude of splitting criteria exist, the following are the most common, for a more complete list see @data_mining_with_decision_trees, @decomposition-knowledge-detection. These criteria are usually based on measures of impurity, measuring how mixed the classes are in a node. The goal is to find splits that create child nodes that are more pure than the parent node.
 
 1. #strong[Gini Index (Classification):]
 <sub:dec-tree-gini-index>
@@ -79,8 +79,8 @@ This is a very weak assumption compared to linear models, which require linearit
 <sub:dec-tree-predictive-performance-and-limitations>
 Decision trees are powerful models in context of classification, especially when the relationship between features and target is complex and non-linear, for example in a context with multiple #gls("categorical_features"). Feature interactions are naturally captured by the tree structure without explicitly modeling them. As said previously, decision trees can handle #gls("categorical_features") without the need for encoding, which can be a significant advantage in many real-world datasets. Moreover, they do not require any assumptions about the distribution of the data or the linearity of relationships between features and target variable, making them versatile for a wide range of problems.\ All there advantages lead to a model that can capture automatically complex patterns in a vast variety of datasets.\
 On the contrary, decision trees can be inaccurate on purely linear data, where a simple linear model would achieve better performance. In general, decision tree regressors tend to be inaccurate as they approximate the target variable with piecewise constant predictions, which can lead to high bias. \
-Moreover, decision trees are prone to overfitting, especially when the tree is allowed to grow deep and capture noise in the training data and in high dimensionalities. This can lead to poor generalization performance on unseen data.\
-Decision trees can also be biased towards features with more levels (especially categorical features), which can lead to misleading interpretations of feature importance.\
+Decision trees are even prone to overfitting, especially when the tree is allowed to grow deep and capture noise in the training data and in high dimensionalities. This can lead to poor generalization performance on unseen data.\
+In aadition, they can also be biased towards features with more levels (especially categorical features), which can lead to misleading interpretations of feature importance.\
 Finally, decision trees can be unstable, meaning that small changes in the training data can lead to significantly different tree structures and predictions. This is because the tree-building process is greedy and makes locally optimal decisions at each node, which can be sensitive to variations in the data.
 
 === Metrics for prediction quality

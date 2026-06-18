@@ -27,7 +27,7 @@ For *inference*, the time complexity is $O \( p \)$ per instance, as it involves
 
 === Spatial complexity
 <sub:spatial-complexity-lr>
-The spatial complexity of the linear regression model is determined by the need to store the input data, the weight vector, and any intermediate matrices used in the analytical solution. Specifically, the analytical solution requires storing the $n x p$ matrix $X$, the $p x p$ matrix $X^T X$, and the $p$-dimensional weight vector $beta$. Therefore, the overall spatial complexity of the linear regression model is dominated by the storage of the input data and the intermediate matrices, resulting in a spatial complexity of $O \( n p + p^2 \)$.\
+The spatial complexity of the linear regression model is determined by the need to store the input data, the weight vector, and any intermediate matrices used in the analytical solution. Specifically, the analytical solution requires storing the $n dot.op p$ matrix $X$, the $p dot.op p$ matrix $X^T X$, and the $p$-dimensional weight vector $beta$. Therefore, the overall spatial complexity of the linear regression model is dominated by the storage of the input data and the intermediate matrices, resulting in a spatial complexity of $O \( n p + p^2 \)$.\
 For the #gls("gradient descent") method, the spatial complexity is reduced to $O \( n p + p \)$, as it does not require storing the intermediate matrix $X^T X$.\
 For *inference*, the spatial complexity is $O \( p \)$ per instance, as it only stores the weight vector and the feature vector.
 
@@ -87,7 +87,7 @@ As intuitively, the hgher the variance of the coefficient is, the less the featu
 
 ==== p-value
 <sub:p-value-lr>
-$"p-value"$ is a measure of the probability of "obtaining the observed data under the null hypothesis of a statistical test"@p-value. In the context of linear regression, the null hypothesis is that the true coefficient $beta_j$ is equal to zero, meaning that the feature does not have a significant impact on the target variable. The p-value for each coefficient is calculated based on the t-statistic and indicates the probability of observing such an extreme value for $t_(hat(beta)_j)$ if the null hypothesis were true. A common convention is to consider a p-value less than 0.05 as statistically significant, suggesting that there is strong evidence against the null hypothesis and that the feature likely has a meaningful relationship with the target variable.
+$"p-value"$ is a measure of the probability of _"obtaining the observed data under the null hypothesis of a statistical test"_@p-value. In the context of linear regression, the null hypothesis is that the true coefficient $beta_j$ is equal to zero, meaning that the feature does not have a significant impact on the target variable. The p-value for each coefficient is calculated based on the t-statistic and indicates the probability of observing such an extreme value for $t_(hat(beta)_j)$ if the null hypothesis were true. A common convention is to consider a p-value less than 0.05 as statistically significant, suggesting that there is strong evidence against the null hypothesis and that the feature likely has a meaningful relationship with the target variable.
 
 ==== Mallows\' Cp
 <sub:mallows-cp-lr>
@@ -102,7 +102,7 @@ Where $hat(sigma)^2$ is the estimate of residuals variance of the complete model
 The use of diagnostic plots is crucial to visually assess the assumptions of linear regression and to identify potential issues with the model fit.
 ==== Actual vs Predicted
 <sub:actual-vs-predicted-lr>
-Scatter plot with actual values $y_i$ on the y-axis and predicted values $hat(y)_i$ on the x-axis.
+Scatter plot with actual values $y_i$ on the $y$-axis and predicted values $hat(y)_i$ on the $x$-axis.
 If the model fits well, the points should be concentrated around the diagonal line $y = hat(y)$. Deviations from this pattern can indicate various issues with the model fit. 
 
 ==== Histogram of residuals distribution
@@ -131,7 +131,7 @@ If the model fits well, the points should be concentrated around the diagonal li
 
 ==== Residuals vs Fitted Values
 <residuals-vs-fitted-values>
-Scatter plot with fitted values $hat(y)_i$ on the y-axis and residuals $epsilon.alt_i = y_i - hat(y)_i$ on the x-axis.
+Scatter plot with fitted values $hat(y)_i$ on the $y$-axis and residuals $epsilon.alt_i = y_i - hat(y)_i$ on the $x$-axis.
 $hat(y)_i$. \
 If the model fits well, the points should be concentrated around the diagonal line $y = hat(y)$. This plot can be used to identify violation in regression assumptions (@sub:data-assumptions-lr). Increasing dispersion for example, show heteroschedasticity, while systematic patterns (e.g. a curve) indicate non-linearity that the model cannot capture.
 
