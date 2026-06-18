@@ -227,3 +227,16 @@ life-expectancy-dataset:
     title: "Life Expectancy (WHO)"
     url: https://www.kaggle.com/datasets/kumarajarshi/life-expectancy-who
     date: 2018
+
+symbolic-regression:
+    type: Book
+    title: "Symbolic Regression"
+    author: -"Gabriel Kronberger"
+            -"Michael Kommenda"
+            -"Stephan Winkler"
+            -"Bogdan Burlacu"
+    doi: 10.1201/9781315166407
+    isbn: 9781315166407
+    publisher: CRC Press
+    url: https://www.researchgate.net/publication/382152886_Symbolic_Regression
+    date: 2025

@@ -1,5 +1,5 @@
 // Non su primo capitolo
-//#pagebreak(to:"odd")
+#pagebreak(to:"odd")
 #import "@preview/glossarium:0.5.9": gls
 #import "../appendix/glossarium/terms.typ": terms
 
@@ -20,7 +20,7 @@ Zucchetti S.p.A. is a leading Italian software company specializing in providing
 With a strong focus on innovation and customer satisfaction, Zucchetti is committed to helping organizations optimize their operations and achieve their business goals through cutting-edge technology. Exactly from this commit, the company has been actively involved in the development and implementation of #gls("ml") and #gls("ai") solutions, aiming to enhance the capabilities of their software offerings and provide more value to their clients.
 
 #figure(
-    image("../images/zucchetti-logo.webp", alt: "Zucchetti logo"),
+    image("../images/zucchetti-logo.webp", width: 75%, alt: "Zucchetti logo"),
     caption: "Zucchetti S.p.A. logo."
 )
 

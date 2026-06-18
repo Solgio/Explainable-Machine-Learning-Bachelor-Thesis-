@@ -2,7 +2,7 @@
 #let myLang = "en"
 #let myName = "Lorenzo Soligo"
 #let myMatricola = "2101057"
-#let myTitle = "Explainable Machine Learning through Large Language Models: Analysis and Prompt Design"
+#let myTitle = "Explainable Machine Learning Through Large Language Models: Analysis and Prompt Design"
 #let myDegree = "Bachelor's Thesis"
 #let myUni = "University of Padua"
 #let myDepartment = "Department of Mathematics ''Tullio Levi-Civita''"

@@ -18,7 +18,7 @@
     // Corpo
     [
         // Logo
-        #align(center, image(logo, width: 60%))
+        #align(center, image(logo, width: 50%))
         #v(60pt)
 
         // Titolo

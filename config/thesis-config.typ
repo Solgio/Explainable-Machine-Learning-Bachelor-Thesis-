@@ -9,7 +9,7 @@
 #let config(
   myAuthor: "Lorenzo Soligo",
   myMatricola: "2101057",
-  myTitle: "Explainable Machine Learning through Large Language Models: Analysis and Prompt Design",
+  myTitle: "Explainable Machine Learning Through Large Language Models: Analysis and Prompt Design",
   myLang: "it",
   myNumbering: "1",
   body,

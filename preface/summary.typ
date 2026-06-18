@@ -3,6 +3,7 @@
 #import "../appendix/glossarium/terms.typ": terms
 #set page(numbering: "i")
 #counter(page).update(1)
+#pagebreak(to:"odd")
 
 #v(10em)
 

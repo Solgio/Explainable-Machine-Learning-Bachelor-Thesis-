@@ -7,7 +7,7 @@
 
 #let undergraduate = (
   "it" : "Laureando",
-  "en" : "Undergraduate",
+  "en" : "Candidate",
 ).at(myLang)
 
 #let academicYear = (

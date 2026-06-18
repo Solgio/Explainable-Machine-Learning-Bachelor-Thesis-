@@ -62,6 +62,6 @@ $ upright("Feature Support")_i = frac(upright("#training instances with similar 
 SHAP (SHapley Additive exPlanations) is a method for explaining the output of machine learning models by attributing the prediction to each feature. It is based on the concept of Shapley values from cooperative game theory, which provide a way to fairly distribute the "payout" (in this case, the prediction) among the "players" (the features) based on their contribution to the prediction. SHAP values can be used to understand the importance of each feature for a specific prediction (local interpretability) or for the model as a whole (global interpretability). SHAP provides a unified framework for interpreting various types of models and can be applied to both linear and non-linear models, making it a powerful tool for explainable AI.
 
 #figure(
-    image("../images/shap-logo.webp", alt: "SHAP logo"),
+    image("../images/shap-logo.webp", width:75%, alt: "SHAP logo"),
     caption: "SHAP library logo."
 )
