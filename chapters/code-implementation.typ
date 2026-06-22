@@ -80,7 +80,7 @@ Typst was chosen as primary tool for the notes and documentation, thanks to its 
     ,[
         The design of the entire pipeline was made with the goal of an extendable pipeline, providing the developer the possibility to easily add new algorithms, datasets, analysis techniques and #gls("large language model", plural: true). \
         For this reason, the design of the system is layered and modular, with each component of the pipeline being independent and interchangeable. \ The main components of the system are: \
-    ], proporzioni: (55%, 45%)
+    ], proportions: (55%, 45%)
 )
 + #strong[Orchestrator]: coordinates the pipeline, invoking the different components in the correct order and passing the necessary data between them.
 + #strong[Selector]: allows the user to choose the analysis type (single algorithm or comparative), the dataset, the algorithm, the level of detail for the analysis and whether to execute the #gls("large language model") analysis or not.

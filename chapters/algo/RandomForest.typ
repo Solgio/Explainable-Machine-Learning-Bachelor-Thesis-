@@ -7,7 +7,7 @@
 <random-forest>
 === Mathematical model
 <sub:rand-for-model> 
-Random forest is an ensemble method that combines multiple decision trees to improve better prediction performance compared to a single tree. In particular, the idea is to address the overfitting and instability problems discussed in @sub:dec-tree-predictive-performance-and-limitations. There exist multiple ways to achieve this. The most common are:
+Random forest is an ensemble method that combines multiple decision trees to improve prediction performance compared to a single tree. In particular, the idea is to address the overfitting and instability problems discussed in @sub:dec-tree-predictive-performance-and-limitations. There exist multiple ways to achieve this. The most common are:
 
 + #strong[Bootstrap Aggregating (Bagging):] training every tree on a different sample of the dataset
 + #strong[Feature Randomness:] every split consider only a random subset of features
@@ -64,8 +64,8 @@ As described in @sub:dec-tree-data-assumptions, Decision Trees make very few ass
 
 === Predictive performance and limitations
 <sub:rand-for-predictive-performance-and-limitations>
-The ensemble nature of Random Forest allows it to achieve excellent predictive performance, tackling the overfitting and instability problems of a single tree.
-At the same time it inherits the ability to capture complex patterns and interaction between features, as well as naturally handling both numerical and #gls("categorical_features").\
+The ensemble nature of Random Forest allows it to achieve high predictive performance, tackling the overfitting and instability problems of a single tree.
+At the same time it inherits the ability to capture complex patterns and interaction between features, as well as naturally handling both numerical and #gls("categorical_features") from the single tree models.\
 However, it has its own limitations. It is still sensitive to feature dominance especially for categorical features with many categories. Moreover, it is not a good choice for purely linear data, where a simple linear model would achieve better performance.\
 The use of many trees also makes it more computationally and memory intensive. This is paired with a higher number of hyperparameters, for example the number of trees, the dimension of the random feature subset, in addition to the tree depth and minimum samples per split. If not tuned properly, the performance can be significantly reduced.\
 Finally, the output of a Random Forest is a probability (fraction of trees that vote for a class), which is not well calibrated as in Logistic Regression, so it may not reflect true confidence in the prediction.
@@ -86,7 +86,6 @@ This probability can be used to evaluate the confidence of the prediction, but a
 OOB error is a unique metric for Random Forest that provides an estimate of the generalization error without the need for a separate validation set. During training, each tree is trained on a bootstrap sample of the data, which means that some instances are left out (out-of-bag). These OOB instances can be used to test the performance of the tree on unseen data. The OOB error is calculated as the average error of the predictions made by the trees on their respective OOB instances:
 
 $ upright("OOB Error") == 1 / n sum_(i == 1)^n bb(1) \[ upright("OOB")_i eq.not y_i \] $
-#strong[Vantaggi:]
 
 === Explainability and interpretability metrics
 <sub:rand-for-metrics-for-interpretability>
@@ -126,5 +125,5 @@ ICE plot is a variant of PDP that shows the effect of a feature on the predicted
 <sub:rand-for-explainability-limitations-dec-tree>
 For its ensemble nature, Random forest presents some limitations in terms of explainability, especially when compared to a single decision tree. The main issue is related to the path that leads to a specific prediction. In a single tree, it is straightforward to follow the path from the root to the leaf node that makes the prediction, understanding which features and thresholds were used at each split. In a Random Forest, there are multiple trees, and each tree may use different features and thresholds for splitting, making it difficult to trace a single path for a specific prediction.\ 
 The problem is not only local, but also global, as the overall decision process is based on averaging the predictions, disrupting the interpretability of the model.\
-This leads to a more opaque model, even if with higher performance. The feature importance can help to understand which features are generally important for the model, but it does not provide a clear explanation of how the features interact to produce a specific prediction and it can be misleading in case of correlated features. \
-In summary, Random FOrest is yet another example of how the trade-off between performance and explainability is not always clear-cut, and it is important to consider the specific context and requirements of the problem when choosing a model.
+This leads to a more *opaque model*, even if with higher performance. The feature importance can help to understand which features are generally important for the model, but it does not provide a clear explanation of how the features interact to produce a specific prediction and it can be misleading in case of correlated features. \
+In summary, Random Forest is yet another example of how the trade-off between performance and explainability is not always clear-cut, and it is important to consider the specific context and requirements of the problem when choosing a model.

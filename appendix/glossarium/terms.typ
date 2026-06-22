@@ -8,7 +8,6 @@
   (
     key: "black_box",
     short: "black box",
-    long: "Black Box",
     description: "A term used to describe machine learning models that are complex and not easily interpretable, making it difficult to understand how they arrive at their predictions or decisions.",
   ),
   (

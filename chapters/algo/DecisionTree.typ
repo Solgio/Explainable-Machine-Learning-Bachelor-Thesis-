@@ -80,7 +80,7 @@ This is a very weak assumption compared to linear models, which require linearit
 Decision trees are powerful models in context of classification, especially when the relationship between features and target is complex and non-linear, for example in a context with multiple #gls("categorical_features"). Feature interactions are naturally captured by the tree structure without explicitly modeling them. As said previously, decision trees can handle #gls("categorical_features") without the need for encoding, which can be a significant advantage in many real-world datasets. Moreover, they do not require any assumptions about the distribution of the data or the linearity of relationships between features and target variable, making them versatile for a wide range of problems.\ All there advantages lead to a model that can capture automatically complex patterns in a vast variety of datasets.\
 On the contrary, decision trees can be inaccurate on purely linear data, where a simple linear model would achieve better performance. In general, decision tree regressors tend to be inaccurate as they approximate the target variable with piecewise constant predictions, which can lead to high bias. \
 Decision trees are even prone to overfitting, especially when the tree is allowed to grow deep and capture noise in the training data and in high dimensionalities. This can lead to poor generalization performance on unseen data.\
-In aadition, they can also be biased towards features with more levels (especially categorical features), which can lead to misleading interpretations of feature importance.\
+In addition, they can also be biased towards features with more levels, which can lead to misleading interpretations of feature importance.\
 Finally, decision trees can be unstable, meaning that small changes in the training data can lead to significantly different tree structures and predictions. This is because the tree-building process is greedy and makes locally optimal decisions at each node, which can be sensitive to variations in the data.
 
 === Metrics for prediction quality
@@ -111,14 +111,14 @@ For deep trees, the complete visualization can become cluttered and difficult to
 
 ==== Feature importance
 <sub:dec-tree-feature-importance>
-Measures how often a fearure is used as a splitting criterion and how much it reduces the average impurity:
+Measures how often a feature is used as a splitting criterion and how much it reduces the average impurity:
 
 $ upright("Importance")_j = frac(sum_(upright("nodes with feature ") j) \( upright("IG")_(upright("node")) \) times \( upright("n nodes") \) \/ n, upright("sum of all the nodes")) $
 The more a feature is used for splitting and the more it reduces impurity, the higher its importance score. This metric can help to identify not only which features are most influential in the model, but also to understand the relative importance of different features in the decision-making process of the tree. In fact, the most dividing features would appear at the top and could be identified easily with other methods, but the feature importance metric allows to identify also less important features that are used for splitting in deeper levels of the tree and that have been used frequently.
 
 ==== Path to prediction 
 <sub:dec-tree-path-to-prediction>
-For a single instance is possible to trace the complete path from root to leaf and list all the comparisons (feature \<= threshold) that led to the prediction. This is a #strong[huge advantage for explainability] compared to @black_box:long models. Every prediction is completely traceable locally.\
+For a single instance is possible to trace the complete path from root to leaf and list all the comparisons (feature \<= threshold) that led to the prediction. This is a #strong[huge advantage for explainability] compared to @black_box models. Every prediction is completely traceable locally.\
 ```
 Instance: (x1=3.2, x2=1.5, x3=A)
 
@@ -136,8 +136,7 @@ This is especially useful in contexts where understanding the reasoning behind a
 === Explainability limitations
 <sub:dec-tree-explainability-limitations-dec-tree>
 The decision trees are generally considered interpretable models, but they have some limitations in terms of explainability too. \ 
-One of the main limitations is that as the tree grows deeper and more complex, it can become difficult to understand the global structure of the model and how different features interact with each other across the entire tree. While it is possible to trace the decision path for a single instance, understanding the overall reasoning process of the model can be challenging when there are many nodes and interactions between features. \
+One of the main limitations is that as the tree grows deeper and more *complex*, it can become difficult to understand the global structure of the model and how different features interact with each other across the entire tree. While it is possible to trace the decision path for a single instance, understanding the overall reasoning process of the model can be challenging when there are many nodes and interactions between features. \
 In the context of correlated features, decision trees can mask the importance of one feature in favor of another, losing valuable insights about the data.
-Additionally, decision trees can be biased towards features with more levels (especially categorical features), which can lead to misleading interpretations of feature importance.
 Finally for regression tasks, the piecewise constant predictions can make it difficult to understand the relationship between features and the target variable, especially when the tree is deep and captures complex interactions.\
 Even with these limitations decision trees still remain _white boxes_ and of easy understanding. 
