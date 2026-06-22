@@ -3,7 +3,7 @@
 <p align="center">
   <img src="./images/unipd-logo.svg" alt="University of Padua Logo" width="340"/>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./images/zucchetti-logo (3).webp" alt="Zucchetti Logo" width="340"/>
+  <img src="./images/zucchetti-logo.webp" alt="Zucchetti Logo" width="340"/>
 </p>
 
 This repository contains the source files and compiled document of the Bachelor's Thesis in Computer Science by **Lorenzo Soligo** at the **University of Padua**, developed during an internship at **Zucchetti S.p.A.**
