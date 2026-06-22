@@ -240,3 +240,13 @@ symbolic-regression:
     publisher: CRC Press
     url: https://www.researchgate.net/publication/382152886_Symbolic_Regression
     date: 2025
+
+applied-symbolic-regression:
+    type: Article
+    title: "Combining data and theory for derivable scientific discovery with AI-Descartes"
+    publisher: "Nature Communications"
+    author: -"Cristina Cornelio"
+            -"Sanjeeb Dash"
+            -"Vernon Austel" et al.
+    date: 2023
+    doi: 10.1038/s41467-023-37236-y
