@@ -44,20 +44,20 @@ The project reached a satisfactory final state. All planned stages were complete
         [O-03], [ Comprehension of algorithms design techniques.],[Achieved],
         [O-04], [ Prompt generation for Large Language Models to generate human-readable explanations.],[Achieved],
         [O-05], [ Comprehension and application of Prompt Engineering principles in the context of XAI.],[Achieved],
-        [D-01], [ Creation of a metric to evaluate the explainability of the analyzed algorithms.],[Not Achieved],
-        [D-02], [ Automatization of the analysis pipeline from dataset to LLM requests.], [Achieved],
+        [D-01], [ Creation of a metric to evaluate the interpretability and explainability of the analyzed algorithms.],[Not Achieved],
+        [D-02], [ Automatization of the analysis pipeline from dataset to LLM requests.],[Achieved],
         [F-01], [ Application in real-world scenarios of the interpretability and explainability of Machine Learning models.], [Partially Achieved],
-        [F-02], [ Explainability study of semi-supervised and unsupervised algorithms.], [Not Achieved],
+        [F-02], [ Interpretability and explainability study of semi-supervised and unsupervised algorithms.], [Not Achieved],
     ),
     caption: "Table of project goals final state.",
 )
 
-The project has provided a interpretable analysis of the explainability of machine learning algorithms, with a practical implementation of a analysis system backed by a #gls("large language model") that is able to generate human-readable explanations of algorithmic behaviors and predictions. 
-The project has also provided insights into the importance of prompt engineering in guiding the model to generate useful and understandable explanations for business users.\
-Some secondary goals have not been achieved:
-- The goal D-01, which was to create a metric to evaluate the explainability of the analyzed algorithms, was not achieved due to the nature of the task. It was not possible to create a metric that could be applied to all the algorithms analyzed, as the explainability of each algorithm is highly dependent on the specific context and data used and the metric would have been too generic to be useful. \
+The project has provided a comprehensive analysis of the interpretability and explainability of machine learning algorithms, with a practical implementation of an analysis system backed by a #gls("large language model") that is able to generate human-readable explanations of algorithmic behaviors and predictions. 
+\ \
+The details of the goal assessment are as follows:
+- The goal D-01, which was to create a metric to evaluate the interpretability and explainability of the analyzed algorithms, was not achieved due to the nature of the task. It was not possible to create a metric that could be applied to all the algorithms analyzed, as the interpretability and explainability of each algorithm is highly dependent on the specific context and data used, making any single metric too generic to be useful. \
 - The goal F-01, which was to apply the analysis system in real-world scenarios, was only partially achieved due to the limited availability of suitable datasets. More on that on @limitations-and-future-work. \
-- The goal F-02, which was to study the explainability of semi-supervised and unsupervised algorithms, was not achieved due to time constraints and preference in focusing on the supervised ones. \
+- The goal F-02, which was to study the interpretability and explainability of semi-supervised and unsupervised algorithms, was not achieved due to time constraints and preference in focusing on the supervised ones. \
 Overall, the project has been successful in achieving its objectives and providing a valuable addition to the personal and professional growth of the author, as well as its possible applications in business contexts. \
 
 == Product final state

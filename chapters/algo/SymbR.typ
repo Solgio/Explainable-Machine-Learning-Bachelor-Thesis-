@@ -81,7 +81,7 @@ For example, the expression $hat(y) = x_1^2 + sin(x_2)$ would be represented as:
         caption: "Expression tree representation of a symbolic regression model."
       )
 
-This representation has profound implications for #strong[explainability]. Unlike black-box models, the discovered expression is fully transparent and interpretable. A domain expert can directly read the mathematical relationship between features and the target variable, understand how features interact, and potentially derive new insights about the underlying system.
+This representation has profound implications for #strong[interpretability]. Unlike black-box models, the discovered expression is fully transparent and interpretable. A domain expert can directly read the mathematical relationship between features and the target variable, understand how features interact, and potentially derive new insights about the underlying system.
 
 The explicit mathematical form also allows for analytical operations such as computing derivatives, identifying discontinuities, or analyzing asymptotic behavior.\
 However, as expressions become more complex (more nodes in the tree), interpretability degrades. This is why PySR explicitly penalizes expression complexity during evolution, maintaining a trade-off between accuracy and interpretability (the Pareto front).

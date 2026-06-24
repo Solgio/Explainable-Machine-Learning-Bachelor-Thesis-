@@ -35,7 +35,7 @@ For *inference*, the spatial complexity is $O \( p \)$ per instance, as it only 
 <sub:internal-representation-lr>
 Linear regression represents the resulting weight of the features as a vector of weights, $beta = \[ beta_0 \, beta_1 \, . . . \, beta_p \]$. \
 Specific encoding is needed for #gls("categorical_features"), which are typically handled through one-hot encoding, where each category is represented as a binary feature. This can lead to an increase in the number of features and potential multicollinearity issues if not handled properly.\
-In regard of #strong[explainability], the internal representation of linear regression is straightforward and transparent, which makes it one of the most interpretable machine learning models. The weights directly indicate the strength and direction of the relationship between each feature and the target variable. This allows for a clear understanding of how each feature contributes to the prediction, making it easier to communicate insights to stakeholders and identify important predictors in the data.
+In regard of #strong[interpretability], the internal representation of linear regression is straightforward and transparent, which makes it one of the most interpretable machine learning models. The weights directly indicate the strength and direction of the relationship between each feature and the target variable. This allows for a clear understanding of how each feature contributes to the prediction, making it easier to communicate insights to stakeholders and identify important predictors in the data.
 
 === Data assumptions
 <sub:data-assumptions-lr>
@@ -109,13 +109,12 @@ If the model fits well, the points should be concentrated around the diagonal li
 <sub:histogram-of-residuals-lr>
 #side_by_side([
       Distribution of the residuals $epsilon.alt_i = y_i - hat(y)_i$.
-      It's especially useful to identify violations of the normality assumption. A normal distribution of residuals is expected for valid inference, and deviations from this pattern can indicate issues with the model fit or the presence of outliers.
-    ],[
+      It's especially useful to identify violations of the normality assumption. A normal distribution of residuals is expected for valid inference, and deviations from this pattern can indicate issues with the model fit or the presence of outliers.],[
       #figure(
         image("../../images/plots/distribution_plot.png", alt: "Histogram of residuals distribution"),
         caption: "Histogram of residuals distribution example for linear regression."
       )
-    ]
+    ], proportions: (40%, 60%)
 )
 
 ==== Q-Q Plot (Quantile-Quantile)
@@ -127,7 +126,8 @@ If the model fits well, the points should be concentrated around the diagonal li
       )
 ],[
   Another way to check the normality of residuals is through a Q-Q plot, which compares the quantiles of the residuals to the quantiles of a normal distribution. If the residuals are normally distributed, the points in the Q-Q plot should approximately follow a straight line. Deviations from this line, especially at the tails, can indicate non-normality of the residuals, which may affect the validity of statistical inference based on the model.
-])
+], proportions: (60%, 40%)
+)
 
 ==== Residuals vs Fitted Values
 <residuals-vs-fitted-values>
@@ -156,7 +156,7 @@ This plot results not useful if the datas are normalized, as the effect is calcu
       caption: "Weight Plot of coefficients example for linear regression."
     )
 
-=== Explainability limitations
+=== Interpretability and explainability limitations
 <sub:explainability-limitations-lr>
 As emerged until now, linear regression is one of the most interpretable machine learning models due to its transparent internal representation and the direct relationship between features and predictions. The impact of each feature on the prediction can be easily understood through the coefficients, which indicate how much the prediction changes with a one-unit change in the feature, holding all other features constant. \
 What makes the model extremely interpretable make it limited in its predictive ability. Linearity of the relationships is as understandable as restrictive.

@@ -65,7 +65,7 @@ A decision tree is represented internally as a recursive tree structure, as sugg
 Node(feature=x1, threshold=5.5, left=Node(...), right=Node(...))
 ```
 contains the feature used for splitting, the threshold value for the split and the reference to the left and right child nodes while a leaf only contains the predicted class or value and the number of samples in that leaf.\
-This structure not only allows for efficient traversal during inference but for *explainability*, provides a clear and interpretable representation of the decision-making process. Each path from the root to a leaf corresponds to a specific set of conditions on the features.\
+This structure not only allows for efficient traversal during inference but for *interpretability*, provides a clear and transparent representation of the decision-making process. Each path from the root to a leaf corresponds to a specific set of conditions on the features.\
 Still, with deep trees, understanding the global structure can become difficult, even if the local decision paths remain interpretable.\
 An advantage of the decision tree structure is the natural handling of #gls("categorical_features") without need for encoding.
 
@@ -133,9 +133,9 @@ Prediction: Class 1 (Confidence: 0.8)
 This is especially useful in contexts where understanding the reasoning behind a specific prediction is crucial, such as in medical diagnosis or credit scoring. By examining the path to prediction, we can identify which features and thresholds were most influential in the decision-making process for that particular instance, providing insights into the model's behavior and potentially uncovering any biases or issues in the data.
 
 
-=== Explainability limitations
+=== Interpretability and explainability limitations
 <sub:dec-tree-explainability-limitations-dec-tree>
-The decision trees are generally considered interpretable models, but they have some limitations in terms of explainability too. \ 
+The decision trees are generally considered interpretable models, but they have some limitations in terms of interpretability too. \ 
 One of the main limitations is that as the tree grows deeper and more *complex*, it can become difficult to understand the global structure of the model and how different features interact with each other across the entire tree. While it is possible to trace the decision path for a single instance, understanding the overall reasoning process of the model can be challenging when there are many nodes and interactions between features. \
 In the context of correlated features, decision trees can mask the importance of one feature in favor of another, losing valuable insights about the data.
 Finally for regression tasks, the piecewise constant predictions can make it difficult to understand the relationship between features and the target variable, especially when the tree is deep and captures complex interactions.\

@@ -59,7 +59,7 @@ Ensemble == [Tree_1, Tree_2, ..., Tree_T]
 Previsione == Σₖ f_k(x)
 ```
 For every tree , XGBoost stores the structure of the tree (which feature is used for split, the threshold, and the default direction for missing values), the weights (the prediction value for each leaf) and the gradients (the accumulated gradients for each leaf during training). \
-For *explainability*, even if the number of trees is typically smaller than random forest (100-500 vs 500-2000), the internal representation is still complex and not easily interpretable. The sequential nature of the trees also means that the contribution of each tree to the final prediction is not independent, making it difficult to trace which tree is responsible for a specific prediction. \
+For *interpretability*, even if the number of trees is typically smaller than in Random Forest (100-500 vs 500-2000), the internal representation is still complex and not easily interpretable. The sequential nature of the trees also makes it difficult to trace which tree is responsible for a specific prediction, posing challenges for local explainability. \
 
 === Data assumptions
 <sub:xgboost-data-assumptions>
@@ -84,7 +84,7 @@ Even if the margin score is not a true probability, this transformation allows u
 
 === Explainability and interpretability metrics
 <sub:xgboost-metrics-for-interpretability>
-XGBoost explainability is limited but there are some metrics that can be used to understand the importance of features and the contribution of each tree to the final prediction.
+XGBoost's intrinsic interpretability is limited, but there are some metrics that can be used to understand the importance of features (interpretability) and the contribution of each tree to predictions (explainability).
 
 ==== Feature Importance (Gain-Based)
 <sub:xgboost-feature-importance-gain-based>
@@ -108,7 +108,7 @@ The presence of particular patterns such as curves or monotonic lines shows the 
 <sub:xgboost-tree-visualization>
 It's possible to visualize individual trees in the ensemble, but the interpretability is limited. The scale for XGBoost is typically 100-500 trees, and visualizing all of them is impractical. Even visualizing a single tree can be complex due to the depth and number of splits, making it difficult to extract meaningful insights from the structure. \
 
-=== Explainability limitations
+=== Interpretability and explainability limitations
 <sub:xgboost-explainability-limitations>
 As other ensemble methods, XGBoost trades off interpretability for predictive performance. The main limitations are due to the sequential nature of the trees. A single tree cannot fully explain the prediction, and it is difficult to trace the reasoning process step by step. Even if the basic concept is easy to grasp, it is difficult to understand its application. \
 Additionally, the feature importance metrics can give different rankings depending on the method used (gain, cover, frequency), and there is no single universally "correct" way to interpret them but are context-dependent. Feature impoortance also suffers from instability for a variaty of reasons. Firstly, correlated features can be selected alternatively and changes in data can affect the corresponding importance scores.\

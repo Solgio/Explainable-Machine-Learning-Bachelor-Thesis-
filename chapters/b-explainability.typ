@@ -3,26 +3,26 @@
 
 == Explainability
 <cap:explainability>
-Explainability (or interpretability) of a #gls("ml") model is the ability to communicate #strong[how and why] the model made a prediction. \
-Contrary to intuition, explainability it is #strong[not a binary attribute], but a spectrum with multiple dimensions.
+Interpretability and explainability of a #gls("ml") model are key concepts in understanding its behavior. Specifically, *interpretability* refers to the ability to show how the model works, while *explainability* refers to the ability to explain why a specific outcome occurred. \
+Contrary to intuition, they are #strong[not binary attributes], but form a spectrum with multiple dimensions.
 
 
-=== Explainability dimensions
+=== Interpretability and explainability dimensions
 <cap:explainability-dimensions>
 + #strong[Intrinsic Transparency (Model-Level Interpretability)]\
   The model is inherently transparent and interpretable by design. The structure directly communicates how it works, such as regression coefficients or decision tree nodes. Each prediction is fully traceable, and parameters have tangible meanings. Explanations reflect human reasoning, making them coherent from a domain perspective. \
-  It rappresents the best case scenario for explainability but it is often in trade-off with performance, as more complex models tend to be less transparent but more powerful.
-  It is generally organized in tears: High, Medium and Low trasparency.
+  It represents the best case scenario for interpretability but it is often in trade-off with performance, as more complex models tend to be less transparent but more powerful.
+  It is generally organized in tiers: High, Medium and Low transparency.
 
-+ #strong[Global Interpretability (Model-Level Explainability):]\
-  The model is comprehansible in its entirety, allowing to understand its overall behaviour and decision-making process. Such a level of understandsing it's hardly achievable and it is usually undirectly reached by comprehending the singular components of the models instead of the model as a whole.
++ #strong[Global Interpretability (Model-Level Interpretability):]\
+  The model is comprehensible in its entirety, allowing to understand its overall behaviour and decision-making process. Such a level of understanding is hard to achieve, and it is usually reached indirectly by comprehending the individual components of the model instead of the model as a whole.
 
 + #strong[Modular Interpretability:]
   When global interpretability is not achievable, we can still understand the model by analyzing its components separately. Exploiting the model transparency, we can understand the role of each component in the decision-making process.\
   This concept is clear in the case of linear methods, where it is easy to understand the contribution of the single weights or in tree based models, where the splits and the structure of the tree can be analyzed separately.
 
-+ #strong[Local Interpretability (Instance-Level Explainability):]
-  The model might be opaque and to complex to understand globally. However, for a specific prediction, we can generate an explanation that is locally interpretable. SHAP could be used in this context to explain a particular instance obtained a certain prediction.
++ #strong[Local Explainability (Instance-Level Explainability):]
+  The model might be opaque and too complex to understand globally. However, for a specific prediction, we can generate an explanation that is locally explainable. SHAP could be used in this context to explain why a particular instance obtained a certain prediction.
 
 === Explanation properties and factors that facilitate understanding
 <cap:explanation-properties-and-factors-that-facilitate-understanding>
@@ -59,7 +59,7 @@ $ upright("Feature Support")_i = frac(upright("#training instances with similar 
 
 === SHAP analysis
 <cap:shap-analysis>
-SHAP (SHapley Additive exPlanations) is a method for explaining the output of machine learning models by attributing the prediction to each feature. It is based on the concept of Shapley values from cooperative game theory, which provide a way to fairly distribute the "payout" (in this case, the prediction) among the "players" (the features) based on their contribution to the prediction. SHAP values can be used to understand the importance of each feature for a specific prediction (local interpretability) or for the model as a whole (global interpretability). SHAP provides a unified framework for interpreting various types of models and can be applied to both linear and non-linear models, making it a powerful tool for explainable AI.
+SHAP (SHapley Additive exPlanations) is a method for explaining the output of machine learning models by attributing the prediction to each feature. It is based on the concept of Shapley values from cooperative game theory, which provide a way to fairly distribute the "payout" (in this case, the prediction) among the "players" (the features) based on their contribution to the prediction. SHAP values can be used to understand the importance of each feature for a specific prediction (local explainability) or for the model as a whole (global interpretability). SHAP provides a unified framework for interpreting various types of models and can be applied to both linear and non-linear models, making it a powerful tool for explainable AI.
 
 #figure(
     image("../images/shap-logo.webp", width:75%, alt: "SHAP logo"),

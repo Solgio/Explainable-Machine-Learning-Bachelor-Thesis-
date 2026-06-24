@@ -76,7 +76,8 @@ It results particularly useful in unbalanced classification problems or in situa
     #strong[ROC Curve] is visual rappresentation of the True Positive Rate ()  - False Positive Rate trade-off
     Positive Rate as the threshold of classification varies. The Sensitivity sits on the y-axis and False Positive Rate on the x-axis.\
     A model with good performance will have a curve that bows towards the top-left corner of the plot, indicating high sensitivity and low false positive rate across different thresholds. A model that predicts randomly will have a curve that follows the diagonal line.
-])
+], proportions: (60%, 40%)
+)
 
 #strong[AUC (Area Under the Curve)] is exactly the area under the ROC curve, numerically quantifying the overall ability of the model to discriminate between the positive and negative classes. The AUC ranges from 0 to 1, with higher values indicating better performance and 0.5 representing random guessing. \
 Can  be interpreted as the probability that the model will rank a randomly chosen positive instance higher than a randomly chosen negative instance.

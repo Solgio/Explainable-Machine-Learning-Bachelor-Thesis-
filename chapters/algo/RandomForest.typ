@@ -55,7 +55,7 @@ Forest == [Tree_1, Tree_2, ..., Tree_T]
 Each tree is:
 Node(feature=x1, threshold=5.5, left=Node(...), right=Node(...))
 ```
-For *explainability*, the internal representation is a more complex and obscure structure compared to a single decision tree. It becomes difficult to understand the overall decision process of the forest, as it is an aggregation of many trees. Even the local explanation of a  signle prediction is much more opaque for the same reason. A single tree can still be visualized and interpreted, for example by choosing the one that better explains a specific prediction, but the overall model remains of little interpretability. 
+For *interpretability*, the internal representation is a more complex and obscure structure compared to a single decision tree, making it difficult to understand the overall decision process of the forest. Similarly, its *explainability* suffers, as the local explanation of a single prediction is much more opaque for the same reason. A single tree can still be visualized and interpreted, for example by choosing the one that better explains a specific prediction, but the overall model remains of little interpretability. 
 
 === Data assumptions
 <sub:rand-for-data-assumptions>
@@ -89,7 +89,7 @@ $ upright("OOB Error") == 1 / n sum_(i == 1)^n bb(1) \[ upright("OOB")_i eq.not 
 
 === Explainability and interpretability metrics
 <sub:rand-for-metrics-for-interpretability>
-The use of plots and explainability oriented metrics can help to understand the behaviour of the ensemble, provinding a better insight on how the prediction are made.
+The use of plots and interpretability-oriented metrics can help to understand the behavior of the ensemble, providing a better insight into how the predictions are made.
 
 ==== Feature importance (Average impurity)
 <sub:rand-for-feature-importance-average-impurity>
@@ -121,9 +121,8 @@ Notice that if the features are correlated the effect could be misleading.
 <sub:rand-for-individual-conditional-expectation-ice-plot>
 ICE plot is a variant of PDP that shows the effect of a feature on the predicted outcome for individual instances, rather than averaging over all instances. It allows us to see how the prediction changes for each instance as the feature varies, which can reveal heterogeneity in the effect of the feature across different instances.\
 
-=== Explainability limitations
+=== Interpretability and explainability limitations
 <sub:rand-for-explainability-limitations-dec-tree>
-For its ensemble nature, Random forest presents some limitations in terms of explainability, especially when compared to a single decision tree. The main issue is related to the path that leads to a specific prediction. In a single tree, it is straightforward to follow the path from the root to the leaf node that makes the prediction, understanding which features and thresholds were used at each split. In a Random Forest, there are multiple trees, and each tree may use different features and thresholds for splitting, making it difficult to trace a single path for a specific prediction.\ 
+Due to its ensemble nature, Random Forest presents limitations in both explainability and interpretability, especially when compared to a single decision tree. The main issue for explainability is related to tracing the path that leads to a specific prediction. In a single tree, it is straightforward to follow the path from the root to the leaf node that makes the prediction, understanding which features and thresholds were used at each split. In a Random Forest, there are multiple trees, and each tree may use different features and thresholds for splitting, making it difficult to trace a single path for a specific prediction.\ 
 The problem is not only local, but also global, as the overall decision process is based on averaging the predictions, disrupting the interpretability of the model.\
-This leads to a more *opaque model*, even if with higher performance. The feature importance can help to understand which features are generally important for the model, but it does not provide a clear explanation of how the features interact to produce a specific prediction and it can be misleading in case of correlated features. \
-In summary, Random Forest is yet another example of how the trade-off between performance and explainability is not always clear-cut, and it is important to consider the specific context and requirements of the problem when choosing a model.
+In summary, Random Forest is yet another example of how the trade-off between performance and interpretability is not always clear-cut, and it is important to consider the specific context and requirements of the problem when choosing a model. It does not provide a clear explanation of how the features interact to produce a specific prediction and it can be misleading in case of correlated features. \

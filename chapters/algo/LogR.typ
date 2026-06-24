@@ -39,7 +39,7 @@ For inference, the memory complexity is $O \( p \)$ for storing the coefficients
 === Internal representation
 <sub:internal-representation-logr>
 The model internally rappresents the values as a vector of weights, $beta = \[ beta_0 \, beta_1 \, . . . \, beta_p \]$. The presence of #gls("categorical_features") is solved as standard through one-hot encoding just like in linear regression. \
-For *explainability*, the model remains transparent since the coefficients still indicate the strength and direction of the relationship between each feature and the target variable, but the interpretation is less intuitive than in linear regression due to the non-linear transformation applied to the output by the logistic function. An increase in one feature in logistic regression leads to a multiplicative change in the odds of the positive class, rather than an additive change in the predicted value.
+For *interpretability*, the model remains transparent since the coefficients still indicate the strength and direction of the relationship between each feature and the target variable, but the interpretation is less intuitive than in linear regression due to the non-linear transformation applied to the output by the logistic function. An increase in one feature in logistic regression leads to a multiplicative change in the odds of the positive class, rather than an additive change in the predicted value.
 
 === Data assumptions
 <sub:data-assumptions-logr>
@@ -117,7 +117,7 @@ $ upright("OR")_j = exp \( beta_j \) $
 It represents the multiplicative change in the odds of the positive class for a one-unit increase in the feature $x_j$, holding all other features constant. \
 
 
-=== Explainability limitations
+=== Interpretability and explainability limitations
 <sub:explainability-limitations-logr>
-The logistic regression, while being more interpretable than many other machine learning models, has some limitations in terms of explainability. Firstly, the interpretation of the coefficients is less intuitive than in linear regression due to the non-linear transformation applied to the output by the logistic function. An increase in one feature in logistic regression leads to a multiplicative change in the odds of the positive class, rather than an additive change in the predicted value. \
+The logistic regression, while being more interpretable than many other machine learning models, has some limitations in terms of interpretability. Firstly, the interpretation of the coefficients is less intuitive than in linear regression due to the non-linear transformation applied to the output by the logistic function. An increase in one feature in logistic regression leads to a multiplicative change in the odds of the positive class, rather than an additive change in the predicted value. \
 This multiplicative effect is even less straightforward if we consider that the effect of a feature on the predicted probability depends on the values of all the other features, making it difficult to provide a simple explanation of the effect of a single feature without considering the context of the other features. \

@@ -18,7 +18,7 @@
   set document(
     author: myAuthor,
     title: myTitle,
-    keywords: ("ML", "Algorithms", "explainability", "LLM", "prompt"),
+    keywords: ("ML", "Algorithms", "interpretability", "explainability", "LLM", "prompt"),
     date: auto,
   )
 

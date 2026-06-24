@@ -4,19 +4,13 @@
 #set par(first-line-indent: 0pt)
 #set page(numbering: "i")
 
-#align(right, [
-    #text(style: "italic", "TO DO")
-    #v(6pt)
-    #sym.dash#sym.dash#sym.dash TO DO
-])
-
 #v(10em)
 
 #text(24pt, weight: "semibold", acknowledgements)
 
 #v(3em)
 
-#text(style: "italic", "Firstly, I would like to thank " + profTitle + " " +myProf + " for their guidance and support during the writing of this thesis and along all the duration of the stage. I would also like to express my gratitude to the team at Zucchetti for the opportunity to work on this project and living this experience.")
+#text(style: "italic", "Firstly, I would like to thank " + profTitle + " " +myProf + " for their guidance and support during the writing of this thesis and along all the duration of the stage. I would also like to express my gratitude to the team at Zucchetti for the opportunity to work on this project and to live this experience.")
 
 #linebreak()
 
