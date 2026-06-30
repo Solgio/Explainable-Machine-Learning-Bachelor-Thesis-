@@ -250,3 +250,17 @@ applied-symbolic-regression:
             -"Vernon Austel" et al.
     date: 2023
     doi: 10.1038/s41467-023-37236-y
+
+mirage:
+    type: Article
+    title: "MIRAGE: The Illusion of Visual Understanding"
+    publisher: "arXiv"
+    author: -"Mohammad Asadi"
+            -"Jack W. O'Sullivan" 
+            -"Fang Cao" 
+            -"Tahoura Nedaee" 
+            -"Kamyar Rajabalifardi" 
+            -"Fei-Fei Li" 
+            -"Ehsan Adeli" 
+            -"Euan Ashley"
+    date: 2026

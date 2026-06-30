@@ -18,7 +18,7 @@
 
 #linebreak()
 
-#text(style: "italic", "A special thanks to Filippo, Nicola and Riccardo, always there to share our ups and downs, and to my girlfriend, for the love and presence.")
+#text(style: "italic", "A special thanks to Filippo, Nicola and Riccardo, always there to share our ups and downs, and to Alessia, for the love and presence.")
 
 #v(2em)
 

@@ -4,7 +4,6 @@
 
 #align(center, [
    _By far, the greatest danger of Artificial Intelligence is that people conclude too early that they understand it._
-   _What's in the box? What's in the box_ SEVEN
     #v(6pt)
     #sym.dash#sym.dash#sym.dash Eliezer Yudkowsky
 ])
