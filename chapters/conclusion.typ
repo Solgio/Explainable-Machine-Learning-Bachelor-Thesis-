@@ -102,7 +102,7 @@ For complete tracking of the requirements, a requirements traceability matrix ha
         [RFN-7], [`selector.py`], [_select_analysis_type()_],
         [RFO-1], [`app.py`], [],
     ),
-    caption: "Table of requirements state for the analysis pipeline.",
+    caption: "Table of requirements traceability for the analysis pipeline.",
 )
 
 == Results
