@@ -11,11 +11,11 @@ Contrary to intuition, they are #strong[not binary attributes], but form a spect
 <cap:explainability-dimensions>
 + #strong[Intrinsic Transparency (Model-Level Interpretability)]\
   The model is inherently transparent and interpretable by design. The structure directly communicates how it works, such as regression coefficients or decision tree nodes. Each prediction is fully traceable, and parameters have tangible meanings. Explanations reflect human reasoning, making them coherent from a domain perspective. \
-  It represents the best case scenario for interpretability but it is often in trade-off with performance, as more complex models tend to be less transparent but more powerful.
-  It is generally organized in tiers: High, Medium and Low transparency.
+  It represents the best-case scenario for interpretability but it is often in trade-off with performance, as more complex models tend to be less transparent but more powerful. \
+  It is generally organized in tiers: high, medium, and low transparency.
 
 + #strong[Global Interpretability (Model-Level Interpretability):]\
-  The model is comprehensible in its entirety, allowing to understand its overall behaviour and decision-making process. Such a level of understanding is hard to achieve, and it is usually reached indirectly by comprehending the individual components of the model instead of the model as a whole.
+  The model is comprehensible in its entirety, enabling the user to understand its overall behavior and decision-making process. Such a level of understanding is hard to achieve, and it is usually reached indirectly by comprehending the individual components of the model instead of the model as a whole.
 
 + #strong[Modular Interpretability:]
   When global interpretability is not achievable, we can still understand the model by analyzing its components separately. Exploiting the model transparency, we can understand the role of each component in the decision-making process.\
@@ -39,7 +39,7 @@ Not all features are equally important; explanations should focus on the most in
 
 - *Social and contextual factors*
 <social-and-contextual-factors>
-The social environment and the audience's expertise level should be considered when generating explanations to ensure they are appropriate and understandables.
+The social environment and the audience's expertise level should be considered when generating explanations to ensure they are appropriate and understandable.
 
 - *Anomalies or abnormal predictions*
 <anomalies-or-abnormal-predictions>

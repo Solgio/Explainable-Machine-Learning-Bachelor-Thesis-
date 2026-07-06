@@ -5,7 +5,7 @@
 
 = Introduction
 #v(1em)
-#text(style: "italic", [ This chapter provides an introduction to the stage idea, goals, company and thesis organization. This chapter is meant to provide the necessary context for the reader to understand the motivation and the structure of the thesis.])
+#text(style: "italic", [ This chapter provides an introduction to the internship concept, goals, company, and thesis organization. It is meant to provide the necessary context for the reader to understand the motivation and the structure of the thesis.])
 
 // TODO: aggiungere riferimenti a:
 // Termine nel glossario
@@ -17,14 +17,14 @@
 
 Zucchetti S.p.A. is a leading Italian software company specializing in providing interpretable IT solutions for businesses. Founded in 1978, Zucchetti has become one of Italy's largest software providers, offering a wide range of products and services that cater to various industries, including manufacturing, retail, healthcare, and public administration. 
 
-With a strong focus on innovation and customer satisfaction, Zucchetti is committed to helping organizations optimize their operations and achieve their business goals through cutting-edge technology. Exactly from this commit, the company has been actively involved in the development and implementation of #gls("ml") and #gls("ai") solutions, aiming to enhance the capabilities of their software offerings and provide more value to their clients.
+With a strong focus on innovation and customer satisfaction, Zucchetti is committed to helping organizations optimize their operations and achieve their business goals through cutting-edge technology. Driven by this commitment, the company has been actively involved in the development and implementation of #gls("ml") and #gls("ai") solutions, aiming to enhance the capabilities of their software offerings and provide more value to their clients.
 
 #figure(
     image("../images/zucchetti-logo.webp", width: 75%, alt: "Zucchetti logo"),
     caption: "Zucchetti S.p.A. logo."
 )
 
-== Stage idea
+== Internship concept
 
 The internship project is centered around the exploration of #gls("explainable ai") techniques, with a specific focus on the interpretability and comprehensibility of machine learning algorithms. The primary objective is to analyze a variety of predictive models, ranging from basic #gls("regression") and #gls("classification") algorithms to more complex ensemble methods, in order to evaluate their transparency (interpretability) and explainability. 
 The idea is to increase the understanding of the results of the models, and to make them more accessible to non-expert stakeholders, by leveraging advanced #gls("prompt engineering") principles to develop tailored prompts for #gls("large language model",plural:true) that can automatically generate human-readable explanations of algorithmic behaviors and predictions.
@@ -48,22 +48,22 @@ The timeline of the project is structured as follows:
 )
 
 == Project goals
-The goals follow a notation to distinguish between necessary (N), desirable (D) and optional (O) goals.
-In the planning phase the goals were defined as follows:
+The goals follow a notation to distinguish between necessary (N), desirable (D), and optional (O) goals.
+In the planning phase, the goals were defined as follows:
 #figure(
     table(
         columns: (auto, auto),
         align: (center, center),
         [*Goal*], [*Description*],
-        [O-01], [ Complete and profound understanding of the chosen algorithms, their mathematical foundations and their internal knowledge representation.],
-        [O-02], [ Comprehension of interpretability and explainability techniques in machine learning.],
-        [O-03], [ Comprehension of algorithms design techniques.],
-        [O-04], [ Prompt generation for Large Language Models to generate human-readable explanations.],
-        [O-05], [ Comprehension and application of Prompt Engineering principles in the context of XAI.],
+        [N-01], [ Complete and profound understanding of the chosen algorithms, their mathematical foundations and their internal knowledge representation.],
+        [N-02], [ Comprehension of interpretability and explainability techniques in machine learning.],
+        [N-03], [ Comprehension of algorithms design techniques.],
+        [N-04], [ Prompt generation for Large Language Models to generate human-readable explanations.],
+        [N-05], [ Comprehension and application of Prompt Engineering principles in the context of XAI.],
         [D-01], [ Creation of a metric to evaluate the interpretability and explainability of the analyzed algorithms.],
         [D-02], [ Automatization of the analysis pipeline from dataset to LLM requests.],
-        [F-01], [ Application in real-world scenarios of the interpretability and explainability of Machine Learning models.],
-        [F-02], [ Interpretability and explainability study of semi-supervised and unsupervised algorithms.]
+        [O-01], [ Application in real-world scenarios of the interpretability and explainability of Machine Learning models.],
+        [O-02], [ Interpretability and explainability study of semi-supervised and unsupervised algorithms.]
     ),
     caption: "Table of project goals.",
 )

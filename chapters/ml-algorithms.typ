@@ -40,12 +40,12 @@ Before presenting these metrics, it is important to define some terms, used late
 <sub:accuracy>
 Accuracy measures the ratio of correct predictions to the total predictions:
 $ "ACC" = frac("TP" + "TN", "TP" + "TN" + "FP" + "FN") $
-It is important ot notice that in the context of unbalanced classes, accuracy can be misleading, as a model that always predicts the majority class can achieve high accuracy while performing poorly on the minority class.
+It is important to note that in the context of imbalanced classes, accuracy can be misleading, as a model that always predicts the majority class can achieve high accuracy while performing poorly on the minority class.
 
 #strong[Sensitivity (Recall / True Positive Rate)]\
 <sub:sensitivity-recall>
 The sensitivity, also known as recall or true positive rate, measures the ratio of correctly predicted positive instances to all actual positive instances:
-$ "SENS" = frac("TP", "TP" + "FN") $
+$ "REC" = "SENS" = frac("TP", "TP" + "FN") $
 
 #strong[Specificity (True Negative Rate)]\
 <sub:specificity>
@@ -63,37 +63,36 @@ Precision is crucial in scenarios where the cost of false positives is high, suc
 <sub:f1-score>
 Out of the box, the precision and recall can be in tension, as improving one often leads to a decrease in the other. The F1-score is the harmonic mean of precision and recall, providing a single metric that balances both:
 $ "F1" = 2 frac("PREC" dot.op "REC", "PREC" + "REC") $
-It results particularly useful in unbalanced classification problems or in situations in which both false positive and false negative are costly.
+It is particularly useful in imbalanced classification problems or in situations where both false positives and false negatives are costly.
 
 #strong[ROC Curve and AUC]\
 <sub:roc-curve-auc>
 #side_by_side([
    #figure(
-        image("../images/plots/roc-curve.png", alt: "ROC Curve rappresentation"),
+        image("../images/plots/roc-curve.png", alt: "ROC Curve representation"),
         caption: "ROC curve of a logistic regression model."
       )
   ],[
-    #strong[ROC Curve] is visual rappresentation of the True Positive Rate ()  - False Positive Rate trade-off
-    Positive Rate as the threshold of classification varies. The Sensitivity sits on the y-axis and False Positive Rate on the x-axis.\
-    A model with good performance will have a curve that bows towards the top-left corner of the plot, indicating high sensitivity and low false positive rate across different thresholds. A model that predicts randomly will have a curve that follows the diagonal line.
+    The #strong[ROC Curve] is a visual representation of the trade-off between the True Positive Rate (Sensitivity) and the False Positive Rate as the classification threshold varies. Sensitivity is plotted on the y-axis and the False Positive Rate on the x-axis.\
+    A model with good performance will have a curve that bows towards the top-left corner of the plot, indicating high sensitivity and a low false positive rate across different thresholds. A model that predicts randomly will have a curve that follows the diagonal line.
 ], proportions: (60%, 40%)
 )
 
-#strong[AUC (Area Under the Curve)] is exactly the area under the ROC curve, numerically quantifying the overall ability of the model to discriminate between the positive and negative classes. The AUC ranges from 0 to 1, with higher values indicating better performance and 0.5 representing random guessing. \
-Can  be interpreted as the probability that the model will rank a randomly chosen positive instance higher than a randomly chosen negative instance.
+#strong[AUC (Area Under the Curve)] is the area under the ROC curve, which numerically quantifies the overall ability of the model to discriminate between positive and negative classes. The AUC ranges from 0 to 1, with higher values indicating better performance and 0.5 representing random guessing. \
+It can be interpreted as the probability that the model will rank a randomly chosen positive instance higher than a randomly chosen negative instance.
 
 
 === Regression metrics
 <cap:regression-metrics>
 #strong[$R^2$ (Determination Coefficient)]\
 <sub:r-square-coefficient-lr>
-$R^2$ quantifies how much the model explains the total variance of the data. It ranges from 0 to 1, where 0 is a model that cannot explain the datas and 1 is a perfect adherance.
+$R^2$ quantifies how much the model explains the total variance of the data. It ranges from 0 to 1, where 0 represents a model that cannot explain the data, and 1 represents a perfect adherence.
 
 $ R^2 = 1 - frac(S S E, S S T) $
 
 Where:
-- $S S E = sum_(i = 1)^n \( y^(\( i \)) - hat(y)^(\( i \)) \)^2$ is the sum of squared residuals, quantifying the variance unexplained by the model
-- $S S T = sum_(i = 1)^n \( y^(\( i \)) - macron(y) \)^2$ is the total variance
+- $S S E = sum_(i = 1)^n \( y^(\( i \)) - hat(y)^(\( i \)) \)^2$ is the Sum of Squared Errors, representing the unexplained variation by the model
+- $S S T = sum_(i = 1)^n \( y^(\( i \)) - macron(y) \)^2$ is the Total Sum of Squares, representing the total variation in the target variable
 
 #strong[$macron(R)^2$ (Adjusted R²)]\
 <sub:macron-r-square-lr>
@@ -123,4 +122,4 @@ $ "MAE" = 1 / n sum_(i = 1)^n \| y_i - hat(y)_i \| $
 #include("./algo/RandomForest.typ")
 #include("./algo/XGBoost.typ")
 #include("./algo/SymbR.typ")
-#include("./algo/confront.typ")
+#include("./algo/comparison.typ")

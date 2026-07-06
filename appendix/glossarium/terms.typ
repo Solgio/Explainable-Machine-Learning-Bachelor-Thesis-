@@ -30,7 +30,7 @@
   (
     key: "computational_complexity",
     short: "computational complexity",
-    long: "Computational complexity",
+    long: "Computational Complexity",
     description: "A measure of the amount of computational resources (time and space) that an algorithm requires to run, often expressed in terms of the size of the input data.",
   ),
   (
@@ -91,13 +91,13 @@
   (
     key: "margin",
     short: "margin",
-    long: "margin",
+    long: "Margin",
     description: "The distance between the decision boundary (hyperplane) and the closest data points in a Support Vector Machine, which the algorithm seeks to maximize for better generalization.",
   ),
   (
     key: "ml",
     short: "ML",
-    long: "machine learning",
+    long: "Machine Learning",
     description: "A subset of artificial intelligence that involves training algorithms to learn patterns from data and make predictions or decisions without being explicitly programmed.",
   ),
   (
@@ -107,7 +107,7 @@
   ),
   (
     key: "objective_function",
-    long: "objective function",
+    long: "Objective Function",
     short: "objective function",
     description: "A mathematical function that an algorithm optimizes during training, which defines the goal of the learning process and guides the model's adjustments to minimize error or maximize performance.",
   ),
@@ -130,7 +130,7 @@
   (
     key: "prompt engineering",
     short: "PE",
-    long: "prompt engineering",
+    long: "Prompt Engineering",
     description: "The process of designing and optimizing prompts to effectively communicate with language models and elicit desired responses.",
   ),
   (
@@ -165,19 +165,19 @@
   (
     key: "stochastic gradient descent",
     short: "SGD",
-    long: "stochastic gradient descent",
+    long: "Stochastic Gradient Descent",
     description: "An optimization algorithm that updates the model's parameters using a randomly selected subset of the training data, which can lead to faster convergence and better generalization.",
   ),
   (
     key: "true positives",
     short: "TP",
-    long: "true positives",
+    long: "True Positives",
     description: "Instances correctly predicted as positive.",
   ),
   (
     key: "true negatives",
     short: "TN",
-    long: "true negatives",
+    long: "True Negatives",
     description: "Instances correctly predicted as negative.",
   ),
 )

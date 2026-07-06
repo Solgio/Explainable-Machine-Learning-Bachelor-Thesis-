@@ -91,27 +91,26 @@ However, as expressions become more complex (more nodes in the tree), interpreta
 
 Symbolic Regression makes very few structural assumptions about the data compared to traditional regression models. However, several practical considerations exist. \
 While SR can discover non-smooth relationships, it performs best when the underlying relationship is relatively smooth. Highly discontinuous or noise-dominated relationships are difficult to capture.\
-Then, features should ideally be scaled to similar ranges. Highly disparate scales can lead to numerical instability during expression evaluation and can bias the algorithm towards features with larger magnitudes.
+Additionally, features should ideally be scaled to similar ranges. Highly disparate scales can lead to numerical instability during expression evaluation and can bias the algorithm towards features with larger magnitudes.
 
 + #strong[Noise Sensitivity:] SR can be sensitive to noise in the data. High noise levels can lead to overfitting, where the discovered expression fits noise rather than the underlying pattern. This is mitigated by the complexity penalty in PySR.\
-Another requirement is a reasonable amount of data is needed for reliable discovery. With very small datasets, the discovered expressions may not generalize well.
+In addition, a reasonable amount of data is needed for reliable discovery. With very small datasets, the discovered expressions may not generalize well.
 
-+ #strong[Feature Relevance:] irrelevant features in the input can mislead the algorithm. Feature selection or domain knowledge about relevant features improves results.
++ #strong[Feature Relevance:] irrelevant features in the input can mislead the algorithm. Feature selection or using domain knowledge about relevant features improves results.
 
-Unlike linear models, SR does not suffers from strong assumption such as linearity of relationships, homoscedacity, normal distribution of residuals, or independence of features. This flexibility makes SR applicable to a wide range of problems where traditional assumptions would be violated.
+Unlike linear models, SR does not suffer from strong assumptions such as linearity of relationships, homoscedasticity, normal distribution of residuals, or independence of features. This flexibility makes SR applicable to a wide range of problems where traditional assumptions would be violated.
 
 === Predictive performance and limitations
 <sub:symbolic-regression-predictive-performance-and-limitations>
 
 Symbolic Regression offers several advantages in terms of predictive performance.\
-It's an extremely flexible method that can discover complex non-linear relationships of arbitrary functional form. The feature transformations (polynomials, logarithms, trigonometric functions) are discovered automatically, without manual specification. Additionally, 
-the complexity penalty encourages simpler models that often generalize better than complex black-box models. \
-On the other hand, the Symbolic regression sufffers from sevveral important limitations. \
-First of all, the seaerchc process is computationally expensive, especially for large datasets or high-dimensional feature spaces. Training can take minutes to hours even with parallelization. \
+It is an extremely flexible method that can discover complex non-linear relationships of arbitrary functional form. Feature transformations (polynomials, logarithms, trigonometric functions) are discovered automatically, without manual specification. Additionally, the complexity penalty encourages simpler models that often generalize better than complex black-box models. \
+On the other hand, Symbolic Regression suffers from several important limitations. \
+First of all, the search process is computationally expensive, especially for large datasets or high-dimensional feature spaces. Training can take minutes to hours, even with parallelization. \
 Second, the space of possible expressions is extremely large, and there is no guarantee of finding the global optimum. \
 Third, discovered expressions may behave unexpectedly outside the range of training data, as they are not constrained by physical laws. \
-Fourth, PySR has many hyperparameters (population size, generations, complexity penalty, mutation rates) that significantly affect results and require careful tuning. Fifth, discovering meaningful expressions requires high-quality, noise-free data. Poor data quality leads to spurious expressions. Finally, performance degrades significantly with very high-dimensional feature spaces, as the search space becomes prohibitively large.\
-Consequently, is best suited for problems where the underlying relationship is suspected to have a relatively simple mathematical form, interpretability is important, computational resources are available, and data quality is good with a moderate dataset size. It's power has been directly demonstrated in scientific discovery, in particular in physics@applied-symbolic-regression.
+Fourth, PySR has many hyperparameters (population size, generations, complexity penalty, mutation rates) that significantly affect results and require careful tuning. Fifth, discovering meaningful expressions requires high-quality, relatively noise-free data. Poor data quality leads to spurious expressions. Finally, performance degrades significantly with very high-dimensional feature spaces, as the search space becomes prohibitively large.\
+Consequently, it is best suited for problems where the underlying relationship is suspected to have a relatively simple mathematical form, interpretability is important, computational resources are available, and data quality is good with a moderate dataset size. Its power has been directly demonstrated in scientific discovery, in particular in physics @applied-symbolic-regression.
 
 
 === Metrics for prediction quality
@@ -160,7 +159,7 @@ Since the discovered expression is explicit, feature importance can be computed 
 
 + #strong[Sensitivity Analysis:] for a given instance, compute the partial derivative of the expression with respect to each feature:
 
-$ "Importance"_j^(\(i\)) = | frac(partial f, partial x_j) | $
+$ "Importance"_j^(\(i\)) = | frac(partial f, partial x_j) \( x^(\( i \)) \) | $
 
 This measures how much the prediction would change with a small change in each feature, providing an instance-level feature importance.
 

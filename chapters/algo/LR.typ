@@ -8,20 +8,20 @@
 === Mathematical model
 <sub:model-lr>
 The linear regression model is the simplest form of regression. It assumes a linear relationship between the input features and target variable. The mathematical representation of the linear regression model is:
-$ y = sum_(i = 0) beta_i x_i forall i in F $
-Where $F$ is the set of features, $beta$ are the calculated weights for each of the features, and $y$ is the target variable.\
+$ y = beta_0 + sum_(j = 1)^p beta_j x_j $
+Where $p$ is the number of features, $beta$ are the calculated weights for each of the features, and $y$ is the target variable.\
 The goal of the linear regression is to find the optimal weights $beta$ that minimize the error between the predicted values and the actual target variable. This is typically done by minimizing the ordinary least squares loss function between the predicted values and the actual target variable. The optimization problem can be formulated as:
-$ hat(beta) = "argmin"_(beta_0 . . . beta_p) sum_(i = 1)^n \( y^(\( i \)) - \( beta_0 + sum_(j = 1)^p beta_j x_j \) \)^2 $
+$ hat(beta) = "argmin"_(beta_0 . . . beta_p) sum_(i = 1)^n \( y^(\( i \)) - \( beta_0 + sum_(j = 1)^p beta_j x_j^(\( i \)) \) \)^2 $
 
 === Time complexity
 <sub:time-complexity-lr>
-Mainly there are two approches to solve this optimization problem: the analytical solution and the iterative optimization methods (e.g. #gls("gradient descent")). The analytical solution uses by the normal equation:
+There are two main approaches to solving this optimization problem: the analytical solution and iterative optimization methods (e.g., #gls("gradient descent")). The analytical solution is given by the normal equation:
 
 $ hat(beta) = \( X^T X \)^(- 1) X^T y $
 
-$X$ is an $n dot.op p$ matrix where $n$ is the number of instances and $p$ is the number of features. The matrix $X$ is augmented with a column of 1s to account for the intercept term $beta_0$. The #gls("computational_complexity") of the analitical solution is dominated by the matrix multiplication and inversion operations. In fact, the cost for the multiplication of matrixes is $O \( p^2 n \)$ and the cost for the inversion of a $p x p$ matrix is $O \( p^3 \)$. Therefore, the overall #gls("computational_complexity") of the analytical solution is $O \( p^2 n + p^3 \)=O \( p^3)$, which for vast datasets, over 10000 records, becomes prohibitive.\
+$X$ is an $n dot.op p$ matrix, where $n$ is the number of instances and $p$ is the number of features. The matrix $X$ is augmented with a column of 1s to account for the intercept term $beta_0$. The #gls("computational_complexity") of the analytical solution is dominated by matrix multiplication and inversion operations. In fact, the cost of multiplying the matrices is $O \( p^2 n \)$ and the cost of inverting the $p x p$ matrix is $O \( p^3 \)$. Therefore, the overall #gls("computational_complexity") of the analytical solution is $O \( p^2 n + p^3 \)$, which becomes prohibitive for vast datasets (e.g., over 10,000 records).\
 The iterative methods, such as #gls("gradient descent"), calculate the gradient of the loss function with respect to the weights and update the weights iteratively until convergence. The #gls("computational_complexity") of the gradient calculation is $O \( p n \)$ per iteration, and the number of iterations required for convergence can vary depending on the learning rate and the specific dataset. However, in practice, iterative methods can be more efficient than the analytical solution for large datasets, as they do not require matrix inversion and can converge faster with appropriate hyperparameter tuning. Other methods like #gls("stochastic gradient descent") can further reduce the computational cost by approximating the gradient using a subset of the data at each iteration.\
-On the other side, for smaller dataset, analytical solution offers convergence in a single step, without the need for hyperparameter tuning, and guarantees a global optimal solution.
+On the other hand, for smaller datasets, the analytical solution offers convergence in a single step, without the need for hyperparameter tuning, and guarantees a globally optimal solution.
 
 For *inference*, the time complexity is $O \( p \)$ per instance, as it involves a simple dot product between the feature vector and the weight vector.
 
@@ -39,41 +39,35 @@ In regard of #strong[interpretability], the internal representation of linear re
 
 === Data assumptions
 <sub:data-assumptions-lr>
-Linear regression relies on several key assumptions about the data to ensure the validity of the model and the reliability of its predictions. These assumptions include as described by Molnar @interpretability_book:
+As described by Molnar @interpretability_book, linear regression relies on several key assumptions about the data to ensure model validity and the reliability of its predictions:
 
-+ #strong[Linear constraints:] relationships between features and target must be linear. Other kind of relationships must be manually introduced and cannot be revealed automatically
++ #strong[Linear constraints:] the relationships between features and the target variable must be linear. Non-linear relationships must be manually modeled and cannot be captured automatically.
 
-+ #strong[Residuals normality:] the residuals
-  $epsilon.alt_i = y_i - hat(y)_i$ must follow a normal distrubution. Heavy violations compromise the inference.
++ #strong[Residuals normality:] the residuals $epsilon.alt_i = y_i - hat(y)_i$ must follow a normal distribution. Major violations compromise statistical inference.
 
-+ #strong[Homoscedasticity:] residuals must have constant variance across
-  all levels of the features. In practice, this assumption is
-  #strong[frequently violated]. Example: in real estate, the price
-  of very large houses is extremely variable, while that of small
-  houses is concentrated.
++ #strong[Homoscedasticity:] residuals must have a constant variance across all levels of the features. In practice, this assumption is frequently violated. For example, in real estate, the price of very large houses is extremely variable, whereas the price of small houses is highly concentrated.
 
-+ #strong[Independence of measurements:] instances don't have to be correlated. Dependent datas, such as time series, violate 
-  this assumption and as such should not be investigated with linear regression.
++ #strong[Independence of measurements:] observations should not be correlated. Dependent data, such as time series, violate this assumption and should not be investigated using simple linear regression.
 
-+ #strong[Fixed Features:] features should be fixed and measured without error. In practice, this assumption is often violated, as features can be subject to measurement error or can change over time, which can lead to biased estimates of the coefficients and reduced predictive performance. This is particularly relevant in real-world scenarios where data quality can be an issue (attenuation bias).
++ #strong[Fixed Features:] features should be fixed and measured without error. In practice, this assumption is often violated because features can be subject to measurement errors or can change over time, leading to biased estimates of the coefficients and reduced predictive performance (attenuation bias).
 
-+ #strong[Absence of multicollinearity:] features should not be highly correlated. Multicollinearity causes numerical instability during the inversion of $X^T X$ e weights inflation in absolute value. When using #gls("gradient descent") the geometrical properties of the loss function changes and leads to very slim valleys causing an important reduction of the learning rate. 
++ #strong[Absence of multicollinearity:] features should not be highly correlated. Multicollinearity causes numerical instability during the inversion of $X^T X$ and inflates the absolute value of weights. When using #gls("gradient descent"), it changes the geometric properties of the loss function, creating narrow valleys that require a significant reduction in the learning rate. 
 
 ==== Preprocessing
 <sub:preprocessing-lr>
-The data assumption lead to specific preprocessing steps to determine the suitability of the data for linear regression and to improve the performance of the model. These steps include:
+The data assumptions lead to specific preprocessing steps to determine the suitability of the data for linear regression and to improve the performance of the model. These steps include:
 + #strong[Multicollinearity identification:] calculation of the @corr_matrix:long between features using the Pearson's coefficient or VIF (Variance Inflation Factor) to identify highly correlated features.
  $ "VIF"_j = frac(1, 1 - R_j^2)$
 Where $R_j^2$ is the coefficient of determination for the regression of feature $j$ against all other features. More on $R_j^2$ #link(<sub:r-square-coefficient-lr>)[here].
 
 === Predictive performance and limitations
 <sub:predictive-performance-and-limitations-lr>
-As discussed, the linear regression imposes several constraints on the data and model performance. Very good performances are achieved whenever linear relationships exist between features and target both in accuracy and efficiency. \
-However, in real-world scenarios, these conditions are often violated, leading to poor predictive performance. The model is particularly sensitive to #gls("outlier", plural:true), which can disproportionately influence the weights and lead to skewed predictions. Additionally, linear regression is *unsuitable for capturing complex, non-linear relationships* in the data, which limits its applicability in many real-world problems where such relationships are common. Finally, the model's performance can degrade significantly when the number of features is large relative to the number of observations, leading to overfitting and poor generalization to new data. This limitation is intensified by the presence of @categorical_features.
+As discussed, linear regression imposes several constraints on the data and model performance. Excellent performance, in terms of both accuracy and efficiency, is achieved when linear relationships exist between the features and the target variable. \
+However, in real-world scenarios, these conditions are often violated, leading to poor predictive performance. The model is particularly sensitive to #gls("outlier", plural:true), which can disproportionately influence the weights and lead to skewed predictions. Additionally, linear regression is *unsuitable for capturing complex, non-linear relationships* in the data, limiting its applicability in many real-world problems where such relationships are common. Finally, the model's performance can degrade significantly when the number of features is large relative to the number of observations, leading to overfitting and poor generalization to new data. This limitation is intensified by the presence of @categorical_features.
 
 === Metrics for prediction quality
 <sub:metrics-lr>
-What follows is a list of most relevant metrics for evaluating the predictive performance of linear regression models, based on the task and the data assumptions.
+What follows is a list of the most relevant metrics for evaluating the predictive performance of linear regression models, based on the task and the data assumptions.
 For the general metrics see @cap:regression-metrics.
 
 ==== Feature Importance (t-statistic)
@@ -82,20 +76,20 @@ $ t_(hat(beta)_j)$ measures the statistical significance of each coefficient, ca
 
 $ t_(hat(beta)_j) = frac(hat(beta)_j, S E \( hat(beta)_j \)) $
 
-Intuitively, a higher absolute value of a coefficient indicates a more statistically significant feature. \
-As intuitively, the hgher the variance of the coefficient is, the less the feature is significant, as the model is more uncertain about the true value of the coefficient. \
+Intuitively, a higher absolute value of the t-statistic indicates a more statistically significant feature. \
+Similarly, the higher the variance of the coefficient estimate, the less statistically significant the feature is, as the model is more uncertain about the true value of the coefficient. \
 
 ==== p-value
 <sub:p-value-lr>
 $"p-value"$ is a measure of the probability of _"obtaining the observed data under the null hypothesis of a statistical test"_@p-value. In the context of linear regression, the null hypothesis is that the true coefficient $beta_j$ is equal to zero, meaning that the feature does not have a significant impact on the target variable. The p-value for each coefficient is calculated based on the t-statistic and indicates the probability of observing such an extreme value for $t_(hat(beta)_j)$ if the null hypothesis were true. A common convention is to consider a p-value less than 0.05 as statistically significant, suggesting that there is strong evidence against the null hypothesis and that the feature likely has a meaningful relationship with the target variable.
 
-==== Mallows\' Cp
+==== Mallows' Cp
 <sub:mallows-cp-lr>
-Mallows\'Cp is a model selection metric that balances model fit and complexity, calculated as:
+Mallows' Cp is a model selection metric that balances model fit and complexity, calculated as:
 
 $ C p = frac(S S E, hat(sigma)^2) - n + 2 p $
 
-Where $hat(sigma)^2$ is the estimate of residuals variance of the complete model. It's used to reduce the problem of overfitting, reducing the number of features.
+Where $hat(sigma)^2$ is the estimate of the residual variance of the complete model. It is used to mitigate the problem of overfitting by penalizing the addition of unnecessary features.
 
 === Diagnostic plots
 <sub:diagnostic-plots-lr>
@@ -109,7 +103,7 @@ If the model fits well, the points should be concentrated around the diagonal li
 <sub:histogram-of-residuals-lr>
 #side_by_side([
       Distribution of the residuals $epsilon.alt_i = y_i - hat(y)_i$.
-      It's especially useful to identify violations of the normality assumption. A normal distribution of residuals is expected for valid inference, and deviations from this pattern can indicate issues with the model fit or the presence of outliers.],[
+      It is especially useful to identify violations of the normality assumption. A normal distribution of residuals is expected for valid inference, and deviations from this pattern can indicate issues with the model fit or the presence of outliers.],[
       #figure(
         image("../../images/plots/distribution_plot.png", alt: "Histogram of residuals distribution"),
         caption: "Histogram of residuals distribution example for linear regression."
@@ -131,9 +125,8 @@ If the model fits well, the points should be concentrated around the diagonal li
 
 ==== Residuals vs Fitted Values
 <residuals-vs-fitted-values>
-Scatter plot with fitted values $hat(y)_i$ on the $y$-axis and residuals $epsilon.alt_i = y_i - hat(y)_i$ on the $x$-axis.
-$hat(y)_i$. \
-If the model fits well, the points should be concentrated around the diagonal line $y = hat(y)$. This plot can be used to identify violation in regression assumptions (@sub:data-assumptions-lr). Increasing dispersion for example, show heteroschedasticity, while systematic patterns (e.g. a curve) indicate non-linearity that the model cannot capture.
+Scatter plot with fitted values $hat(y)_i$ on the $x$-axis and residuals $epsilon.alt_i = y_i - hat(y)_i$ on the $y$-axis. \
+If the model fits well, the points should be randomly scattered around the horizontal line $epsilon.alt = 0$ without displaying any systematic pattern. This plot is used to identify violations of regression assumptions (@sub:data-assumptions-lr). For example, increasing dispersion (forming a funnel shape) shows heteroscedasticity, while systematic patterns (e.g., a curve) indicate non-linearity that the model cannot capture.
 
 === Explainability and interpretability metrics
 <sub:metrics-for-interpretability-lr>
@@ -143,8 +136,8 @@ Linear regression naturally provides a direct measure of the feature effect on t
 
 $ "effect"_j^(\( i \)) = beta_j x_j^(\( i \)) $
 
-The standard visualization shows a box plot of the calculated effect in the quantiles 25, 50 and 75 for each feature. This allows to quickly identify the features with the most significant effect on the predictions, as well as the distribution of the effects across the dataset.\
-This plot results not useful if the datas are normalized, as the effect is calculated as the product of the coefficient and the feature value, and normalization can obscure the true impact of the features on the predictions.
+The standard visualization shows a box plot of the calculated effect in the 25th, 50th, and 75th percentiles (quantiles) for each feature. This enables users to quickly identify the features with the most significant effect on the predictions, as well as the distribution of the effects across the dataset.\
+This plot is not useful if the data are normalized, as the effect is calculated as the product of the coefficient and the feature value, and normalization can obscure the true impact of the features on the predictions.
 
 ==== Weight Plot
 <sub:weight-plot-lr>
@@ -158,5 +151,5 @@ This plot results not useful if the datas are normalized, as the effect is calcu
 
 === Interpretability and explainability limitations
 <sub:explainability-limitations-lr>
-As emerged until now, linear regression is one of the most interpretable machine learning models due to its transparent internal representation and the direct relationship between features and predictions. The impact of each feature on the prediction can be easily understood through the coefficients, which indicate how much the prediction changes with a one-unit change in the feature, holding all other features constant. \
-What makes the model extremely interpretable make it limited in its predictive ability. Linearity of the relationships is as understandable as restrictive.
+As discussed, linear regression is one of the most interpretable machine learning models due to its transparent internal representation and the direct relationship between features and predictions. The impact of each feature on the prediction can be easily understood through the coefficients, which indicate how much the prediction changes with a one-unit change in the feature, holding all other features constant. \
+What makes the model highly interpretable also limits its predictive capacity; the assumption of linearity is as restrictive as it is understandable.

@@ -69,7 +69,7 @@ You can directly browse the source files of each chapter by clicking on the link
   * **[Random Forest](./chapters/algo/RandomForest.typ)** (Low Intrinsic Transparency; ensemble trees, SHAP global/local analysis)
   * **[XGBoost](./chapters/algo/XGBoost.typ)** (Low Intrinsic Transparency; gradient boosting, extreme performance, SHAP tree explainer)
   * **[Symbolic Regression](./chapters/algo/SymbR.typ)** (Medium/High Intrinsic Transparency; closed-form mathematical equations)
-  * **[Algorithmic Comparison](./chapters/algo/confront.typ)** (A comparative study of predictive power vs. interpretability)
+  * **[Algorithmic Comparison](./chapters/algo/comparison.typ)** (A comparative study of predictive power vs. interpretability)
 
 ### 4. [Chapter 4: Design and Code Implementation](./chapters/code-implementation.typ)
 * **Topics:** Details the architecture and implementation of the Python-based data analysis and LLM explanation pipeline.
