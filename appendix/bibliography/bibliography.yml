@@ -95,7 +95,7 @@ expert_personas_zizhaohu:
             - "Mohammad Rostami"
             - "Jesse Thomason"
     date: 2026
-    publisher: 
+    publisher:  arXiv
     note: "DOI: https://doi.org/10.48550/arXiv.2603.18507"
 
 llms-zero-shot:
@@ -107,7 +107,10 @@ llms-zero-shot:
         - "Machel Reid"
         - "Yutaka Matsuo"
         - "Yusuke Iwasawa"
-    date: 2023
+    parent:
+        type: proceedings
+        title: "NearIPS 2022"
+    date: 2022
     note: "DOI: https://doi.org/10.48550/arXiv.2205.11916"
 
 chain-of-thought:
@@ -123,7 +126,10 @@ chain-of-thought:
         - "Ed Chi"
         - "Quoc Le"
         - "Denny Zhou"
-    date: 2023
+    parent:
+        type: proceedings
+        title: "NearIPS 2022"
+    date: 2022
     note: "DOI: https://doi.org/10.48550/arXiv.2201.11903"
 
 formats-llms:
@@ -157,6 +163,9 @@ multimodal-prompt:
     - "Lifu Huang1"
     - "Qifan Wang"
     - "Dongfang Liu"
+    parent:
+        type: proceedings
+        title: "EMNLP 2024"
     date: 2024
     note: "DOI: https://doi.org/10.48550/arXiv.2409.15657"
 
@@ -198,8 +207,7 @@ svm-kernels:
 decomposition-knowledge-detection:
     type: Book
     title: "Decomposition methodology for knowledge detection"
-    author: -"Oded Maimon"
-            -"Lior Rokach"
+    author: Oded Maimon and Lior Rokach
     date: 2010
     publisher: World Scientific Publishing
     isbn: 981-256-079-3
@@ -231,10 +239,7 @@ life-expectancy-dataset:
 symbolic-regression:
     type: Book
     title: "Symbolic Regression"
-    author: -"Gabriel Kronberger"
-            -"Michael Kommenda"
-            -"Stephan Winkler"
-            -"Bogdan Burlacu"
+    author: "Gabriel Kronberger; Michael Kommenda; Stephan Winkler and Bogdan Burlacu"
     doi: 10.1201/9781315166407
     isbn: 9781315166407
     publisher: CRC Press
@@ -245,9 +250,10 @@ applied-symbolic-regression:
     type: Article
     title: "Combining data and theory for derivable scientific discovery with AI-Descartes"
     publisher: "Nature Communications"
-    author: -"Cristina Cornelio"
-            -"Sanjeeb Dash"
-            -"Vernon Austel" et al.
+    author: "Cristina Cornelio; Sanjeeb Dash; Vernon Austel et al."
+    parent:
+        type: proceedings
+        title: "Nature Communications"
     date: 2023
     doi: 10.1038/s41467-023-37236-y
 
@@ -255,12 +261,5 @@ mirage:
     type: Article
     title: "MIRAGE: The Illusion of Visual Understanding"
     publisher: "arXiv"
-    author: -"Mohammad Asadi"
-            -"Jack W. O'Sullivan" 
-            -"Fang Cao" 
-            -"Tahoura Nedaee" 
-            -"Kamyar Rajabalifardi" 
-            -"Fei-Fei Li" 
-            -"Ehsan Adeli" 
-            -"Euan Ashley"
+    author: "Mohammad Asadi; Jack W. O'Sullivan; Fang Cao; Tahoura Nedaee; Kamyar Rajabalifardi; Fei-Fei Li; Ehsan Adeli; Euan Ashley"
     date: 2026
